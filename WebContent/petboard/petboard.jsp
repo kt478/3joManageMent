@@ -10,7 +10,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <style>
+* {font-family: 'Sunflower';}
  #navibar{
         background-color:white;
         text-align: center;
@@ -32,8 +34,9 @@
 #searchImg:active~#naviSearch{left:0px;}
 /* head */
 .header{background-color:#91C788; width:100%;height:400px;}
-h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
+h1{position:relative; top:150px; color:black;}
 /* 검색 기능 */
+#search{height:40px;}
 #keyword{width:300px;}
 .box1{display:none;}
 .box2{display:none;}
@@ -59,10 +62,16 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
            })
         $("#naviSearch").on("blur",function(){
              $("#naviSearch").hide("slow");
-           })  
+           })
+         // 로그인 플렸을 때 글쓰기 누르면 백지 아니고 로그인 화면으로 보내 주는 거
         $(".addWrite").on("click",function(){
-            location.href = "${pageContext.request.contextPath}/petBoardWrite.pet";
-        })
+        	if(${login.id==null}){
+        		alert("로그인이 필요한 화면입니다.");
+        		location.href = "${pageContext.request.contextPath}/Signup/login.jsp";
+        	}else{
+        		location.href = "${pageContext.request.contextPath}/petBoardWrite.pet";
+        	}
+         })
         // 검색기능 함수
         $("#search").change(function(){
             if($('select option:selected').val() == "category"){
@@ -91,16 +100,23 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
       $(".mainBack").on("click",function(){
          location.href = "${pageContext.request.contextPath}/petBoardList.pet?cpage=1";
       })
-    })
+      
+     // 로그인 풀렸을 때 
+	$("#petsitter").on("click", function() {
+			let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
+				if (result) {
+					location.href = "Signup/login.jsp";
+					} else {
+						location.href = "main.jsp";
+					}
+				})
+			})
 </script>
 </head>
 <body>
  <c:choose>
-
 		<c:when test="${login.id==null}">
 			<div class="container-fluid p-0" id="navibar">
-
-
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
 						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
@@ -118,9 +134,8 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="naviSearch">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Signup/signupView.jsp">회원가입</a>
@@ -129,11 +144,8 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
 						<a href="Signup/login.jsp">로그인</a>
 					</div>
 				</div>
-
 			</div>
 		</c:when>
-
-
 		<c:otherwise>
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
@@ -153,9 +165,8 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="naviSearch">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Mypage.mem">마이페이지</a>
@@ -169,7 +180,7 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
 	</c:choose>
     <!-- 글쓰기 버튼 -->
        <div class="row">
-          <div class="col-12 header">
+          <div class="col-12 header" style="background-image: url('petboard/img22.jpg');">
               <h1>Accompany & Pet Sitter</h1>
              </div>
        </div>
@@ -216,9 +227,10 @@ h1{position:relative; top:320px; left:50px; color:#feffe4e3;}
                     </div>
                 </div>
                 <div class="row m-0 footer">
-                    <div class="col-12 col-md-4">글번호 : ${i.seq}</div>
-                    <div class="col-12 col-md-4">작성자 : ${i.id}</div>
-                    <div class="col-12 col-md-4">조회수 : ${i.view_count}</div>
+                    <div class="col-12 col-md-3">글번호 : ${i.seq}</div>
+                    <div class="col-12 col-md-3">작성자 : ${i.id}</div>
+                    <div class="col-12 col-md-4">작성일자 : ${i.write_date}</div>
+                    <div class="col-12 col-md-2">조회수 : ${i.view_count}</div>
                 </div>
             </div>  
             </div>

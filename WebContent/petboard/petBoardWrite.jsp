@@ -12,7 +12,7 @@
 <script>
 
     $(function(){
-    // 
+    // 펫시터 합니다는 강아지 정보 없어도 가능 나머지는 필수 
     $("#selectBox").change(function(){
     	       var option = $('#selectBox option:selected').val();
     	       console.log(option)

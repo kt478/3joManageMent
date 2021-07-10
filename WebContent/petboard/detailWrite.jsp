@@ -64,7 +64,17 @@ $(function(){
 	})
 	// 쪽지보내기
 	$("#sendMsg").on("click",function(){
-		$("#messageModal").modal("show");
+		$.ajax({
+			url:"check.message",
+				type:"get",
+				data:{"pb_seq":${dto.seq}}
+		}).done(function(resp){
+			if(resp=='true'){
+				alert("이미 일정이 생성된 게시글입니다.");
+			}else{
+				$("#messageModal").modal("show");
+			}
+		});
 	})
 })
 </script>

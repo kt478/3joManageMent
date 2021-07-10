@@ -1,18 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Team_Project2</title> 
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
-	n.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
@@ -96,7 +96,7 @@
                $("#search").hide("slow");
             })
             // 펫시터
-			$("#petsitter").on("click",function(){
+			$("#petsitter, #read_more_pet").on("click",function(){
 					let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
 					if(result){
 						location.href="Signup/login.jsp";
@@ -181,9 +181,8 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> 
-						<input type="text"
-placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+						<img src="search.png" id="searchImg"> <input type="text"
+							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
@@ -193,6 +192,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						<a href="Signup/login.jsp">로그인</a>
 					</div>
 				</div>
+
 			</div>
 		</c:when>
 
@@ -216,11 +216,12 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg">
-						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+						<img src="search.png" id="searchImg"> <input type="text"
+							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage.mem">마이페이지</a>
+						<a href="Mypage/mypagefin.jsp">마이페이지</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
@@ -282,10 +283,20 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						<div class="media-body">
 							<h3 class="heading">펫시터</h3>
 							<p>여러분의 강아지를 믿고 맡길 수 있는 분에게 잠시 위탁해보세요! 강아지에게 새로운 경험을 선물해 주세요!</p>
-							<a href="#"
+							<c:choose>
+							<c:when test="${login.id==null}">
+							<a href= "javascript:;" id="read_more_pet"
 								class="btn-custom d-flex align-items-center justify-content-center"><span
 								class="fa fa-chevron-right"></span><i class="sr-only">Read
 									more</i></a>
+							</c:when>
+							<c:otherwise>
+							<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1"
+								class="btn-custom d-flex align-items-center justify-content-center"><span
+								class="fa fa-chevron-right"></span><i class="sr-only">Read
+									more</i></a>
+							</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>
