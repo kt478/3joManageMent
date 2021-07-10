@@ -28,10 +28,20 @@ $(function(){
 	})
 		
 	
-	
+	$("#signin").on("click",function(){
+		
+		$.ajax({ url:"${pageContext.request.contextPath}/login.mem",
+	     	 data:{"id":$("#id").val(),"pw":$("#pw").val()}
+	      	}).done(function(res){
+			if(res=="1"){alert("로그인을 성공하였습니다.");
+			location.href="${pageContext.request.contextPath}/main.jsp"
+			}else if(res=="null"){alert("아이디혹은 비밀번호가 일치하지않습니다.")}
+		
+	});
 	
 	
 })
+});
 </script>
 </head>
 <body>
@@ -84,12 +94,12 @@ $(function(){
 									<div class="form-group">
 										<label for="your_name"><i
 											class="zmdi zmdi-account material-icons-name"></i></label> <input
-											type="text" name="id" id="your_name" placeholder="Your Name" />
+											type="text" name="id" id="id" placeholder="아이디를 입력하세요." />
 									</div>
 									<div class="form-group">
 										<label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-										<input type="password" name="pw" id="your_pass"
-											placeholder="Password" />
+										<input type="password" name="pw" id="pw"
+											placeholder="패스워드를 입력하세요." />
 									</div>
 									<div class="form-group">
 										<input type="checkbox" name="remember-me" id="remember-me"
@@ -98,7 +108,7 @@ $(function(){
 											me</label>
 									</div>
 									<div class="form-group form-button">
-										<input type="submit" name="signin" id="signin"
+										<input type="button" name="signin" id="signin"
 											class="form-submit" value="Log in" />
 									</div>
 								</form>
