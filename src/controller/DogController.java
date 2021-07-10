@@ -47,7 +47,7 @@ public class DogController extends HttpServlet {
 	    	    
 	    	    
 	    	    
-	    	      response.sendRedirect("Signup&Mypage/doginfo.jsp");
+	    	      response.sendRedirect("Signup/doginfo.jsp");
 //	    	 
 	    	      
 	    	      
@@ -108,7 +108,7 @@ public class DogController extends HttpServlet {
 	    		  
 	    		  List<DogDTO> list2 = dao.OwnDogList(sessionDTO.getId());
 	    		  request.setAttribute("list2",list2);
-	    		  request.getRequestDispatcher("Signup&Mypage/doginfomodify.jsp").forward(request,response);
+	    		  request.getRequestDispatcher("Signup/doginfomodify.jsp").forward(request,response);
 	    	    	  
 	    	    	  
 	    	    	  

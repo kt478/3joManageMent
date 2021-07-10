@@ -37,7 +37,21 @@
             $("#search").on("blur", function () {
                 $("#search").hide("slow");
             })
+            
+            
+            $("#signout").on("click",function(){
+            	let result = confirm("정말로 탈퇴하시겠습니까?")
+				if(result){
+					location.href="${pageContext.request.contextPath}/signout.mem";
+				}else {
+				location.href="${pageContext.request.contextPath}/Mypage.mem";
+				
+				}
+            	
+        
+            
         })
+            });
  </script>
     <style>
 * {font-family: 'Sunflower';}
@@ -237,6 +251,12 @@ body {background-color: #91C788;}
                  <div class="col-4 p-2">
                    <a href="${pageContext.request.contextPath}/modify.mem">
                          <h5 class="title m-0">내 정보수정</h5>
+                    </a>
+                 </div>
+                 
+                  <div class="col-4 p-2">
+                   <a href="" id="signout">
+                         <h5 class="title m-0">회원 탈퇴</h5>
                     </a>
                  </div>
             </div>

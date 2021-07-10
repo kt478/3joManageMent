@@ -23,6 +23,7 @@ import dto.PersonDTO;
 
 
 
+
 @WebServlet("*.mem")
 public class PersonController extends HttpServlet {
 
@@ -74,6 +75,13 @@ public class PersonController extends HttpServlet {
 
 				response.sendRedirect("login.jsp");
 				
+			}else if(url.contentEquals("/signout.mem")) {
+				//회원 탈퇴
+				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
+		    	request.getSession().invalidate();
+		    	response.sendRedirect("index.jsp");
+				
+				
 			}
 			
 			//회원가입 폼으로 이동!
@@ -96,17 +104,19 @@ public class PersonController extends HttpServlet {
 				String id = request.getParameter("id");
 				System.out.println(id);
 				String pw = dao.getSHA512(request.getParameter("pw"));
-				System.out.println(request.getParameter("pw"));
+				System.out.println(pw);
 				dto = dao.login(id,pw);
 				System.out.println(dto);
 
 				if(dto!=null) {
-
+System.out.println("dto가 null이 아닐때");
 					request.getSession().setAttribute("login",dto);
 
-					response.sendRedirect("main.jsp");
+					response.getWriter().append("1");
 				}else {
-					response.sendRedirect("Signup/login.jsp");
+					System.out.println("dto가 null일때");
+
+					response.getWriter().append("null");
 				}
 
 			}//가입간 아이디 중복 체크!
