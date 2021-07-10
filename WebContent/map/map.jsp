@@ -7,12 +7,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link
 	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
 	rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+=======
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> 43cd73a81fe2aafbe216c9fad1d0fa7cbdaf1d5d
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script><script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6d9db0cb18c536b19f38869f24be5bcf&libraries=services"></script>
     <script>
@@ -120,7 +126,8 @@
             	        
             	        // 결과값으로 받은 위치를 마커로 표시합니다
             	        var marker = new kakao.maps.Marker({
-            	            map: map,            	            position: coords
+            	            map: map,            	            
+            	            position: coords
             	        });
 						
             	        map.setCenter(coords);
@@ -137,17 +144,29 @@
 	            	
 	            	 $("#calendar_postcode").val($(this).find("#postcode").val());
 	            	 $("#calendar_address1").val($(this).find("#address1").val());
-	            	 $("#local").val($(this).find(".course_area").text());
-	            	 $("#place_name").val($(this).find(".course_name").text());
+	            	 $("#input_local").val($(this).find(".course_area").text());
             })
 
 			$("#userBtn").on("click",function(){
-			      $("#calendarModal").modal("show");
+				 $("#input_place_name").val($("#ex_cos").html());
+            	 $("#div_place_name").html($("#ex_cos").html());
+				
+			     $("#calendarModal").modal("show");
+			   
+			     $("#addCalendar").on("click",function(){
+			    	 $.ajax({ 
+	            		url:"exam.cos",
+	            		type:"post",
+	            		data:{"start_date" : $("#calendar_start_date").val(), "end_date" : $("#calendar_end_date").val(),
+	            			"local" : $("#input_place_name").val(), "place_name" : $("#input_place_name").val(),
+	            			"postcode" : $("#calendar_postcode").val(), "address1" : $("#calendar_address1").val()}
+	            	}).done(function(resp){
+	            		if(resp=="1"){
+	            			alert("일정을 추가 했습니다.");
+	            		}
+	            	}
+			     }) 
 			})
-			  
-			$("#sprintSettingModalClose").on("click",function(){
-			      $("#calendarModal").modal("hide");
-			})   
             
 			$("#btn").on("click",function(){
 				let result = confirm("로그인이 필요한 화면입니다. 로그인 하시겠습니까?")
@@ -360,8 +379,8 @@
 			</c:choose> 
 			</div>
 			
-			<form action="${pageContext.request.contextPath}/exam.cos" method="post">
-			 <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
+			<!-- 일정추가 모달 -->
+			<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
 	        <div class="modal-dialog" role="document">
 	            <div class="modal-content">
 	                <div class="modal-header">
@@ -372,20 +391,17 @@
 	                </div>
 	                <div class="modal-body">
 	                    <div class="form-group">
-	                        <label for="taskId" class="col-form-label">산책 시작</label>
+	                    	<label for="taskId" class="col-form-label">산책 장소</label>
+	                        <div class="form-control" id="div_place_name"></div>
+	                        <input type="hidden" class="form-control" id="input_local" name="local" value="">
+	                        <input type="hidden" class="form-control" id="input_place_name" name="place_name" value="">
+							<input type="hidden" class="form-control" id="calendar_postcode" name="postcode" value="">
+							<input type="hidden" class="form-control" id="calendar_address1" name="address1" value="">
+
+	                        <label for="taskId" class="col-form-label">산책 시작 일자</label>
 	                        <input type="datetime-local" class="form-control" id="calendar_start_date" name="calendar_start_date">
-	                        <label for="taskId" class="col-form-label">산책 종료</label>
+	                        <label for="taskId" class="col-form-label">산책 종료 일자</label>
 	                        <input type="datetime-local" class="form-control" id="calendar_end_date" name="calendar_end_date">
-	
-	                        <label for="taskId" class="col-form-label">우편번호</label>
-	                        <input type="text" class="form-control" name="postcode" id="calendar_postcode">
-	                        <a href="#" role="button" class="btn btn-dark popover-test" id="postbtn">우편번호 찾기</a><br>
-	
-	                        <label for="taskId" class="col-form-label">주소</label>
-	                        <input type="text" class="form-control" name="address1" id="calendar_address1" placeholder="주소를 입력해 주세요.">
-	                         
-	                        <label for="taskId" class="col-form-label">상세 주소</label>
-	                        <input type="text" class="form-control" name="address2" id="calendar_address2" placeholder="필수 입력 사항 아닙니다.">
 	                    </div>
 	                </div>
 	                <div class="modal-footer">
@@ -395,10 +411,6 @@
 	            </div>
 	        </div>
 	   	 </div>
-	   	 <input type=hidden name=local id=local>
-	   	 <input type=hidden name=place_name id=place_name> 
-		</form>
-		
 		
         <div id="map"></div>
         <input type=hidden value="${mlist.lat}" id=lat>
