@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.CosDAO;
+import dao.DogDAO;
 import dao.MapDAO;
+import dao.PlannerDAO;
 import dto.CosDTO;
 import dto.MapDTO;
+import dto.PersonDTO;
+import dto.PlannerDTO;
 
 @WebServlet("*.cos")
 public class cosController extends HttpServlet {
@@ -26,6 +30,8 @@ public class cosController extends HttpServlet {
 		try {
 			CosDAO dao = CosDAO.getInstance();
 			MapDAO mdao = MapDAO.getInstance();
+			DogDAO ddao = DogDAO.getInstance();
+			PlannerDAO Pdao = PlannerDAO.getInstance();
 			
 			request.setCharacterEncoding("utf8");
 			if(cmd.contentEquals("/getCourse.cos")) {
@@ -62,12 +68,44 @@ public class cosController extends HttpServlet {
 				request.getRequestDispatcher("map/searchView.jsp").forward(request, response);
 				
 			}else if(cmd.contentEquals("/exam.cos")) {
-				String start_date = request.getParameter("calendar_start_date");
-				String end_date = request.getParameter("calendar_end_date");
-				String postcode = request.getParameter("postcode");
-				String address1 = request.getParameter("address1");
+				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
+				String id = dto.getId();
+				
+				String getStart = request.getParameter("start_date");
+				String start_date = getStart.substring(0,10);
+    			String start_time = getStart.substring(11,16);
+				String start =  start_date + " " + start_time;
+				
+				String getEnd = request.getParameter("end_date");
+				String end_date = getEnd.substring(0,10);
+    			String end_time = getEnd.substring(11,16);
+    			String end = end_date + " " + end_time;
+			
 				String local = request.getParameter("local");
 				String place_name = request.getParameter("place_name");
+				
+				String postcode = request.getParameter("postcode");
+				String address1 = request.getParameter("address1");
+
+				System.out.println(start + " : " + end);
+				System.out.println(local + " : " + place_name);
+				System.out.println(postcode + " : " + address1);
+				
+				  String pet_feature = ddao.getFeature(id);
+				  
+				  CosDTO wdto = dao.getAllAddress(place_name);
+				  
+				  PlannerDTO Pdto = new PlannerDTO(0, id, pet_feature, local, place_name,
+						  start, end, wdto.getPostcode(), wdto.getAddress1(), null, null);
+				  
+				  int result = Pdao.aloneAddPlan(Pdto);
+				  
+				  response.setContentType("text/html;charset=utf-8");
+				  if(result>0) {
+					  response.getWriter().append("1");
+				  }else {
+					  response.getWriter().append("0");
+				  }
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
