@@ -10,10 +10,13 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+	<link
+	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
+	*{font-family:Sunflower;}
 	 #navibar{
         background-color:rgba(255, 255, 255, 0.945);
         text-align: center;
@@ -46,6 +49,8 @@
 	.cosName>a{text-decoration:none; color:darkblue;}
 	.img{ height:80px; width:100px; position:absolute; right:20px; top:10px;}
 	.img>img{width:100%; height:100%;}
+	#pageList{text-align:center; margin: 30px 0px 60px 0px; }
+	#pageList>a{color:black; font-size:17px;}
 </style>
 	<script>
 		$(function(){
@@ -65,15 +70,17 @@
 					location.href="index.jsp";
 				}
 			})
-		})
-		
-		//네비바 검색창에서 검색기능
+			
+			//네비바 검색창에서 검색기능
         	$("#search").on("keyup",function(e){
         		if(e.keyCode==13){
         			let search = $("#search").val();
-        			location.href="${pageContext.request.contextPath}/search.cos?keyword="+search;
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
         		}
         	})
+			
+			
+		})
 	</script>
 </head>
 <body>
@@ -83,7 +90,7 @@
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="${pageContext.request.contextPath}/index.jsp"><img src="images/project_logo.jpg"></a>
+						<a href="${pageContext.request.contextPath}/index.jsp"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
@@ -98,7 +105,7 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="images/search.png" id="searchImg"> <input type="text"
+						<img src="search.png" id="searchImg"> <input type="text"
 							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>
@@ -149,18 +156,48 @@
 
 
 	<div class=container>
-	<div id=keyword>"${keyword}"를 검색하였습니다.</div>
-	<c:forEach var="list" items="${list}">
-		<div class=menu>
-			<div>
-				<div class=cosName><a href="${pageContext.request.contextPath}/getCourse.cos?course_name=${list.course_name}">${list.course_name }</a></div>
-				<div class=add1>${list.address1 }</div>
+		<div id=keyword>"${keyWord}"를 검색하였습니다.</div>
+		<c:forEach var="list" items="${list}">
+		<c:choose>
+			<c:when test="${list!=null }">
+				<div class=menu>
+				<div>
+					<div class=cosName>
+						<a
+							href="${pageContext.request.contextPath}/getCourse.cos?course_name=${list.course_name}">${list.course_name }</a>
+					</div>
+					<div class=add1>${list.address1 }</div>
+				</div>
+				<div class=img>
+					<img src="map/img/${list.oriName }">
+				</div>
 			</div>
-			<div class=img>
-				<img src="map/img/${list.oriName }">
-			</div>
+			</c:when>
+			<c:otherwise>
+				<div>찾으시는 검색내용이 없습니다.</div>
+			</c:otherwise>
+		</c:choose>
+			
+		</c:forEach>
+		
+		<div id="pageList">
+		<c:forEach var="i" items="${navi}" varStatus="s">
+			<c:choose>
+				<c:when test="${i =='>' }">
+					<a
+						href="${pageContext.request.contextPath}/search.cos?cpage=${navi[s.index-1]+1}&keyWord=${keyWord}">${i }</a>
+				</c:when>
+				<c:when test="${i =='<' }">
+					<a
+						href="${pageContext.request.contextPath}/search.cos?cpage=${navi[s.index+1]-1}&keyWord=${keyWord}">${i }</a>
+				</c:when>
+				<c:otherwise>
+					<a
+						href="${pageContext.request.contextPath}/search.cos?cpage=${i}&keyWord=${keyWord}" id=page>${i}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
 		</div>
-	</c:forEach>
 	</div>
 </body>
 </html>
