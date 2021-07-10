@@ -8,6 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link
+	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -18,7 +21,7 @@
         	$("#search").on("keyup",function(e){
         		if(e.keyCode==13){
         			let search = $("#search").val();
-        			location.href="${pageContext.request.contextPath}/search.cos?keyword="+search;
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
         		}
         	})
         	
@@ -179,7 +182,7 @@
     }
     #searchImg:active~#search{left:0px;}
     
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box; font-family:Sunflower;}
         .wrapper{width:1300px; height: 660px; margin-left:30px; margin-right:30px; margin-top: 100px;position: relative; }
         #area{width:100%; margin-bottom: 40px; position: relative; margin-top: 30px;}
         #area img{width: 100%; height: 100%;}

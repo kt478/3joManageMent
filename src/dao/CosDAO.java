@@ -210,4 +210,94 @@ public class CosDAO {
 			
 		}
 	}
+	
+	public List<CosDTO> getPageList(int startNum,int endNum,String keyword)throws Exception{
+		String sql="select * from "
+				+ "(select row_number() over(order by seq desc) rnum,course_area,course_name,address1,postcode,oriName from course where course_area like ? or course_name like ? or address1 like ? ) "
+				+ "where rnum between ? and ?";
+		try(Connection con= this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);
+				){
+			pstat.setString(1, "%"+keyword+"%");
+			pstat.setString(2, "%"+keyword+"%");
+			pstat.setString(3, "%"+keyword+"%");
+			pstat.setInt(4, startNum);
+			pstat.setInt(5, endNum);
+			try(ResultSet rs=pstat.executeQuery();){
+				List<CosDTO> list = new ArrayList<>();
+				while(rs.next()) {
+					String course_area = rs.getString("course_area");
+					String course_name = rs.getString("course_name");
+					String address1 = rs.getString("address1");
+					String postcode = rs.getString("postcode");
+					String oriName= rs.getString("oriName");
+					list.add(new CosDTO(0,course_area,course_name,address1,postcode,oriName,null,null,null,null));
+				}
+				return list;
+			}
+		}
+	}
+	
+	private int getRecordCount(String keyword) throws Exception {
+		String sql = "select count(*) from course where course_area like ? or course_name like ? or address1 like ?";
+		try (Connection con= this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);
+				){
+			pstat.setString(1, "%"+keyword+"%");
+			pstat.setString(2, "%"+keyword+"%");
+			pstat.setString(3, "%"+keyword+"%");
+			try(ResultSet rs = pstat.executeQuery();){
+			rs.next();
+			return rs.getInt(1);
+			}
+		}
+	}
+	
+	public List<String> getPageNavi(int currentPage,String keyword)throws Exception{
+		int recordTotalCount =0;
+		
+		
+		recordTotalCount = this.getRecordCount(keyword);
+		
+		
+		int recordCountPerpage = 10; // 한 페이지당 보여줄 게시글의 개수
+		int naviCountPerPage =10; // 내 위치 페이지를 기준으로 시작부터 끝까지의 페이지가 총 몇개인지. 
+		
+		int pageTotalCount = 0;
+		if(recordTotalCount%recordCountPerpage>0) {   // 총 몇개의 페이지로 구분되는지   
+			pageTotalCount = recordTotalCount / recordCountPerpage + 1 ;
+		}else {
+			pageTotalCount = recordTotalCount / recordCountPerpage ;
+		}
+		
+		//int currentPage; // 현재 위치하고있는 페이지 번호 ( 3페이지인지, 13페이지인지)
+		
+		if(currentPage > pageTotalCount) {
+			currentPage= pageTotalCount;
+		}else if(currentPage <1) {
+			currentPage=1;
+		}
+		
+		
+		int startNavi = (currentPage-1) / naviCountPerPage * naviCountPerPage + 1;
+		int endNavi = startNavi + (naviCountPerPage -1);
+		if(endNavi > pageTotalCount) {endNavi = pageTotalCount;}
+		
+		boolean needPrev =true;
+		boolean needNext = true;
+		
+		if(startNavi == 1) {needPrev = false;}
+		if(endNavi == pageTotalCount) {needNext = false;}
+		
+		List<String> pageNavi = new ArrayList<>();
+		if(needPrev) {pageNavi.add("<");}
+		
+		for(int i= startNavi; i<=endNavi;i++) {
+			pageNavi.add(String.valueOf(i));
+		}
+		if(needNext) {pageNavi.add(">");}
+		return pageNavi;
+	}
+	
+	
 }

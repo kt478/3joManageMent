@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import config.SearchMapConfig;
 import dao.CosDAO;
 import dao.MapDAO;
 import dto.CosDTO;
 import dto.MapDTO;
 
 @WebServlet("*.cos")
-public class cosController extends HttpServlet {
+public class CosController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // post방식일때는 한글이 안깨짐 / get방식은 깨짐 
 		String requestURI = request.getRequestURI();
@@ -54,20 +55,25 @@ public class cosController extends HttpServlet {
 				request.getRequestDispatcher("map/map.jsp").forward(request, response);
 				
 			}else if(cmd.contentEquals("/search.cos")) {
-				String keyword = request.getParameter("keyword");
-				List<CosDTO> list = dao.search(keyword);
+				int cpage = Integer.parseInt(request.getParameter("cpage"));
+				String keyWord = request.getParameter("keyWord");
 				
-				request.setAttribute("keyword", keyword);
+				
+				int endNum=cpage*SearchMapConfig.RECORD_COUNT_PER_PAGE;
+				int startNum =endNum -(SearchMapConfig.RECORD_COUNT_PER_PAGE-1);
+				
+				
+				List<CosDTO> list;
+				list = dao.getPageList(startNum,endNum,keyWord);
+				List<String> pageNavi = dao.getPageNavi(cpage,keyWord);
+				System.out.println(list);
+				
+				request.setAttribute("keyWord", keyWord);
 				request.setAttribute("list", list);
+				request.setAttribute("navi", pageNavi);
 				request.getRequestDispatcher("map/searchView.jsp").forward(request, response);
 				
-			}else if(cmd.contentEquals("/exam.cos")) {
-				String start_date = request.getParameter("calendar_start_date");
-				String end_date = request.getParameter("calendar_end_date");
-				String postcode = request.getParameter("postcode");
-				String address1 = request.getParameter("address1");
-				String local = request.getParameter("local");
-				String place_name = request.getParameter("place_name");
+				
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
