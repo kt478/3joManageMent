@@ -49,8 +49,10 @@
 	.cosName>a{text-decoration:none; color:darkblue;}
 	.img{ height:80px; width:100px; position:absolute; right:20px; top:10px;}
 	.img>img{width:100%; height:100%;}
-	#pageList{text-align:center; margin: 30px 0px 60px 0px; }
+	#pageList{text-align:center; margin: 30px 0px 60px 0px;}
 	#pageList>a{color:black; font-size:17px;}
+	#page{padding:3px;}
+	#text{text-align:center; margin-top:40px; font-size:20px; font-weight:bold; border:1px solid #ddd; height:180px; line-height:180px;}
 </style>
 	<script>
 		$(function(){
@@ -66,9 +68,7 @@
 					let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
 					if(result){
 						location.href="signup/login.jsp";
-					}else {
-					location.href="index.jsp";
-				}
+					}
 			})
 			
 			//네비바 검색창에서 검색기능
@@ -90,13 +90,13 @@
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="${pageContext.request.contextPath}/index.jsp"><img src="project_logo.jpg"></a>
+						<a href="${pageContext.request.contextPath}/main.jsp"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext" >
-						<a href= "${pageContext.request.contextPath}/petBoardList.pet?cpage=1" id="petsitter">펫시터</a>
+						<a href= "javascript:;" id="petsitter">펫시터</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -123,7 +123,7 @@
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="${pageContext.request.contextPath}/index.jsp"><img src="images/project_logo.jpg"></a>
+						<a href="${pageContext.request.contextPath}/main.jsp"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
@@ -138,7 +138,7 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="images/search.png" id="searchImg"> <input type="text"
+						<img src="search.png" id="searchImg"> <input type="text"
 							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>
@@ -173,12 +173,14 @@
 				</div>
 			</div>
 			</c:when>
-			<c:otherwise>
-				<div>찾으시는 검색내용이 없습니다.</div>
-			</c:otherwise>
 		</c:choose>
 			
 		</c:forEach>
+		<c:choose>
+			<c:when test="${listSize =='0' }">
+				<div id=text>검색된 내용이 없습니다.</div>
+			</c:when>
+		</c:choose>
 		
 		<div id="pageList">
 		<c:forEach var="i" items="${navi}" varStatus="s">
@@ -192,8 +194,16 @@
 						href="${pageContext.request.contextPath}/search.cos?cpage=${navi[s.index+1]-1}&keyWord=${keyWord}">${i }</a>
 				</c:when>
 				<c:otherwise>
-					<a
+					<c:choose>
+						<c:when test="${i==cpage }">
+							<a
+						href="${pageContext.request.contextPath}/search.cos?cpage=${i}&keyWord=${keyWord}" id=page  style="color:blue;">${cpage}</a>
+						</c:when>
+						<c:otherwise>
+							<a
 						href="${pageContext.request.contextPath}/search.cos?cpage=${i}&keyWord=${keyWord}" id=page>${i}</a>
+						</c:otherwise>
+					</c:choose>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>

@@ -31,6 +31,13 @@ $(function () {
                 $("#search").hide("slow");
             })
             
+            //네비바 검색창에서 검색기능
+        	$("#search").on("keyup",function(e){
+        		if(e.keyCode==13){
+        			let search = $("#search").val();
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        		}
+        	})
             
             $("#signout").on("click",function(){
                let result = confirm("정말로 탈퇴하시겠습니까?")
@@ -43,7 +50,10 @@ $(function () {
                
         
             
-        })
+        	})
+        
+        	
+        
             });
  </script>
 <style>

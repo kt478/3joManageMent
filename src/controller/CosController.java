@@ -74,6 +74,10 @@ public class CosController extends HttpServlet {
 				List<String> pageNavi = dao.getPageNavi(cpage,keyWord);
 				System.out.println(list);
 				
+				int listSize = list.size();
+				if(listSize ==0) {System.out.println("aaaaa");}
+				request.setAttribute("listSize", listSize);
+				request.setAttribute("cpage", cpage);
 				request.setAttribute("keyWord", keyWord);
 				request.setAttribute("list", list);
 				request.setAttribute("navi", pageNavi);
