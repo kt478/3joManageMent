@@ -50,6 +50,13 @@ $(function(){
    $("#naviSearch").on("blur",function(){
         $("#naviSearch").hide("slow");
       })
+    //네비바 검색창에서 검색기능
+    $("#naviSearch").on("keyup",function(e){
+        if(e.keyCode==13){
+        	let search = $("#naviSearch").val();
+        	location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        }
+    })
 	$("#delete").on("click", function(){
 		let result = confirm("정말로 글을 삭제하시겠습니까? 한번 삭제된 글은 복구 할 수 없습니다.")
 		if(result){
@@ -142,7 +149,7 @@ $(function(){
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
 						<img src="search.png" id="searchImg"> <input type="text"
 							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+							id="naviSearch">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Mypage.mem">마이페이지</a>

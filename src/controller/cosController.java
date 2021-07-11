@@ -74,14 +74,18 @@ public class CosController extends HttpServlet {
 				List<String> pageNavi = dao.getPageNavi(cpage,keyWord);
 				System.out.println(list);
 				
+				int listSize = list.size();
+				if(listSize ==0) {System.out.println("aaaaa");}
+				request.setAttribute("listSize", listSize);
+				request.setAttribute("cpage", cpage);
 				request.setAttribute("keyWord", keyWord);
 				request.setAttribute("list", list);
 				request.setAttribute("navi", pageNavi);
 				request.getRequestDispatcher("map/searchView.jsp").forward(request, response);
 				
-<<<<<<< HEAD
+
 				
-=======
+
 			}else if(cmd.contentEquals("/exam.cos")) {
 				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
 				String id = dto.getId();
@@ -121,7 +125,7 @@ public class CosController extends HttpServlet {
 				  }else {
 					  response.getWriter().append("0");
 				  }
->>>>>>> 43cd73a81fe2aafbe216c9fad1d0fa7cbdaf1d5d
+
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
