@@ -46,7 +46,7 @@ public class PersonController extends HttpServlet {
 			DogDTO ddto = new DogDTO();
 			DogDAO ddao = DogDAO.getInstance();
 
-			
+
 			//회원가입 정보 DB등록
 			if(url.contentEquals("/Signup/signup.mem")) {
 				System.out.println("signup Arrival");
@@ -74,28 +74,28 @@ public class PersonController extends HttpServlet {
 
 
 				response.sendRedirect("login.jsp");
-				
+
 			}else if(url.contentEquals("/signout.mem")) {
 				//회원 탈퇴
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
-		    	request.getSession().invalidate();
-		    	response.sendRedirect("index.jsp");
-				
-				
+				request.getSession().invalidate();
+				response.sendRedirect("index.jsp");
+
+
 			}
-			
+
 			//회원가입 폼으로 이동!
 			else if(url.contentEquals("/signupgo.mem")) { 
-					response.sendRedirect("Signup/signupView.jsp");
-					
-					
+				response.sendRedirect("Signup/signupView.jsp");
+
+
 			}
 			//로그인 폼으로 이동!
 			else if(url.contentEquals("/logingo.mem")) {
-						response.sendRedirect("Signup/login.jsp");
-						
-						
-			
+				response.sendRedirect("Signup/login.jsp");
+
+
+
 			}
 			//아이디 비밀번호로 로그인!
 			else if(url.contentEquals("/login.mem")) { 
@@ -109,7 +109,7 @@ public class PersonController extends HttpServlet {
 				System.out.println(dto);
 
 				if(dto!=null) {
-System.out.println("dto가 null이 아닐때");
+					System.out.println("dto가 null이 아닐때");
 					request.getSession().setAttribute("login",dto);
 
 					response.getWriter().append("1");
@@ -121,17 +121,17 @@ System.out.println("dto가 null이 아닐때");
 
 			}//가입간 아이디 중복 체크!
 			else if(url.contentEquals("/idCheck.mem")) {
-				  String id = request.getParameter("id");
-		          boolean result = dao.isIdExist(id);
-		         
-		     	 response.getWriter().append(String.valueOf(result));
-		     	 
-		     	 
+				String id = request.getParameter("id");
+				boolean result = dao.isIdExist(id);
+
+				response.getWriter().append(String.valueOf(result));
+
+
 			}//로그아웃 !
 			else if(url.contentEquals("/logout.mem")) {
-				 request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
-		    	  response.sendRedirect("main.jsp");
-			     
+				request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
+				response.sendRedirect("main.jsp");
+
 
 
 			}//마이페이지로 이동!
@@ -141,24 +141,24 @@ System.out.println("dto가 null이 아닐때");
 				System.out.println("마이페이지로 이동");
 				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
 				List<PersonDTO> ilist =dao.filesById(sessionDTO.getId());
-				
+
 				List<DogDTO> list2 = ddao.OwnDogList(sessionDTO.getId());
 				List<DogDTO> dlist = ddao.filesById(sessionDTO.getId());
 				request.setAttribute("list",list);//사람정보
 				request.setAttribute("ilist",ilist); //이미지뽑기
-				
+
 				request.setAttribute("list2",list2);//개정보
 				request.setAttribute("dlist",dlist);
 				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
 
 			}//홈으로 !
 			else if(url.contentEquals("/Direct2home.mem")) {
-				
-		    	  response.sendRedirect("main.jsp");
-		    	  
+
+				response.sendRedirect("main.jsp");
+
 			}//회원정보 수정으로 진입!
 			else if(url.contentEquals("/modify.mem")) {
-				
+
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
 				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
 
@@ -174,7 +174,7 @@ System.out.println("dto가 null이 아닐때");
 				int maxSize = 1024*1024*20;
 				if(!filesFolder.exists()) filesFolder.mkdir(); 
 				MultipartRequest multi = new MultipartRequest(request,filesPath,maxSize,"utf8",new DefaultFileRenamePolicy()); 
-				
+
 				String pw=dao.getSHA512(multi.getParameter("pw"));
 				System.out.println(pw);
 				String email =multi.getParameter("email");

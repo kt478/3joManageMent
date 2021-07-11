@@ -229,7 +229,7 @@
 							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage/mypagefin.jsp">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/Mypage.mem">마이페이지</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
