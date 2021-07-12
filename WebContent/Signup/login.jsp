@@ -34,7 +34,11 @@ $(function(){
 	     	 data:{"id":$("#id").val(),"pw":$("#pw").val()}
 	      	}).done(function(res){
 			if(res=="1"){alert("로그인을 성공하였습니다.");
-			location.href="${pageContext.request.contextPath}/main.jsp"
+			
+			
+			location.href="${pageContext.request.contextPath}/forGallery.gal?cpage=1"
+			
+			
 			}else if(res=="null"){alert("아이디혹은 비밀번호가 일치하지않습니다.")}
 		
 	});
