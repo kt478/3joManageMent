@@ -10,15 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import config.BoardConfig;
-import dao.B_CommentsDAO;
+import dao.BoardCmtDAO;
 import dao.BoardDAO;
-import dto.B_CommentsDTO;
+import dto.BoardCmtDTO;
 import dto.BoardDTO;
 import dto.PersonDTO;
 
 @WebServlet("*.fb") // *.freeBoard
 
 public class BoardController extends HttpServlet {
+	
+	private String XSSFilter(String target) {
+		if (target != null) {
+			target = target.replaceAll("<", "$lt;"); // lt = less than(작다), 기능 escape 해버림
+			target = target.replaceAll(">", "$gt;");
+			target = target.replaceAll("&", "$amp;");
+		}
+		return target;
+	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -31,7 +40,7 @@ public class BoardController extends HttpServlet {
 		
 		try {
 			BoardDAO dao = BoardDAO.getInstance();
-			B_CommentsDAO cdao = B_CommentsDAO.getInstance();
+			BoardCmtDAO cdao = BoardCmtDAO.getInstance();
 
 			// 게시판 첫 화면 게시글 목록 출력
 			if (cmd.contentEquals("/listProc.fb")) { 
@@ -60,7 +69,7 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("category", category);
 				request.setAttribute("keyword", keyword);
 
-				request.getRequestDispatcher("Board/boardList.jsp").forward(request, response);
+				request.getRequestDispatcher("board/boardList.jsp").forward(request, response);
 
 			// 게시글 작성 
 			} else if (cmd.contentEquals("/writeProc.fb")) {
@@ -69,6 +78,9 @@ public class BoardController extends HttpServlet {
 				String title = request.getParameter("title");
 				String contents = request.getParameter("contents");
 
+				title = XSSFilter(title);
+				contents = XSSFilter(contents);
+				
 				int result = dao.insert(title, contents, dto.getId());
 				request.setAttribute("result", result);
 				response.sendRedirect("listProc.fb?cpage=1");
@@ -80,10 +92,10 @@ public class BoardController extends HttpServlet {
 				BoardDTO dto = dao.view(seq);
 				dao.view_countPlus(seq);
 				
-				List<B_CommentsDTO> commentsList = cdao.getCommentsList(seq);
+				List<BoardCmtDTO> commentsList = cdao.getCommentsList(seq);
 				request.setAttribute("dto", dto);
 				request.setAttribute("clist", commentsList);
-				request.getRequestDispatcher("Board/boardView.jsp").forward(request, response);
+				request.getRequestDispatcher("board/boardView.jsp").forward(request, response);
 
 			// 게시글 수정 폼으로 가기
 			} else if(cmd.contentEquals("/modiForm.fb")) {
@@ -92,7 +104,7 @@ public class BoardController extends HttpServlet {
 				BoardDTO dto =  dao.view(seq);
 				
 				request.setAttribute("dto", dto);
-				request.getRequestDispatcher("Board/boardModify.jsp").forward(request, response);
+				request.getRequestDispatcher("board/boardModify.jsp").forward(request, response);
 			
 			// 게시글 수정 작업
 			} else if (cmd.contentEquals("/modifyProc.fb")) {
@@ -113,6 +125,8 @@ public class BoardController extends HttpServlet {
 				
 				int seq = Integer.parseInt(request.getParameter("seq"));
 				int result = dao.delete(seq);
+				
+				System.out.println(seq + " : 삭제됨");
 				response.sendRedirect("listProc.fb?cpage=1");
 			}
 			

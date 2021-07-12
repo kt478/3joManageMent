@@ -31,7 +31,6 @@ public class BoardDAO {
 	}
 
 	
-	
 	public int getSeq() throws Exception {
 		String sql = "select freeboard_seq.nextval from dual";
 		try (Connection con = this.getConnection();
@@ -42,6 +41,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 글 작성하기
 	public int insert(String title, String contents, String writer) throws Exception {
 		String sql = "insert into freeboard values (freeboard_seq.nextval, ?, ?, ?, sysdate, 0)";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -55,6 +55,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 글 보기
 	public List<BoardDTO> getBoardList() throws Exception {
 		String sql = "select * from freeboard";
 		try (Connection con = this.getConnection();
@@ -77,6 +78,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 글 상세보기
 	public BoardDTO view(int seq) throws Exception {
 		String sql = "select * from freeboard where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -98,6 +100,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 글 수정하기
 	public int modify(int seq, String title, String contents) throws Exception {
 		String sql = "update freeboard set title=?, contents=? where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -112,6 +115,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 글 삭제하기
 	public int delete(int seq) throws Exception {
 		String sql = "delete from freeboard where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -124,6 +128,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 조회수
 	private int view_countSearch(int seq) throws Exception {
 		String sql = "select view_count from freeboard where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -149,6 +154,7 @@ public class BoardDAO {
 		}
 	}
 
+	// 페이징
 	public List<BoardDTO> getPageList(int startNum, int endNum) throws Exception {
 		String sql = "select * from (select row_number() over(order by decode(writer, 'admin', 1) asc, seq desc) rnum, seq, title, contents, writer, write_date, view_count from freeboard) where rnum between ? and ?";
 

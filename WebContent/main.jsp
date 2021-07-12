@@ -155,80 +155,105 @@
 
 <body>
 
-
-
 <!--네비바  -->
-	<c:choose>
+   <c:choose>
+      <c:when test="${login.id==null}">
+         <div class="container-fluid p-0" id="navibar">
+            <div class="row m-0">
+               <div class="col-12 col-lg-3 col-xl-2 p-0">
+                  <a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href= "javascript:;" id="petsitter">펫시터</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+               </div>
+               <div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+               </div>
+               <div class="col-12 col-lg-4 col-xl-4 p-0">
+                  <img src="search.png" id="searchImg"> 
+                  <input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+                  <a href="Signup/signupView.jsp">회원가입</a>
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+                  <a href="Signup/login.jsp">로그인</a>
+               </div>
+            </div>
+         </div>
+      </c:when>
+      
+      <c:when test="${login.id=='admin'}">
+         <div class="container-fluid p-0" id="navibar">
+            <div class="row m-0">
+               <div class="col-12 col-lg-3 col-xl-2 p-0">
+                  <a href="main.jsp"><img src="project_logo.jpg"></a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+               </div>
+               <div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+               </div>
+               <div class="col-12 col-lg-4 col-xl-4 p-0">
+                  <img src="search.png" id="searchImg"> 
+                  <input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+                  <a href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+               </div>
+            </div>
+         </div>
+      </c:when>
 
-		<c:when test="${login.id==null}">
-			<div class="container-fluid p-0" id="navibar">
-
-
-				<div class="row m-0">
-					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href= "javascript:;" id="petsitter">펫시터</a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
-					</div>
-					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
-					</div>
-					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> 
-						<input type="text"
-placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
-					</div>
-					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Signup/signupView.jsp">회원가입</a>
-					</div>
-					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
-						<a href="Signup/login.jsp">로그인</a>
-					</div>
-				</div>
-			</div>
-		</c:when>
-
-
-		<c:otherwise>
-			<div class="container-fluid p-0" id="navibar">
-				<div class="row m-0">
-					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="main.jsp"><img src="project_logo.jpg"></a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
-					</div>
-					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
-					</div>
-					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
-					</div>
-					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg">
-						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
-					</div>
-					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage.mem">마이페이지</a>
-					</div>
-					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
-						<a href="logout.mem">로그아웃</a>
-					</div>
-				</div>
-			</div>
-		</c:otherwise>
-	</c:choose>
+      <c:otherwise>
+         <div class="container-fluid p-0" id="navibar">
+            <div class="row m-0">
+               <div class="col-12 col-lg-3 col-xl-2 p-0">
+                  <a href="main.jsp"><img src="project_logo.jpg"></a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+               </div>
+               <div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+               </div>
+               <div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+                  <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+               </div>
+               <div class="col-12 col-lg-4 col-xl-4 p-0">
+                  <img src="search.png" id="searchImg"> <input type="text"
+                     placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+                     id="search">
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+                  <a href="Mypage/mypagefin.jsp">마이페이지</a>
+               </div>
+               <div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+                  <a href="logout.mem">로그아웃</a>
+               </div>
+            </div>
+         </div>
+      </c:otherwise>
+   </c:choose>
 
 	<!-- 친구들과 함께 산책해보세요! -->
 	<div class="hero-wrap js-fullheight"
@@ -590,7 +615,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 			<div class="row d-md-flex justify-content-end">
 				<div class="col-md-12 col-lg-6 half p-3 py-5 pl-lg-5 ftco-animate">
 					<h2 class="mb-4">문의하기</h2>
-					<form action="#" class="appointment">
+					<form action="${pageContext.request.contextPath}/questionWrite.ask" class="appointment">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -599,13 +624,12 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 											<div class="icon">
 												<span class="fa fa-chevron-down"></span>
 											</div>
-											<select name="" id="" class="form-control">
-												<option value="">선택하세요</option>
-												<option value="">산책장소</option>
-												<option value="">펫시터</option>
-												<option value="">갤러리</option>
-												<option value="">플래너</option>
-												<option value="">기타</option>
+											<select name="type" id="" class="form-control" required>
+												<option value="산책장소">산책장소</option>
+												<option value="펫시터">펫시터</option>
+												<option value="갤러리">갤러리</option>
+												<option value="플래너">플래너</option>
+												<option value="기타">기타</option>
 											</select>
 										</div>
 									</div>
@@ -613,20 +637,20 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="이름*">
+									<input type="text" class="form-control" placeholder="이름*" name="name" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" class="form-control" placeholder="메일*">
+									<input type="text" class="form-control" placeholder="메일*" name="email" required>
 								</div>
 							</div>
 
 
 							<div class="col-md-12">
 								<div class="form-group">
-									<textarea name="" id="" cols="30" rows="7" class="form-control"
-										placeholder="내용*"></textarea>
+									<textarea name="contents" id="" cols="30" rows="7" class="form-control"
+										placeholder="내용*" required></textarea>
 								</div>
 							</div>
 							<div class="col-md-12">
