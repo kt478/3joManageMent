@@ -388,7 +388,6 @@
 
     })
 </script>
-
 <style>
     /* div{border:1px solid black;} */
     body{background-color: #91C788;}
@@ -405,24 +404,36 @@
         width: 100%;
         height:100%;
     } 
+/* 페이지전체 navi Style 부분 시작 */
     #navibar{
         background-color:white;
-        text-align: center;
-        line-height:98px;
-        min-height:100px;
-        font-weight: 600;
-        font-size: large;
+        z-index: 1000 !important;
     }
-   	.navitext>a{color:black;}
-   	.navitext>a:link{text-decoration:none;}
-   	.navitext>a:hover{color: #52734D;}
-   	.navitext>a:visited{color: black;}
-    .navitext:hover{border-bottom:3px solid #52734D;}
+    #searchBox{position: relative;min-height: 110px;}
+    .nav-item:hover{border-bottom:3px solid #52734D;}
     #search{
-        width:250px; height:41px;
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
         display: none;
     }
+    #searchImg{position: absolute;top:40px;}
     #searchImg:active~#search{left:0px;}
+    #searchBox{width:300px;}
+    #loginNavi{min-width: 150px;}
+    #loginNavi>a{color:black;}
+    #loginNavi>a:link{text-decoration:none;}
+    #loginNavi>a:hover{color: #52734D;border-bottom:3px solid #52734D;}
+    #loginNavi>a:visited{color: black;}
+    #search{
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
+        display: none;
+    }
+/* 페이지전체 navi Style 부분 끝 */  
     #body{height: auto;}
     #weather{border:1px solid black;height:115px;}
     #weatherDay{font-size: 18px; font-weight:500;}
@@ -439,31 +450,77 @@
 </style>
 </head>
 <body>
-   <div class="container-fluid p-0" id="navibar">
-        <div class="row m-0">
-            <div class="col-12 col-lg-3 col-xl-2 p-0">
-            	<img src="${pageContext.request.contextPath}/project_logo.jpg" id="searchImg">
-            </div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a></div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a></div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a></div>
-            <div class="col-3 col-lg-3 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a></div>
-            <div class="col-12 col-lg-4 col-xl-4 p-0">
-                <img src="${pageContext.request.contextPath}/search.png" id="searchImg">
-                <input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
-            </div>
-            <c:choose>
-            	<c:when test="${login==null}">
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage"><a href="login/login.jsp">로그인</a></div>
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext"><a href="Signup/signupView.jsp">회원가입</a></div>
-            	</c:when>
-            	<c:otherwise>
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage"><a href="Mypage.mem">마이페이지</a></div>
-           			<div class="col-6 col-lg-4 col-xl-1 p-0 navitext"><a href="logout.mem">로그아웃</a></div>
-            	</c:otherwise>
-            </c:choose>
-        </div> 
-    </div>
+   <!-- 페이지 전체 navi -->
+	<c:choose>
+		<c:when test="${login.id==null}"> <!-- 로그인 전 -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
+        		<a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
+        			<img src="project_logo.jpg">
+        		</a>
+	        	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	          		<span class="navbar-toggler-icon"></span>
+	        	</button>
+	        	<div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+	          		<ul class="navbar-nav mr-auto">
+	            		<li class="nav-item active">
+			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
+			            </li>
+			            <li class="nav-item">
+			            	<a class="nav-link beforelogin" href="">팻시터</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link beforelogin" href="">갤러리</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link beforelogin" href="">자유게시판</a>
+			            </li>
+			            <li class="nav-item" id="searchBox">
+			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
+			                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+			            </li>
+			        </ul>
+		          	<form class="form-inline my-2 my-lg-0" id="loginNavi">
+		            	<a class="mr-sm-2 p-1" style="width:70px;" href="Signup/login.jsp">로그인</a>
+		            	<a class="my-2 my-sm-0" style="width:70px;" href="Signup/signupView.jsp">회원가입</a>
+		          	</form>
+		        </div>
+			</nav>
+		</c:when>
+		<c:otherwise>
+			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
+		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
+		        	<img src="project_logo.jpg">
+		        </a>
+		        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		          	<span class="navbar-toggler-icon"></span>
+		        </button>
+		        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+			    	<ul class="navbar-nav mr-auto">
+			            <li class="nav-item active">
+			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
+			            </li>
+			            <li class="nav-item">
+			              	<a class="nav-link" href="javascript:;">팻시터</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+			            </li>
+			            <li class="nav-item" id="searchBox">
+			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
+			                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+			            </li>
+			        </ul>
+          			<form class="form-inline my-2 my-lg-0" id="loginNavi">
+			            <a class="mr-sm-2" style="width:75px;" href="Mypage.mem">마이페이지</a>
+			            <a class="my-2 my-sm-0" style="width:70px;" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+		          	</form>
+        		</div>
+     		 </nav>
+		</c:otherwise>
+	</c:choose>
   
     <div class="container rounded p-4 pt-5">
         <h1 class="pt-2 pb-4">우리동네 Walking 플래너</h1>
@@ -476,14 +533,14 @@
             </div>
             <div class="col-12 col-md-5 p-0 pl-1">
                 <div class="row">
-                    <div class="col-12 mb-2" id="weather">
+                    <div class="col-12 mb-2 p-2" id="weather">
                     
                         <div class="row m-0">
                             <div class="col-12" id="weatherDay" style="text-align: center;"></div>
                         </div> 
                         <div class="row m-0">
                             <div class="col-5" style="text-align: center;">
-                                <img id="weatherimg" src="${pageContext.request.contextPath}/sun.PNG"><br>
+                                <img id="weatherimg" src=""><br>
                                 <strong id="weatherContents"></strong>
                             </div>
                             <div class="col-7">

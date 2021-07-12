@@ -152,7 +152,7 @@
     
     
     
-    $("#btn").on("click",function(){
+    	$("#btn").on("click",function(){
     	
     	var formData = $("#comForm").serialize();
 			
@@ -168,8 +168,10 @@
 			});
 			
 			
-		})
-    
+		}) 
+		
+		
+		
     
     
     
@@ -290,7 +292,7 @@
 				</div>
 			</div>
 		</c:otherwise>
-	</c:choose>
+	</c:choose> 
 
 
 
@@ -323,7 +325,7 @@
 				<div class="col-lg-8 ftco-animate" style="margin: auto;">
 					<p>
 					<c:forEach var="img" items="${ilist }">
-						<img src="files/${img.oriName }" style="width:800px;height:700px; margin-left:-30px;">
+						<img src="files/${img.oriName }" style="width:800px;height:700px; margin-left:-30px;" class="col-12 col-lg-12 col-xl-12 p-0">
 					</c:forEach>
 						
 					</p>
@@ -409,9 +411,9 @@
 						${login.id}</div>
 					<div class="content" style="width: 770px; height: 110px;">
 						<textarea
-							style="height: 100%; width: 100%; border: 1px solid black; box-sizing: border-box; border-radius: 10px;"
-							name="comments" id=comments placeholder="댓글을 입력해주세요." required></textarea>
-						<input type=hidden value=${content.seq } name=gallery_seq>
+							style="height: 100%; width: 100%; border: 1px solid black; border-radius: 10px;"
+							name="comments" id=comments placeholder="댓글을 입력해주세요." class="col-12 col-lg-12 col-xl-12 p-0" required></textarea>
+						<input type=hidden value=${content.seq } name=gallery_seq> 
 
 					</div>
 
