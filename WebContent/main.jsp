@@ -107,6 +107,10 @@
 			 type:"get"
 			
          
+         })done(function(){
+        	 
+        	location.href ="main.jsp";
+        	 
          });
          
 
