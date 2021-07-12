@@ -221,7 +221,7 @@
 </head>
 <body>
 
-<%-- <c:choose>
+<c:choose>
 
 		<c:when test="${login.id==null}">
 			<div class="container-fluid p-0" id="navibar">
@@ -292,7 +292,7 @@
 				</div>
 			</div>
 		</c:otherwise>
-	</c:choose> --%>
+	</c:choose> 
 
 
 
