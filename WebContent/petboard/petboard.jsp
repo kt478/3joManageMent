@@ -60,6 +60,15 @@ h1{position:relative; top:150px; color:black;}
              $("#naviSearch").show("slow");
              $("#naviSearch").focus();
            })
+           
+        //네비바 검색창에서 검색기능
+        $("#naviSearch").on("keyup",function(e){
+        	if(e.keyCode==13){
+        		let search = $("#naviSearch").val();
+        		location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        	}
+        })   
+        
         $("#naviSearch").on("blur",function(){
              $("#naviSearch").hide("slow");
            })

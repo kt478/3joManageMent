@@ -30,7 +30,31 @@ $(function () {
             $("#search").on("blur", function () {
                 $("#search").hide("slow");
             })
-        })
+            
+            //네비바 검색창에서 검색기능
+        	$("#search").on("keyup",function(e){
+        		if(e.keyCode==13){
+        			let search = $("#search").val();
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        		}
+        	})
+            
+            $("#signout").on("click",function(){
+            	let result = confirm("정말로 탈퇴하시겠습니까?")
+				if(result){
+					location.href="${pageContext.request.contextPath}/signout.mem";
+				}else {
+				location.href="${pageContext.request.contextPath}/Mypage.mem";
+				
+				}
+            	
+        
+            
+        	})
+        
+        	
+        
+            });
  </script>
 <style>
 * {font-family: 'Sunflower';}
@@ -183,7 +207,12 @@ body {background-color: #91C788;}
             </div>
         </div>
     </div>
-    <div class="container rounded p-4 pt-5" id="bottomContainer">
+    
+               
+            <c:choose>
+            <c:when test="${list2[0].dog_name==null}">    
+            
+            <div class="container rounded p-4 pt-5" id="bottomContainer">
         <div class="menu p-2">
             <div class="row m-0" style="height:100%">
                 <div class="col-md-8 p-2">
@@ -213,23 +242,94 @@ body {background-color: #91C788;}
                         <h5 class="title m-0">내가 올린 펫시터</h5>
                     </a> 
                 </div>
-            </div>    
+            </div>
+           
+          
               <div class="row m-0" style="height:100%">   
                 <div class="col-4 p-2">
               		<a href="${pageContext.request.contextPath}/doginfomodify.dog">
               			<h5 class="title m-0">강아지 정보수정</h5>
               		</a>
                 </div>
+            
+            
                 <div class="col-4 p-2">
                 <a href="${pageContext.request.contextPath}/doginfo.dog">
                 	<h5 class="title m-0">강아지정보 추가</h5>
                 </a> 
                 </div>
+
                  <div class="col-4 p-2">
                 	<a href="${pageContext.request.contextPath}/modify.mem">
                    		<h5 class="title m-0">내 정보수정</h5>
+
                     </a>
                  </div>
+                 
+                  <div class="col-4 p-2">
+                   <a href="" id="signout">
+                         <h5 class="title m-0">회원 탈퇴</h5>
+                    </a>
+                 </div>
+                 
+                 </c:when>
+                 <c:otherwise>
+                     <div class="container rounded p-4 pt-5" id="bottomContainer">
+        <div class="menu p-2">
+            <div class="row m-0" style="height:100%">
+                <div class="col-md-8 p-2">
+                    <a href="${pageContext.request.contextPath}/history.planner">
+                        <h5 class="title m-0">우리 동네 플래너</h5>
+                    </a>
+                </div>
+                <div class="col-md-4 p-2">
+                    <a href="${pageContext.request.contextPath}/list.message">
+                        <h5 class="title m-0">내가 받은 쪽지함</h5>
+                    </a>
+                </div>
+            </div>
+            <div class="row m-0" style="height:100%"> 
+                <div class="col-4 p-2">
+                    <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1&category=writer&keyword=${login.id}">
+                        <h5 class="title m-0">내가 올린 게시글</h5>
+                    </a>
+                </div>
+                <div class="col-4 p-2">
+                   <a href="${pageContext.request.contextPath}/galList.gal?cpage=1&category=writer&keyword=${login.id}">
+                        <h5 class="title m-0">내가 올린 사진</h5>
+                    </a> 
+                </div>
+                <div class="col-4 p-2">
+                    <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1&search=id&search2=&keyword=${login.id}">
+                        <h5 class="title m-0">내가 올린 펫시터</h5>
+                    </a> 
+                </div>
+            </div>
+           
+          
+              <div class="row m-0" style="height:100%">   
+                <div class="col-4 p-2">
+                    <a href="${pageContext.request.contextPath}/doginfomodify.dog">
+                       <h5 class="title m-0">강아지 정보수정</h5>
+                    </a>
+                </div>
+            
+                         <div class="col-4 p-2">
+                   <a href="${pageContext.request.contextPath}/modify.mem">
+                         <h5 class="title m-0">내 정보수정</h5>
+                    </a>
+                 </div>
+                 
+                  <div class="col-4 p-2">
+                   <a href="" id="signout">
+                         <h5 class="title m-0">회원 탈퇴</h5>
+                    </a>
+                 </div>
+                 
+                 
+                 </c:otherwise>
+                </c:choose>
+        
             </div>
         </div>
     </div>
