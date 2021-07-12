@@ -231,7 +231,7 @@
 							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="#">관리자</a>
+						<a href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
