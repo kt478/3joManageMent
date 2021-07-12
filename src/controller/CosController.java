@@ -20,7 +20,7 @@ import dto.PersonDTO;
 import dto.PlannerDTO;
 
 @WebServlet("*.cos")
-public class cosController extends HttpServlet {
+public class CosController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // post방식일때는 한글이 안깨짐 / get방식은 깨짐 
 		String requestURI = request.getRequestURI();

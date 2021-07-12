@@ -20,7 +20,7 @@ import dto.PersonDTO;
 import dto.PlannerDTO;
 
 @WebServlet("*.calendar")
-public class calendarController extends HttpServlet {
+public class CalendarController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 

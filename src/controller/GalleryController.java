@@ -369,9 +369,32 @@ public class GalleryController extends HttpServlet {
 
 				request.getRequestDispatcher("main.jsp").forward(request, response);
 
-			}	
+			}else if(url.contentEquals("/forGallery.gal")) {
+
+				int cpage = Integer.parseInt(request.getParameter("cpage"));
+
+				int endNum = cpage * Front_GalleryConfig.RECORD_COUNT_PER_PAGE;
+				int startNum = endNum - (Front_GalleryConfig.RECORD_COUNT_PER_PAGE-1);
 
 
+				List<GalleryDTO> list;
+
+				list = dao.getPageList(startNum, endNum);
+
+
+				for(GalleryDTO gdto : list) {
+					Gallery_ImgDTO idto = idao.selectThumbBySeq(gdto.getSeq());
+					
+					gdto.setThumbPath(idto.getSysName());
+				}
+
+
+				request.setAttribute("list", list);
+				
+				request.getRequestDispatcher("main.jsp").forward(request, response);
+	
+
+			}
 
 
 		}catch(Exception e) {

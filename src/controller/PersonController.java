@@ -109,7 +109,7 @@ public class PersonController extends HttpServlet {
 				System.out.println(dto);
 
 				if(dto!=null) {
-System.out.println("dto가 null이 아닐때");
+
 					request.getSession().setAttribute("login",dto);
 
 					response.getWriter().append("1");
