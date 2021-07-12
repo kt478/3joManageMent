@@ -107,8 +107,8 @@ $(function(){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-<!--네비바  -->
-<c:choose>
+	<!--네비바  -->
+	<c:choose>
 		<c:when test="${login.id==null}"> <!-- 로그인 전 -->
 			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
         		<a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
