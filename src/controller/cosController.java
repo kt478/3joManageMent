@@ -20,7 +20,7 @@ import dto.PersonDTO;
 import dto.PlannerDTO;
 
 @WebServlet("*.cos")
-public class CosController extends HttpServlet {
+public class cosController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8"); // post방식일때는 한글이 안깨짐 / get방식은 깨짐 
 		String requestURI = request.getRequestURI();
@@ -78,10 +78,7 @@ public class CosController extends HttpServlet {
 				request.setAttribute("list", list);
 				request.setAttribute("navi", pageNavi);
 				request.getRequestDispatcher("map/searchView.jsp").forward(request, response);
-				
-<<<<<<< HEAD
-				
-=======
+
 			}else if(cmd.contentEquals("/exam.cos")) {
 				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
 				String id = dto.getId();
@@ -121,7 +118,6 @@ public class CosController extends HttpServlet {
 				  }else {
 					  response.getWriter().append("0");
 				  }
->>>>>>> 43cd73a81fe2aafbe216c9fad1d0fa7cbdaf1d5d
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
