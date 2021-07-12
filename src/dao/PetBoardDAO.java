@@ -188,33 +188,19 @@ public class PetBoardDAO {
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql)){
 			pstat.setNString(1, dto.getCategory());
-			System.out.println("1");
 			pstat.setNString(2, dto.getTitle());
-			System.out.println("12");
 			pstat.setNString(3, dto.getLocal());
-			System.out.println("13");
 			pstat.setNString(4, dto.getPet_name());
-			System.out.println("14");
 			pstat.setNString(5, dto.getPet_breed());
-			System.out.println("15");
 			pstat.setNString(6, dto.getPet_age());
-			System.out.println("16");
 			pstat.setNString(7, dto.getPet_neutering());
-			System.out.println("17");
 			pstat.setNString(8, dto.getPet_gender());
-			System.out.println("18");
 			pstat.setNString(9, dto.getPet_feature());
-			System.out.println("19");
 			pstat.setNString(10, dto.getStart_date());
-			System.out.println("111");
 			pstat.setNString(11, dto.getEnd_date());
-			System.out.println("112");
 			pstat.setNString(12, dto.getPlace_name());
-			System.out.println("113");
 			pstat.setNString(13, dto.getContents());
-			System.out.println("114");
 			pstat.setInt(14, dto.getSeq());
-			System.out.println("115");
 			
 			int result = pstat.executeUpdate();
 			System.out.println("116");
@@ -313,8 +299,9 @@ public class PetBoardDAO {
 
 		return pageNavi;
 	}
+	// (select row_number() over(order by decode(writer, 'admin', 1) asc, seq desc)
 	public List<PetBoardDTO> getPageList(int startNum, int endNum) throws Exception{
-		String sql = "select * from (select row_number() over (order by seq desc) rnum, seq, id, person_name,"
+		String sql = "select * from (select row_number() over (order by decode(id, 'admin', 1) asc, seq desc) rnum, seq, id, person_name,"
 				+ "person_gender, person_age, local, place_name, pet_name, pet_breed,"
 				+ "pet_gender, pet_age, pet_neutering, start_date, end_date, category, title, contents,"
 				+ "write_date, view_count from petboard) where rnum between ? and ?";
@@ -357,7 +344,7 @@ public class PetBoardDAO {
 	}
 	
 	public List<PetBoardDTO> getPageList(int startNum, int endNum, String search2) throws Exception{
-		String sql = "select * from (select row_number() over (order by seq desc) rnum, seq, id, person_name,"
+		String sql = "select * from (select row_number() over (order by decode(id, 'admin', 1) asc, seq desc) rnum, seq, id, person_name,"
 				+ "person_gender, person_age, local, place_name, pet_name, pet_breed,"
 				+ "pet_gender, pet_age, pet_neutering, start_date, end_date, category, title, contents,"
 				+ "write_date, view_count from petboard where category=?) where rnum between ? and ?";
@@ -401,7 +388,7 @@ public class PetBoardDAO {
 	}
 
 	public List<PetBoardDTO> getPageList(int startNum, int endNum, String search, String keyword) throws Exception{
-		String sql = "select * from (select row_number() over (order by seq desc) rnum, seq, id, person_name,"
+		String sql = "select * from (select row_number() over (order by decode(id, 'admin', 1) asc, seq desc) rnum, seq, id, person_name,"
 				+ "person_gender, person_age, local, place_name, pet_name, pet_breed,"
 				+ "pet_gender, pet_age, pet_neutering, start_date, end_date, category, title, contents,"
 				+ "write_date, view_count from petboard where " + search + " like ?) where rnum between ? and ?";

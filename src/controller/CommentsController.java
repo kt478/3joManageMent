@@ -39,7 +39,7 @@ public class CommentsController extends HttpServlet {
 			String writer = ((PersonDTO)request.getSession().getAttribute("login")).getId();
 			String comments = request.getParameter("comments");
 			String gallery_seq = request.getParameter("gallery_seq");
-			System.out.println("여기로 오나?");
+			
 			
 			
 			

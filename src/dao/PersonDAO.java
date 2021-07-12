@@ -101,7 +101,7 @@ public class PersonDAO {
 			}
 		}
 	}
-	
+
 	public PersonDTO login(String id, String pw)throws Exception {
 		String sql = "select * from person_info where id=? and pw=?";
 		try(Connection con =this.getConnection();
@@ -115,7 +115,7 @@ public class PersonDAO {
 					String name = rs.getNString("person_name");
 					String local = rs.getNString("local");
 					String gender = rs.getNString("person_gender");
-					
+
 					return new PersonDTO(loginId, name, local, gender);
 				}
 			}
@@ -131,7 +131,7 @@ public class PersonDAO {
 				List<PersonDTO> list = new ArrayList<>();
 
 				while(rs.next()) {
-					
+
 					String id2 =rs.getNString("id");
 					String pw =rs.getNString("pw");
 					String email = rs.getNString("email");
@@ -169,13 +169,13 @@ public class PersonDAO {
 			pstat.setNString(8, dto.getPerson_sysName());
 			pstat.setNString(9, dto.getPerson_oriName());
 			pstat.setNString(10, dto.getId());
-			
+
 			int result = pstat.executeUpdate();
 			con.commit();
 			return result;
 		}
 	}
-	
+
 	public PersonDTO information(String otehrId) throws Exception {
 		String sql = "select person_name, person_age, person_gender from person_info where id=?";
 		try(
@@ -190,11 +190,208 @@ public class PersonDAO {
 					String name = rs.getNString("person_name");
 					String age = rs.getNString("person_age");
 					String gender = rs.getNString("person_gender");
-					
+
 					return new PersonDTO(name, age, gender);
 				}else{
 					return null;
 				}
+			}
+		}
+	}
+
+	// 관리자 페이지 회원 리스트 페이징
+	private int getRecordCount() throws Exception {
+		String sql = "select count(*) from person_info";
+		try (Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);
+				ResultSet rs = pstat.executeQuery();) {
+			rs.next();
+			return rs.getInt(1);
+		}
+	}
+
+	private int getRecordCount(String category, String keyword) throws Exception {
+		String sql = "select count(*) from person_info where " + category + " like ?";
+		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setString(1, "%" + keyword + "%");
+
+			try (ResultSet rs = pstat.executeQuery();) {
+				rs.next();
+				return rs.getInt(1);
+			}
+		}
+	}
+	// 가입일로 검색하는건 쿼리문이 다르다.
+	private int getRecordCount(String keyword) throws Exception {
+		String sql = "select count(*) from person_info where reg_date like to_date(?)";
+		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
+			pstat.setString(1, keyword);
+
+			try (ResultSet rs = pstat.executeQuery();) {
+				rs.next();
+				return rs.getInt(1);
+			}
+		}
+	}
+
+	public List<String> getPageNavi(int currentPage, String category, String keyword) throws Exception {
+
+		int recordTotalCount = 0;
+
+		if (keyword == null || keyword.contentEquals("")) {
+			recordTotalCount = this.getRecordCount();
+		}else if(category.contentEquals("reg_date")) {
+			recordTotalCount = this.getRecordCount(keyword);
+		}else {
+			recordTotalCount = this.getRecordCount(category, keyword);
+		}
+
+		int recordCountPerPage = 10;
+		int naviCountPerPage = 10;
+
+		int pageTotalCount = 0;
+
+		if (recordTotalCount % recordCountPerPage > 0) {
+			pageTotalCount = recordTotalCount / recordCountPerPage + 1;
+		} else {
+			pageTotalCount = recordTotalCount / recordCountPerPage;
+		}
+
+		if (currentPage > pageTotalCount) {
+			currentPage = pageTotalCount;
+
+		} else if (currentPage < 1) {
+			currentPage = 1;
+		}
+
+		int startNavi = (currentPage - 1) / naviCountPerPage * naviCountPerPage + 1;
+
+		int endNavi = startNavi + (naviCountPerPage - 1);
+		if (endNavi > pageTotalCount) { 
+			endNavi = pageTotalCount;
+		}
+
+		boolean needPrev = true;
+		boolean needNext = true;
+
+		if (startNavi == 1) {
+			needPrev = false;
+		}
+		if (endNavi == pageTotalCount) {
+			needNext = false;
+		}
+
+		List<String> pageNavi = new ArrayList<>();
+
+		if (needPrev) {
+			pageNavi.add("<");
+		}
+
+		for (int i = startNavi; i <= endNavi; i++) {
+			pageNavi.add(String.valueOf(i));
+		}
+
+		if (needNext) {
+			pageNavi.add(">");
+		}
+
+		return pageNavi;
+	}
+
+	public List<PersonDTO> memberList(int startNum, int endNum) throws Exception{
+		String sql = "select * from (select row_number() over (order by reg_date desc) rnum, id, person_name, person_age,"
+				+ "person_gender, email, local, contact, person_sysName, person_oriName, reg_date from person_info) "
+				+ "where rnum between ? and ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql); ){
+			pstat.setInt(1, startNum);
+			pstat.setInt(2, endNum);
+			try(ResultSet rs = pstat.executeQuery()){
+				List<PersonDTO> list = new ArrayList<>();
+
+				while(rs.next()) {
+					PersonDTO dto = new PersonDTO();
+
+					dto.setId(rs.getNString("id"));
+					dto.setPerson_name(rs.getNString("person_name"));
+					dto.setPerson_age(rs.getNString("person_age"));
+					dto.setPerson_gender(rs.getNString("person_gender"));
+					dto.setEmail(rs.getNString("email"));
+					dto.setLocal(rs.getNString("local"));
+					dto.setContact(rs.getNString("contact"));
+					dto.setPerson_sysName(rs.getNString("person_sysName"));
+					dto.setPerson_oriName(rs.getNString("person_oriName"));
+					dto.setReg_date(rs.getDate("reg_date"));
+
+					list.add(dto);
+
+				}return list;
+			}
+		}
+	}	
+	
+	public List<PersonDTO> memberList(int startNum, int endNum, String category, String keyword) throws Exception{
+		String sql = "select * from (select row_number() over (order by reg_date desc) rnum, id, person_name, person_age,"
+				+ "person_gender, email, local, contact, person_sysName, person_oriName, reg_date from "
+				+ "person_info where " + category + " like ?) where rnum between ? and ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);){
+				pstat.setString(1, "%"+keyword+"%");
+				pstat.setInt(2, startNum);
+				pstat.setInt(3, endNum);
+			try(ResultSet rs = pstat.executeQuery()){
+				List<PersonDTO> list = new ArrayList<>();
+
+				while(rs.next()) {
+					PersonDTO dto = new PersonDTO();
+
+					dto.setId(rs.getNString("id"));
+					dto.setPerson_name(rs.getNString("person_name"));
+					dto.setPerson_age(rs.getNString("person_age"));
+					dto.setPerson_gender(rs.getNString("person_gender"));
+					dto.setEmail(rs.getNString("email"));
+					dto.setLocal(rs.getNString("local"));
+					dto.setContact(rs.getNString("contact"));
+					dto.setPerson_sysName(rs.getNString("person_sysName"));
+					dto.setPerson_oriName(rs.getNString("person_oriName"));
+					dto.setReg_date(rs.getDate("reg_date"));
+
+					list.add(dto);
+
+				}return list;
+			}
+		}
+	}
+	
+	public List<PersonDTO> memberList(int startNum, int endNum, String keyword) throws Exception{
+		String sql = "select * from (select row_number() over (order by reg_date desc) rnum, id, person_name, person_age,"
+				+ "person_gender, email, local, contact, person_sysName, person_oriName, reg_date from "
+				+ "person_info where reg_date like to_date(?)) where rnum between ? and ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);){
+				pstat.setString(1, keyword);
+				pstat.setInt(2, startNum);
+				pstat.setInt(3, endNum);
+			try(ResultSet rs = pstat.executeQuery()){
+				List<PersonDTO> list = new ArrayList<>();
+
+				while(rs.next()) {
+					PersonDTO dto = new PersonDTO();
+
+					dto.setId(rs.getNString("id"));
+					dto.setPerson_name(rs.getNString("person_name"));
+					dto.setPerson_age(rs.getNString("person_age"));
+					dto.setPerson_gender(rs.getNString("person_gender"));
+					dto.setEmail(rs.getNString("email"));
+					dto.setLocal(rs.getNString("local"));
+					dto.setContact(rs.getNString("contact"));
+					dto.setPerson_sysName(rs.getNString("person_sysName"));
+					dto.setPerson_oriName(rs.getNString("person_oriName"));
+					dto.setReg_date(rs.getDate("reg_date"));
+
+					list.add(dto);
+
+				}return list;
 			}
 		}
 	}
