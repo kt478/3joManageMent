@@ -8,12 +8,12 @@
 <meta charset="UTF-8">
 <title>게시글상세페이지</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <style>
+* {font-family: 'Sunflower';}
 #navibar{
         background-color:rgba(255, 255, 255, 0.945);
         text-align: center;
@@ -31,7 +31,7 @@
 .navitext>a:hover{color: #52734D;}
 .navitext>a:visited{color: black;}
 .navitext:hover{border-bottom:3px solid #52734D;}
-#naviSearch{width:250px; height:41px; display: none;}
+#search{width:250px; height:41px; display: none;}
 #searchImg:active~#naviSearch{left:0px;}
 /* 글 */
 #wapper{position: relative; top:100px; max-width: 1000px;}
@@ -43,13 +43,23 @@
 </style>
 <script>
 $(function(){
-	$("#searchImg").on("click",function(){
-        $("#naviSearch").show("slow");
-        $("#naviSearch").focus();
-      })
-   $("#naviSearch").on("blur",function(){
-        $("#naviSearch").hide("slow");
-      })
+	// 네비바 검색창
+    $("#searchImg").on("click",function(){
+        $("#search").show("slow");
+        $("#search").focus();
+    })
+    $("#search").on("blur",function(){
+       $("#search").hide("slow");
+    })
+      
+    //네비바 검색창에서 검색기능
+    $("#search").on("keyup",function(e){
+        if(e.keyCode==13){
+        	let search = $("#search").val();
+        	location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        }
+    })
+    
 	$("#delete").on("click", function(){
 		let result = confirm("정말로 글을 삭제하시겠습니까? 한번 삭제된 글은 복구 할 수 없습니다.")
 		if(result){
@@ -60,24 +70,34 @@ $(function(){
 		location.href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1";
 	})
 	$("#update").on("click",function(){
-		location.href="${pageContext.request.contextPath}/updateWrite.pet?seq=${dto.seq}"
+		if(${dto.id == "admin"}){
+			location.href="${pageContext.request.contextPath}/adminUpdateWrite.pet?seq=${dto.seq}"
+		}else{
+			location.href="${pageContext.request.contextPath}/updateWrite.pet?seq=${dto.seq}"
+		}
+		
 	})
 	// 쪽지보내기
 	$("#sendMsg").on("click",function(){
-		$("#messageModal").modal("show");
+		$.ajax({
+			url:"check.message",
+				type:"get",
+				data:{"pb_seq":${dto.seq}}
+		}).done(function(resp){
+			if(resp=='true'){
+				alert("이미 일정이 생성된 게시글입니다.");
+			}else{
+				$("#messageModal").modal("show");
+			}
+		});
 	})
 })
 </script>
 </head>
 <body>
-
-
 <c:choose>
-
 		<c:when test="${login.id==null}">
 			<div class="container-fluid p-0" id="navibar">
-
-
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
 						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
@@ -95,9 +115,8 @@ $(function(){
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Signup/signupView.jsp">회원가입</a>
@@ -106,11 +125,41 @@ $(function(){
 						<a href="Signup/login.jsp">로그인</a>
 					</div>
 				</div>
-
 			</div>
 		</c:when>
-
-
+		
+		<c:when test="${login.id=='admin'}">
+			<div class="container-fluid p-0" id="navibar">
+				<div class="row m-0">
+					<div class="col-12 col-lg-3 col-xl-2 p-0">
+						<a href="main.jsp"><img src="project_logo.jpg"></a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+					</div>
+					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+					</div>
+					<div class="col-12 col-lg-4 col-xl-4 p-0">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+						<a href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		
 		<c:otherwise>
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
@@ -130,12 +179,11 @@ $(function(){
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage.mem">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/Mypage.mem">마이페이지</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
@@ -144,6 +192,7 @@ $(function(){
 			</div>
 		</c:otherwise>
 	</c:choose>
+	
 	<div class="container p-4 mt-5 rounded shadow-lg bg-white" id="wapper">
 		<div class="row p-2">
 			<div class="col-12 col-md-3 rounded" id="category">${dto.category}</div>
@@ -158,6 +207,11 @@ $(function(){
 			<div class="col-3">작성 일자 : ${dto.write_date}</div>
 			<div class="col-3">조회수 : ${dto.view_count}</div>
 		</div>
+		<c:choose>
+		<c:when test="${dto.id==\"admin\"}">
+			<hr>
+		</c:when>
+		<c:otherwise>
 		<div class="row p-2" id="person_info">
 			<div class="col-12 col-md-3">지역 : ${dto.local}</div>
 			<div class="col-12 col-md-3">이름 : ${dto.person_name}</div>
@@ -198,14 +252,17 @@ $(function(){
 			<div class="col-12 col-md-4">약속 장소</div>
 			<div class="col-12 col-md-8">${dto.place_name}</div>
 		</div>
+		
 		<hr>
+		</c:otherwise>
+		</c:choose>
 		<div class="row p-2">
 			<div class="col-12"><h5>${dto.contents}</h5></div>
 		</div>
 		<!-- 아이디 값으로 다른 것 들  -->
 		<hr>
 		<c:choose>
-		<c:when test="${dto.id!=login.id}">
+		<c:when test="${dto.id!=login.id&&login.id!=\"admin\"&&dto.id!=\"admin\"}">
 		<div class="row p-2">
 			<div class="col-12 col-md-6">
 				<button type="button" id="sendMsg" class="btn btn-success">요청 보내기💌</button>
@@ -214,6 +271,21 @@ $(function(){
 				<button type="button" class="btn btn-success back">목록으로 돌아가기</button>
 			</div>
 		</div>
+		</c:when>
+		<c:when test="${dto.id!=\"admin\"&&login.id==\"admin\"}">
+		<div class="row p-2">
+			<div class="col-12 col-md-6">
+				<button type="button" id="delete" class="btn btn-success">게시글 삭제하기</button>
+			</div>
+			<div class="col-12 col-md-6">
+				<button type="button" class="btn btn-success back">목록으로 돌아가기</button>
+			</div>
+		</div>
+		</c:when>
+		<c:when test="${login.id!=\"admin\"&&dto.id==\"admin\"}">
+			<div class="col-12 col-md-12">
+				<button type="button" class="btn btn-success back">목록으로 돌아가기</button>
+			</div>
 		</c:when>
 		<c:otherwise>
 		<div class="row p-2">

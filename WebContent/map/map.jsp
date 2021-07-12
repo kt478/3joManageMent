@@ -8,8 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link
+	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script><script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6d9db0cb18c536b19f38869f24be5bcf&libraries=services"></script>
     <script>
@@ -18,9 +24,19 @@
         	$("#search").on("keyup",function(e){
         		if(e.keyCode==13){
         			let search = $("#search").val();
-        			location.href="${pageContext.request.contextPath}/search.cos?keyword="+search;
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
         		}
         	})
+        	
+        	 // 펫시터
+			$("#petsitter").on("click",function(){
+					let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
+					if(result){
+						location.href="Signup/login.jsp";
+					}else {
+					location.href="main.jsp";
+				}
+			})
         	
         	 // 네비바 검색창
             $("#searchImg").on("click",function(){
@@ -117,7 +133,8 @@
             	        
             	        // 결과값으로 받은 위치를 마커로 표시합니다
             	        var marker = new kakao.maps.Marker({
-            	            map: map,            	            position: coords
+            	            map: map,            	            
+            	            position: coords
             	        });
 						
             	        map.setCenter(coords);
@@ -134,17 +151,29 @@
 	            	
 	            	 $("#calendar_postcode").val($(this).find("#postcode").val());
 	            	 $("#calendar_address1").val($(this).find("#address1").val());
-	            	 $("#local").val($(this).find(".course_area").text());
-	            	 $("#place_name").val($(this).find(".course_name").text());
+	            	 $("#input_local").val($(this).find(".course_area").text());
             })
 
 			$("#userBtn").on("click",function(){
-			      $("#calendarModal").modal("show");
+				 $("#input_place_name").val($("#ex_cos").html());
+            	 $("#div_place_name").html($("#ex_cos").html());
+				
+			     $("#calendarModal").modal("show");
+			   
+			     $("#addCalendar").on("click",function(){
+			    	 $.ajax({ 
+	            		url:"exam.cos",
+	            		type:"post",
+	            		data:{"start_date" : $("#calendar_start_date").val(), "end_date" : $("#calendar_end_date").val(),
+	            			"local" : $("#input_place_name").val(), "place_name" : $("#input_place_name").val(),
+	            			"postcode" : $("#calendar_postcode").val(), "address1" : $("#calendar_address1").val()}
+	            	}).done(function(resp){
+	            		if(resp=="1"){
+	            			alert("일정을 추가 했습니다.");
+	            		}
+	            	}
+			     }) 
 			})
-			  
-			$("#sprintSettingModalClose").on("click",function(){
-			      $("#calendarModal").modal("hide");
-			})   
             
 			$("#btn").on("click",function(){
 				let result = confirm("로그인이 필요한 화면입니다. 로그인 하시겠습니까?")
@@ -179,7 +208,7 @@
     }
     #searchImg:active~#search{left:0px;}
     
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box; font-family:Sunflower;}
         .wrapper{width:1300px; height: 660px; margin-left:30px; margin-right:30px; margin-top: 100px;position: relative; }
         #area{width:100%; margin-bottom: 40px; position: relative; margin-top: 30px;}
         #area img{width: 100%; height: 100%;}
@@ -221,7 +250,7 @@
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext" >
-						<a href= "${pageContext.request.contextPath}/petBoardList.pet?cpage=1" id="petsitter">펫시터</a>
+						<a href= "javascript:;" id="petsitter">펫시터</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -248,7 +277,7 @@
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="${pageContext.request.contextPath}/index.jsp"><img src="${pageContext.request.contextPath}/img/logo.jpg"></a>
+						<a href="${pageContext.request.contextPath}/main.jsp"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
@@ -260,10 +289,10 @@
 						<a href="galList.gal?cpage=1">갤러리</a>
 					</div>
 					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
-						<a href="#">자유게시판</a>
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="${pageContext.request.contextPath}/img/search.png" id="searchImg"> <input type="text"
+						<img src="search.png" id="searchImg"> <input type="text"
 							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>
@@ -357,8 +386,8 @@
 			</c:choose> 
 			</div>
 			
-			<form action="${pageContext.request.contextPath}/exam.cos" method="post">
-			 <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
+			<!-- 일정추가 모달 -->
+			<div class="modal fade" id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">
 	        <div class="modal-dialog" role="document">
 	            <div class="modal-content">
 	                <div class="modal-header">
@@ -369,20 +398,17 @@
 	                </div>
 	                <div class="modal-body">
 	                    <div class="form-group">
-	                        <label for="taskId" class="col-form-label">산책 시작</label>
+	                    	<label for="taskId" class="col-form-label">산책 장소</label>
+	                        <div class="form-control" id="div_place_name"></div>
+	                        <input type="hidden" class="form-control" id="input_local" name="local" value="">
+	                        <input type="hidden" class="form-control" id="input_place_name" name="place_name" value="">
+							<input type="hidden" class="form-control" id="calendar_postcode" name="postcode" value="">
+							<input type="hidden" class="form-control" id="calendar_address1" name="address1" value="">
+
+	                        <label for="taskId" class="col-form-label">산책 시작 일자</label>
 	                        <input type="datetime-local" class="form-control" id="calendar_start_date" name="calendar_start_date">
-	                        <label for="taskId" class="col-form-label">산책 종료</label>
+	                        <label for="taskId" class="col-form-label">산책 종료 일자</label>
 	                        <input type="datetime-local" class="form-control" id="calendar_end_date" name="calendar_end_date">
-	
-	                        <label for="taskId" class="col-form-label">우편번호</label>
-	                        <input type="text" class="form-control" name="postcode" id="calendar_postcode">
-	                        <a href="#" role="button" class="btn btn-dark popover-test" id="postbtn">우편번호 찾기</a><br>
-	
-	                        <label for="taskId" class="col-form-label">주소</label>
-	                        <input type="text" class="form-control" name="address1" id="calendar_address1" placeholder="주소를 입력해 주세요.">
-	                         
-	                        <label for="taskId" class="col-form-label">상세 주소</label>
-	                        <input type="text" class="form-control" name="address2" id="calendar_address2" placeholder="필수 입력 사항 아닙니다.">
 	                    </div>
 	                </div>
 	                <div class="modal-footer">
@@ -392,10 +418,6 @@
 	            </div>
 	        </div>
 	   	 </div>
-	   	 <input type=hidden name=local id=local>
-	   	 <input type=hidden name=place_name id=place_name> 
-		</form>
-		
 		
         <div id="map"></div>
         <input type=hidden value="${mlist.lat}" id=lat>

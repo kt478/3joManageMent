@@ -29,7 +29,47 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             navLinks: true, // 날짜 클릭시 이벤트
             navLinkDayClick: function(date, jsEvent) {
-                convertDate(date);
+                
+              	$("#weatherDay").text("");
+            	$("#weatherContents").text("");
+            	$("#img").attr("src","");
+            	$("#dust").text("");
+            	$("#minTemper").text("");
+				$("#maxTemper").text(""); // 초기화
+				
+            	var get_date = new Date(date);
+            	$.ajax({ 
+        			url:"weather.planner",
+        			type:"get",
+        			data:{"date" : get_date.yyyymmdd1()},
+            		dataType:"json"
+        		}).done(function(resp){
+        			console.log(resp);
+        			convertDate(date);
+        			if(resp[0].text == null){
+        				$("#weatherDay").append("예보가<br>아직 확정되지 않았습니다.");
+        			}else{
+        			 	if(resp[0].text == "맑음"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/sun.PNG");
+        				}else if(resp[0].text == "구름조금"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/littlecloud.PNG");
+        				}else if(resp[0].text == "구름많음"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/cloudy.PNG");
+        				}else if(resp[0].text == "흐림"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/gray.PNG");
+        				}else if(resp[0].text == "비"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/rain.PNG");
+        				} 
+        				$("#weatherContents").text(resp[0].text);
+        				
+        				if(resp[0].dust != null) {
+            				$("#dust").text("미세먼지 : " + resp[0].dust);
+        				}
+        				$("#minTemper").text("최저 기온 : " + resp[0].minTemper +"℃");
+        				$("#maxTemper").text("최고 기온 : " + resp[0].maxTemper +"℃");
+        			}
+        		})
+
             },
             timeZone: 'UTC',
             initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.   
@@ -171,25 +211,25 @@
         // 받은 날짜값을 date 형태로 형변환 해주어야 한다.
         function convertDate(date) {
             var date = new Date(date);
-            $("#weather").text(date.yyyymmdd()+" 날씨!");
+            $("#weatherDay").text(date.yyyymmdd2()+" 날씨");
         }
 
         // 받은 날짜값을 YYYY-MM-DD 형태로 출력하기위한 함수.
-        Date.prototype.yyyymmdd = function() {
+        Date.prototype.yyyymmdd1 = function() {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString();
             var dd = this.getDate().toString();
 
-            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+            return yyyy + (mm[1] ? mm : "0" + mm[0]) + (dd[1] ? dd : "0" + dd[0]);
         }
         
-        Date.prototype.yyyymmddhhmi = function() {
+        Date.prototype.yyyymmdd2 = function() {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString();
             var dd = this.getDate().toString();
             var hh = this.getHours().toString();
             var mi = this.getMinutes().toString();
-            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + " " + hh + ":"+ mi;
+            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
         }
 		
         // 네비바 검색창
@@ -385,6 +425,7 @@
     #searchImg:active~#search{left:0px;}
     #body{height: auto;}
     #weather{border:1px solid black;height:115px;}
+    #weatherDay{font-size: 18px; font-weight:500;}
     #map{height:100%;width:100%;}
     .fc-toolbar-title{padding-left:10px;}
     .historylist{min-height:40px;border:1px solid rgb(194, 191, 191);line-height:40px;}
@@ -401,14 +442,14 @@
    <div class="container-fluid p-0" id="navibar">
         <div class="row m-0">
             <div class="col-12 col-lg-3 col-xl-2 p-0">
-            	<img src="${pageContext.request.contextPath}/img/logo.jpg" id="searchImg">
+            	<img src="${pageContext.request.contextPath}/project_logo.jpg" id="searchImg">
             </div>
             <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a></div>
             <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a></div>
             <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a></div>
             <div class="col-3 col-lg-3 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a></div>
             <div class="col-12 col-lg-4 col-xl-4 p-0">
-                <img src="${pageContext.request.contextPath}/img/search.png" id="searchImg">
+                <img src="${pageContext.request.contextPath}/search.png" id="searchImg">
                 <input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
             </div>
             <c:choose>
@@ -436,7 +477,28 @@
             <div class="col-12 col-md-5 p-0 pl-1">
                 <div class="row">
                     <div class="col-12 mb-2" id="weather">
-                        날씨부문
+                    
+                        <div class="row m-0">
+                            <div class="col-12" id="weatherDay" style="text-align: center;"></div>
+                        </div> 
+                        <div class="row m-0">
+                            <div class="col-5" style="text-align: center;">
+                                <img id="weatherimg" src="${pageContext.request.contextPath}/sun.PNG"><br>
+                                <strong id="weatherContents"></strong>
+                            </div>
+                            <div class="col-7">
+                                <div class="row m-0">
+                                    <div class="col-12" id="temperature">
+                                        <div id="minTemper"></div>
+                                        <div id="maxTemper"></div>
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col-12" id="dust"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row"> <!-- 지도 -->
