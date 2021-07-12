@@ -20,14 +20,17 @@
 <script>
 $(function () {
      // 네비바 검색창
-     $("#searchImg").on("click", function () {
-       $("#search").show("slow");
-       $("#search").focus();
-       })
-     $("#search").on("blur", function () {
-       $("#search").hide("slow");
-       })
+	 $("#searchImg").on("click",function(){
+         $("#search").show("",function(){
+             $("#search").css("display","block");
+         });
+         $("#search").focus();
      })
+     $("#search").on("blur",function(){
+        $("#search").hide("slow");
+     })  
+ })    
+
 </script>
 <style>
 * {font-family: 'Sunflower';}
@@ -95,7 +98,39 @@ $(function () {
 </style>
 </head>
 <body>
-<div class="container-fluid p-0" id="navibar">
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><img src="logo.jpg"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+          <ul class="navbar-nav mr-auto" id="">
+            <li class="nav-item active">
+              <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+            </li>
+            <li class="nav-item">
+              <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+            </li>
+            <li class="nav-item">
+               <a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+            </li>
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+            </li>
+            <li class="nav-item" id="searchBox">
+                <img src="search.png" class="nav-link" href="#" tabindex="-1" aria-disabled="true" id="searchImg">
+                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <a href="#">관리자</a>
+            <a class="my-2 my-sm-0" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+          </form>
+        </div>
+      </nav>
+
+<!--  <div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
 						<a href="${pageContext.request.contextPath}/main.jsp"><img src="project_logo.jpg"></a>
@@ -123,7 +158,7 @@ $(function () {
 						<a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
 					</div>
 				</div>
-</div>
+</div>-->
 <div class="container side_menu">
 <ul class="list-group">
   <li class="list-group-item">
