@@ -52,9 +52,12 @@ public class PetController extends HttpServlet {
 				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
 				String id = dto.getId(); // 나증에 id는 session으로 받기
 				int seq = dao.getSeq(); // seq 매서드
-
+				
+				System.out.println(id);
 				String category = request.getParameter("category");
+				System.out.println(category);
 				String title = request.getParameter("title");
+				System.out.println(title);
 				String pet_name = request.getParameter("pet_name");
 				String pet_breed = request.getParameter("pet_breed");
 				String pet_gender = request.getParameter("pet_gender");
@@ -65,21 +68,24 @@ public class PetController extends HttpServlet {
 				String person_gender = request.getParameter("person_gender");
 				String person_age = request.getParameter("person_age");
 				String local = request.getParameter("local");
+				System.out.println(local);
 				String place_name = request.getParameter("place_name");
+				System.out.println(place_name);
 
 				// 날짜 시간에서 T 빼고 넘기기
 				String start = request.getParameter("start_date");
+				System.out.println(start);
 				String s_date = start.substring(0,10);
 				String s_time = start.substring(11,16);
 				String start_date = s_date+s_time;
-				// System.out.println(start_date);
+				System.out.println(start_date);
 				String end = request.getParameter("end_date");
 				String e_date = start.substring(0,10);
 				String e_time = start.substring(11,16);
 				String end_date = e_date+e_time;
 
 				String contents = request.getParameter("contents");
-				
+				System.out.println(contents);
 				
 				System.out.println(local + place_name);
 				System.out.println(category+":"+title+":"+pet_name+":"+pet_breed+":"+pet_gender+":"+pet_age+":"+pet_neutering);
@@ -90,6 +96,10 @@ public class PetController extends HttpServlet {
 				if(pet_name.contentEquals("")) {
 					dao.insertWrite(new PetBoardDTO(seq,id,person_name,person_gender,person_age,local,place_name,null,
 							null,null,null,null,null,start_date,end_date,category,title,contents));
+				}else if(id.contentEquals("admin")) {
+					System.out.println("안빠지니");
+					dao.insertWrite(new PetBoardDTO(seq,id,person_name,person_gender,person_age,null,null,null,
+							null,null,null,null,null,"admin","admin",category,title,contents));
 				}else {
 					dao.insertWrite(new PetBoardDTO(seq,id,person_name,person_gender,person_age,local,place_name,pet_name,
 					pet_breed,pet_gender,pet_age,pet_neutering,pet_feature,start_date,end_date,category,title,contents));
@@ -180,6 +190,10 @@ public class PetController extends HttpServlet {
 			}else if(cmd.contentEquals("/updateProc.pet")) {
 				System.out.println("수정사항 받은 것");
 				
+				// 관리자 때문에 넣은 것 
+				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
+				String id = dto.getId();
+				
 				int seq = Integer.parseInt(request.getParameter("seq"));
 				System.out.println(seq);
 				String category = request.getParameter("category");
@@ -222,6 +236,9 @@ public class PetController extends HttpServlet {
 					System.out.println("하");
 					dao.update(new PetBoardDTO(category,title,local,null,null,null,null,null,null,
 							start_date,end_date,place_name,contents,seq));
+				}else if(id.contentEquals("admin")){
+					dao.update(new PetBoardDTO(category,title,local,null,null,null,null,null,null,
+							start_date,end_date,null,contents,seq));
 				}else {
 					System.out.println("히히");
 					dao.update(new PetBoardDTO(category,title,local,pet_name,pet_breed,pet_age,pet_neutering,pet_gender,
@@ -232,7 +249,25 @@ public class PetController extends HttpServlet {
 				
 				request.setAttribute("seq", seq);
 				request.getRequestDispatcher("detailWrite.pet").forward(request, response);
-			}	
+			}
+			// 관리자부분
+			else if(cmd.contentEquals("/adminPetWrite.pet")){
+				System.out.println("공지사항 글쓰기");
+				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
+				System.out.println(dto.getId());
+				String id = dto.getId();
+				PersonDTO info = dao.myinfo(id);
+
+				request.setAttribute("info", info);
+
+				request.getRequestDispatcher("petboard/adminPetWrite.jsp").forward(request, response);
+			}else if(cmd.contentEquals("/adminUpdateWrite.pet")) {
+				int seq = Integer.parseInt(request.getParameter("seq"));
+				PetBoardDTO dto = dao.searchWrite(seq);
+				request.setAttribute("dto", dto);
+				
+				request.getRequestDispatcher("petboard/adminUpdateWrite.jsp").forward(request, response);
+			}
 			
 		}catch(Exception e) {
 

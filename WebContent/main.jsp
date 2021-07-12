@@ -7,22 +7,14 @@
 <title>Team_Project2</title> 
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<link rel="stylesheet"
-	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <style>
-* {
-	font-family: 'Sunflower';
-}
-
+* {font-family: 'Sunflower';}
 #navibar {
 	background-color: white;
 	text-align: center;
@@ -36,40 +28,14 @@
 	font-size: large;
 	z-index: 1000 !important;
 }
-
-.navitext>a {
-	color: black;
-}
-
-.navitext>a:link {
-	text-decoration: none;
-}
-
-.navitext>a:hover {
-	color: #52734D;
-}
-
-.navitext>a:visited {
-	color: black;
-}
-
-.navitext:hover {
-	border-bottom: 3px solid #52734D;
-}
-
-#search {
-	width: 250px;
-	height: 41px;
-	display: none;
-}
-
-#searchImg:active ~#search {
-	left: 0px;
-}
-
-#searchImg:hover {
-	cursor: pointer;
-}
+.navitext>a {color: black;}
+.navitext>a:link {text-decoration: none;}
+.navitext>a:hover {color: #52734D;}
+.navitext>a:visited {color: black;}
+.navitext:hover {border-bottom: 3px solid #52734D;}
+#search {width: 250px; height: 41px; display: none;}
+#searchImg:active ~#search {left: 0px;}
+#searchImg:hover {cursor: pointer;}
 
 /*갤러리 화살표 스타일  */
 .carousel-control-next:after {
@@ -77,7 +43,6 @@
 	font-size: 60px;
 	color: green;
 }
-
 .carousel-control-prev:after {
 	content: '<';
 	font-size: 60px;
@@ -116,17 +81,11 @@
         })    
     </script>
 
-
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
 
-<link
-	href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap"
-	rel="stylesheet">
-
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <link rel="stylesheet" href="css/animate.css">
 
@@ -159,19 +118,12 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
-
 <body>
-
-
 
 <!--네비바  -->
 	<c:choose>
-
 		<c:when test="${login.id==null}">
 			<div class="container-fluid p-0" id="navibar">
-
-
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
 						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
@@ -189,9 +141,8 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Signup/signupView.jsp">회원가입</a>
@@ -200,10 +151,40 @@
 						<a href="Signup/login.jsp">로그인</a>
 					</div>
 				</div>
-
 			</div>
 		</c:when>
-
+		
+		<c:when test="${login.id=='admin'}">
+			<div class="container-fluid p-0" id="navibar">
+				<div class="row m-0">
+					<div class="col-12 col-lg-3 col-xl-2 p-0">
+						<a href="main.jsp"><img src="project_logo.jpg"></a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+					</div>
+					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+					</div>
+					<div class="col-12 col-lg-4 col-xl-4 p-0">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+						<a href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+					</div>
+				</div>
+			</div>
+		</c:when>
 
 		<c:otherwise>
 			<div class="container-fluid p-0" id="navibar">
@@ -224,12 +205,11 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> <input type="text"
-							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-							id="search">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage/mypagefin.jsp">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/Mypage.mem">마이페이지</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
@@ -258,8 +238,6 @@
 			</div>
 		</div>
 	</div>
-
-
 
 <!--산책 / 펫시터 / 갤러리  -->
 	<section class="ftco-section bg-light ftco-no-pt ftco-intro">
@@ -640,8 +618,6 @@
 									<input type="text" class="form-control" placeholder="메일*">
 								</div>
 							</div>
-
-
 							<div class="col-md-12">
 								<div class="form-group">
 									<textarea name="" id="" cols="30" rows="7" class="form-control"
@@ -660,8 +636,6 @@
 			</div>
 		</div>
 	</section>
-	
-	
 <!-- 하단 네비  -->
 	<footer class="footer">
 		<div class="container">
@@ -760,9 +734,6 @@
 			</div>
 		</div>
 	</footer>
-
-
-
 
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen">
