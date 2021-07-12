@@ -1,13 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Team_Project2</title> 
+<title>Team_Project2</title>
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
-	n.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet"
@@ -17,6 +19,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+
 
 <style>
 * {
@@ -71,42 +75,44 @@
 	cursor: pointer;
 }
 
-/*갤러리 화살표 스타일  */
-.carousel-control-next:after {
-	content: '>';
-	font-size: 60px;
-	color: green;
-}
 
-.carousel-control-prev:after {
-	content: '<';
-	font-size: 60px;
-	color: green;
-}
 </style>
 <script>
-        $(function(){
-           
-        	// 네비바 검색창
-            $("#searchImg").on("click",function(){
-                $("#search").show("slow");
-                $("#search").focus();
-            })
-            $("#search").on("blur",function(){
-               $("#search").hide("slow");
-            })
-            // 펫시터
-			$("#petsitter").on("click",function(){
-					let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
-					if(result){
-						location.href="Signup/login.jsp";
-					}else {
-					location.href="main.jsp";
-				}
-			})
-            
-        })    
-    </script>
+	$(function() {
+
+		// 네비바 검색창
+		$("#searchImg").on("click", function() {
+			$("#search").show("slow");
+			$("#search").focus();
+		})
+		$("#search").on("blur", function() {
+			$("#search").hide("slow");
+		})
+		// 펫시터
+		 $("#petsitter, #read_more_pet, .petsitter").on("click",function(){
+               let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
+               if(result){
+                  location.href="Signup/login.jsp";
+               }else {
+               location.href="main.jsp";
+            }
+         })
+
+			
+         
+         $.ajax({
+			 	
+        	 
+        	 url:"forGallery.gal?cpage=1",
+			 type:"get"
+			
+         
+         });
+         
+
+	})
+</script>
+
 
 
 <meta charset="utf-8">
@@ -157,7 +163,7 @@
 
 
 
-<!--네비바  -->
+	<!--네비바  -->
 	<c:choose>
 
 		<c:when test="${login.id==null}">
@@ -166,13 +172,13 @@
 
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
+						<a href="forGallery.gal?cpage=1"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href= "javascript:;" id="petsitter">펫시터</a>
+						<a href="javascript:;" id="petsitter">펫시터</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -181,9 +187,8 @@
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg"> 
-						<input type="text"
-placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+						<img src="search.png" id="searchImg"> <input type="text"
+							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
@@ -193,21 +198,22 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						<a href="Signup/login.jsp">로그인</a>
 					</div>
 				</div>
+
 			</div>
 		</c:when>
-
-
-		<c:otherwise>
+		<c:when test="${login.id=='admin'}">
 			<div class="container-fluid p-0" id="navibar">
+
+
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="main.jsp"><img src="project_logo.jpg"></a>
+						<a href="forGallery.gal?cpage=1"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-						<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+						<a href="javascript:;" id="petsitter">펫시터</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -216,8 +222,46 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="search.png" id="searchImg">
-						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+						<img src="search.png" id="searchImg"> <input type="text"
+							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+							id="search">
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+						<a href="#">관리자</a>
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+						<a href="logout.mem">로그아웃</a>
+					</div>
+				</div>
+
+			</div>
+		</c:when>
+
+
+		<c:otherwise>
+			<div class="container-fluid p-0" id="navibar">
+				<div class="row m-0">
+					<div class="col-12 col-lg-3 col-xl-2 p-0">
+						<a href="forGallery.gal?cpage=1"><img src="project_logo.jpg"></a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a
+							href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a
+							href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+					</div>
+					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+					</div>
+					<div class="col-12 col-lg-4 col-xl-4 p-0">
+						<img src="search.png" id="searchImg"> <input type="text"
+							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
+							id="search">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
 						<a href="Mypage.mem">마이페이지</a>
@@ -242,7 +286,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 				<div class="col-md-11 ftco-animate text-center">
 					<h1 class="mb-4"
 						style="font-weight: 200px; font-family: 'Sunflower';">
-						<a href="#" style="color: white;">친구들과 함께 산책해 보세요!</a>
+						<a href="Signup/signupView.jsp" style="color: white;">친구들과 함께 산책해 보세요!</a>
 					</h1>
 					<!-- <p><a href="#" class="btn btn-primary mr-md-4 py-3 px-4" style="font-size: large;font-weight: 100px; margin-top:50px;">둘러보기<span class="ion-ios-arrow-forward"></span></a></p> -->
 				</div>
@@ -252,7 +296,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 
 
 
-<!--산책 / 펫시터 / 갤러리  -->
+	<!--산책 / 펫시터 / 갤러리  -->
 	<section class="ftco-section bg-light ftco-no-pt ftco-intro">
 		<div class="container">
 			<div class="row">
@@ -266,7 +310,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 							<h3 class="heading">산책</h3>
 							<p>주변, 혹은 다른 지역의 친구들과 함께 산책해 보세요. 여러 지역을 산책로를 둘러보고 마음에 드는
 								산책로를 선택할 수 있습니다.</p>
-							<a href="#"
+							<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구"
 								class="btn-custom d-flex align-items-center justify-content-center"><span
 								class="fa fa-chevron-right"></span><i class="sr-only">Read
 									more</i></a>
@@ -275,20 +319,30 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 				</div>
 
 				<div class="col-md-4 d-flex align-self-stretch px-4 ftco-animate">
-					<div class="d-block services text-center">
-						<div class="icon d-flex align-items-center justify-content-center">
-							<span class="flaticon-dog-eating"></span>
-						</div>
-						<div class="media-body">
-							<h3 class="heading">펫시터</h3>
-							<p>여러분의 강아지를 믿고 맡길 수 있는 분에게 잠시 위탁해보세요! 강아지에게 새로운 경험을 선물해 주세요!</p>
-							<a href="#"
-								class="btn-custom d-flex align-items-center justify-content-center"><span
-								class="fa fa-chevron-right"></span><i class="sr-only">Read
-									more</i></a>
-						</div>
-					</div>
-				</div>
+               <div class="d-block services text-center">
+                  <div class="icon d-flex align-items-center justify-content-center">
+                     <span class="flaticon-dog-eating"></span>
+                  </div>
+                  <div class="media-body">
+                     <h3 class="heading">펫시터</h3>
+                     <p>여러분의 강아지를 믿고 맡길 수 있는 분에게 잠시 위탁해보세요! 강아지에게 새로운 경험을 선물해 주세요!</p>
+                     <c:choose>
+                     <c:when test="${login.id==null}">
+                     <a href= "javascript:;" id="read_more_pet"
+                        class="btn-custom d-flex align-items-center justify-content-center"><span
+                        class="fa fa-chevron-right"></span><i class="sr-only">Read
+                           more</i></a>
+                     </c:when>
+                     <c:otherwise>
+                     <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1"
+                        class="btn-custom d-flex align-items-center justify-content-center"><span
+                        class="fa fa-chevron-right"></span><i class="sr-only">Read
+                           more</i></a>
+                     </c:otherwise>
+                     </c:choose>
+                  </div>
+               </div>
+            </div>
 
 
 				<div class="col-md-4 d-flex align-self-stretch px-4 ftco-animate">
@@ -298,7 +352,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						</div>
 						<div class="media-body">
 							<h3 class="heading">갤러리</h3>
-							<p>귀여운 강아지들의 활동모습을 구경해 보세요.</p>
+							<p>내가 자랑하고 싶은 강아지와의 사진을 공유하고,다른 귀여운 강아지들의 활동모습도 구경해 보세요!</p>
 							<a href="galList.gal?cpage=1"
 								class="btn-custom d-flex align-items-center justify-content-center"><span
 								class="fa fa-chevron-right"></span><i class="sr-only">Read
@@ -388,7 +442,7 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						산책장소!<br> 정하기 어려우셨다구요?<br>추천코스를 이용해보세요!
 					</h1>
 					<p>
-						<a href="#" class="btn btn-primary mr-md-4 py-3 px-4"
+						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구" class="btn btn-primary mr-md-4 py-3 px-4"
 							style="font-size: large;">둘러보기<span
 							class="ion-ios-arrow-forward"></span></a>
 					</p>
@@ -400,121 +454,10 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 
 
 
-	<!--포토북  -->
+	<!--포토북  --><!--section은 지우셔도 되고 남겨두셔도 됩니다.  -->
 	<section class="ftco-section">
 		<div class="container">
-			<div class="row justify-content-center pb-5 mb-3">
-				<div class="col-md-7 heading-section text-center ftco-animate">
-					<h2>포 토 북</h2>
-					<hr
-						style="height: 0.2rem; max-width: 3.25rem; margin: 1.5rem auto; background-color: #146c43; opacity: 1;">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-1.jpg);">
-						<a href="images/gallery-1.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Cat</span>
-								<h2>
-									<a href="work-single.html">Persian Cat</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-2.jpg);">
-						<a href="images/gallery-2.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Dog</span>
-								<h2>
-									<a href="work-single.html">Pomeranian</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-3.jpg);">
-						<a href="images/gallery-3.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Cat</span>
-								<h2>
-									<a href="work-single.html">Sphynx Cat</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-4.jpg);">
-						<a href="images/gallery-4.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Cat</span>
-								<h2>
-									<a href="work-single.html">British Shorthair</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-5.jpg);">
-						<a href="images/gallery-5.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Dog</span>
-								<h2>
-									<a href="work-single.html">Beagle</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 ftco-animate">
-					<div class="work mb-4 img d-flex align-items-end"
-						style="background-image: url(images/gallery-6.jpg);">
-						<a href="images/gallery-6.jpg"
-							class="icon image-popup d-flex justify-content-center align-items-center">
-							<span class="fa fa-expand"></span>
-						</a>
-						<div class="desc w-100 px-4">
-							<div class="text w-100 mb-3">
-								<span>Dog</span>
-								<h2>
-									<a href="work-single.html">Pug</a>
-								</h2>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 		</div>
 	</section>
 
@@ -530,44 +473,138 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 						style="height: 0.2rem; max-width: 3.25rem; margin: 1.5rem auto; background-color: #146c43; opacity: 1;">
 				</div>
 			</div>
+					<div class="row d-flex">
 
-
-
-			
-
-				
-						<div class="row d-flex">
-
-							<c:forEach var="i" items="${list }">
-								<div class="col-md-4 d-flex ftco-animate">
-									<div class="blog-entry align-self-stretch"
-										style="width: 350px; height: 500px;">
-										<a href="blog-single.html" class="block-20 rounded"> 
-										<img src="files/${i.thumbPath}" style="width:100%;height:100%;">
-										</a>
-										<div class="text p-4">
-											<div class="meta mb-2">
-												<div>
-													<a href="#">${i.write_date }</a>
-												</div>
-
-												
+						<c:forEach var="i" items="${list }">
+							<div class="col-md-4 d-flex ftco-animate">
+								<div class="blog-entry align-self-stretch"
+									style="width: 350px; height: 500px;">
+									<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" class="block-20 rounded"> <img
+										src="files/${i.thumbPath}" style="width: 100%; height: 100%;">
+									</a>
+									<div class="text p-4">
+										<div class="meta mb-2">
+											<div>
+												<a href="#">${i.write_date }</a>
 											</div>
-											<div class="meta mb-2">
-                  								<div><a href="#">글쓴이 : ${i.writer } </a></div>
-                 
-                							</div>
-											<h3 class="heading">
-												<a href="#" style="font-size:25px;">${i.title }</a>
-											</h3>
+
+
 										</div>
+										<div class="meta mb-2">
+											<div>
+												<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">글쓴이 : ${i.writer } </a>
+											</div>
+
+										</div>
+										<h3 class="heading">
+											<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" style="font-size: 25px;">${i.title }</a>
+										</h3>
 									</div>
 								</div>
-							</c:forEach>
+							</div>
+						</c:forEach>
+					</div>
+
+
+
+
+			<%-- <c:choose>
+				<c:when test="${login.id==null}">
+					<div class="row d-flex">
+
+
+						<div class="col-md-4 d-flex ftco-animate" >
+							<div class="blog-entry align-self-stretch" style="width:400px;height:400px;">
+								<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" class="block-20 rounded"
+									style="background-image: url('images/image_1.jpg');"> </a>
+								<div class="text p-4">
+									<div class="meta mb-2">
+										<div>
+											<a href="${pageContext.request.contextPath}/galList.gal?cpage=1"> 2021-07-07</a>
+										</div>
+										
+									</div>
+									<h3 class="heading">
+										<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">강아지와 함께 산책을 나왔어요!!</a>
+									</h3>
+								</div>
+							</div>
 						</div>
-					
 
 
+						<div class="col-md-4 d-flex ftco-animate">
+							<div class="blog-entry align-self-stretch" style="width:400px;height:400px;">
+								<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" class="block-20 rounded"
+									style="background-image: url('images/image_2.jpg');"> </a>
+								<div class="text p-4">
+									<div class="meta mb-2">
+										<div>
+											<a href="${pageContext.request.contextPath}/galList.gal?cpage=1"> 2021-07-08 </a>
+										</div>
+										
+									</div>
+									<h3 class="heading">
+										<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">강아지 미용하는 날</a>
+									</h3>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 d-flex ftco-animate">
+							<div class="blog-entry align-self-stretch" style="width:400px;height:400px;">
+								<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" class="block-20 rounded"
+									style="background-image: url('images/image_3.jpg');"> </a>
+								<div class="text p-4">
+									<div class="meta mb-2">
+										<div>
+											<a href="${pageContext.request.contextPath}/galList.gal?cpage=1"> 2021-10-09</a>
+										</div>
+										
+									</div>
+									<h3 class="heading">
+										<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">강아지의 친구 고양이도..</a>
+									</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="row d-flex">
+
+						<c:forEach var="i" items="${list }">
+							<div class="col-md-4 d-flex ftco-animate">
+								<div class="blog-entry align-self-stretch"
+									style="width: 350px; height: 500px;">
+									<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" class="block-20 rounded"> <img
+										src="files/${i.thumbPath}" style="width: 100%; height: 100%;">
+									</a>
+									<div class="text p-4">
+										<div class="meta mb-2">
+											<div>
+												<a href="#">${i.write_date }</a>
+											</div>
+
+
+										</div>
+										<div class="meta mb-2">
+											<div>
+												<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">글쓴이 : ${i.writer } </a>
+											</div>
+
+										</div>
+										<h3 class="heading">
+											<a href="${pageContext.request.contextPath}/galList.gal?cpage=1" style="font-size: 25px;">${i.title }</a>
+										</h3>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+
+				</c:otherwise>
+			</c:choose> --%>
+			
+			
 		</div>
 	</section>
 
@@ -641,9 +678,9 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 			</div>
 		</div>
 	</section>
-	
-	
-<!-- 하단 네비  -->
+
+
+	<!-- 하단 네비  -->
 	<footer class="footer">
 		<div class="container">
 			<div class="row">
@@ -651,17 +688,17 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 					<h2 class="footer-heading">WAKI TOKI</h2>
 					<p>
 						Walk with dog Talk with dog의 줄임말로 반려견과 함께 호흡하는 즐거운 시간을 나타내는 말입니다.<br>
-						<br> 소중한 반려견과 편안한 시간을 갖도록 도움을 주는 웹 플랫폼입니다.<br>
-						<br> 산책친구찾기 기능부터 산책장소 추천 펫시터모집까지 다양한 편의기능을 지원합니다.
+						<br> 소중한 반려견과 편안한 시간을 갖도록 도움을 주는 웹 플랫폼입니다.<br> <br>
+						산책친구찾기 기능부터 산책장소 추천 펫시터모집까지 다양한 편의기능을 지원합니다.
 					</p>
 					<ul class="ftco-footer-social p-0">
-						<li class="ftco-animate"><a href="#" data-toggle="tooltip"
+						<li class="ftco-animate"><a href="https://twitter.com/" data-toggle="tooltip"
 							data-placement="top" title="Twitter"><span
 								class="fa fa-twitter"></span></a></li>
-						<li class="ftco-animate"><a href="#" data-toggle="tooltip"
+						<li class="ftco-animate"><a href="https://www.facebook.com/" data-toggle="tooltip"
 							data-placement="top" title="Facebook"><span
 								class="fa fa-facebook"></span></a></li>
-						<li class="ftco-animate"><a href="#" data-toggle="tooltip"
+						<li class="ftco-animate"><a href="https://www.instagram.com/" data-toggle="tooltip"
 							data-placement="top" title="Instagram"><span
 								class="fa fa-instagram"></span></a></li>
 					</ul>
@@ -673,11 +710,11 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 							style="background-image: url(images/image_1.jpg);"></a>
 						<div class="text">
 							<h3 class="heading">
-								<a href="#">강아지와 함께 산책</a>
+								<a href="galList.gal?cpage=1">강아지와 함께 산책</a>
 							</h3>
 							<div class="meta">
 								<div>
-									<a href="#"><span class="icon-calendar"></span>2021년 6월 7일</a>
+									<a href="galList.gal?cpage=1"><span class="icon-calendar"></span>2021년 6월 7일</a>
 								</div>
 
 							</div>
@@ -688,11 +725,11 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 							style="background-image: url(images/image_2.jpg);"></a>
 						<div class="text">
 							<h3 class="heading">
-								<a href="#">강아지 목욕시키기</a>
+								<a href="galList.gal?cpage=1">강아지 목욕시키기</a>
 							</h3>
 							<div class="meta">
 								<div>
-									<a href="#"><span class="icon-calendar"></span> 2021년 5월
+									<a href="galList.gal?cpage=1"><span class="icon-calendar"></span> 2021년 5월
 										20일</a>
 								</div>
 
@@ -703,24 +740,31 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 				<div class="col-md-6 col-lg-3 pl-lg-5 mb-4 mb-md-0">
 					<h2 class="footer-heading">빠른 메뉴</h2>
 					<ul class="list-unstyled">
-						<li><a href="#" class="py-2 d-block">홈</a></li>
-						<li><a href="#" class="py-2 d-block">산책</a></li>
-						<li><a href="#" class="py-2 d-block">펫시터</a></li>
-						<li><a href="#" class="py-2 d-block">플레너</a></li>
-						<li><a href="#" class="py-2 d-block">갤러리</a></li>
-						<li><a href="#" class="py-2 d-block">문의하기</a></li>
+						<li><a href="forGallery.gal?cpage=1" class="py-2 d-block">홈</a></li>
+						<li><a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구" class="py-2 d-block">산책장소</a></li>
+						<c:choose>
+						<c:when test="${login.id==null}">
+						<li><a href="javascript:;" class="petsitter py-2 d-block">펫시터</a></li>
+						</c:when>
+						<c:otherwise>
+						<li><a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1" class="py-2 d-block">펫시터</a></li>
+						</c:otherwise>
+						</c:choose>
+						<li><a href="galList.gal?cpage=1" class="py-2 d-block">갤러리</a></li>
+						<li><a href="${pageContext.request.contextPath}/listProc.fb?cpage=1" class="py-2 d-block">자유게시판</a></li>
+						
 					</ul>
 				</div>
 				<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
 					<h2 class="footer-heading">궁금한점이 있으신가요?</h2>
 					<div class="block-23 mb-3">
 						<ul>
-							<li><span class="icon fa fa-map"></span><span class="text">203
-									Fake St. Mountain View, San Francisco, California, USA</span></li>
+							<li><span class="icon fa fa-map"></span><span class="text">
+									서울특별시 중구 남대문로 120 대일빌딩 3층 E Class</span></li>
 							<li><a href="#"><span class="icon fa fa-phone"></span><span
-									class="text">+2 392 3929 210</span></a></li>
+									class="text">02-1544-9970</span></a></li>
 							<li><a href="#"><span class="icon fa fa-paper-plane"></span><span
-									class="text">info@yourdomain.com</span></a></li>
+									class="text">info@WAKI_TOKI.com</span></a></li>
 						</ul>
 					</div>
 				</div>
@@ -731,10 +775,10 @@ placeholder="원하는구,장소를 검색하세요." class="form-control me-2 m
 					<p class="copyright">
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						Copyright &copy;
-						<script>document.write(new Date().getFullYear());</script>
-						All rights reserved | This template is made with <i
-							class="fa fa-heart" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib.com</a>
+						<script>
+							document.write(new Date().getFullYear());
+						</script>
+						 All rights reserved WAKI_TOKI 
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 					</p>
 				</div>
