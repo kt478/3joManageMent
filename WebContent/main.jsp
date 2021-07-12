@@ -143,6 +143,40 @@ $(function(){
 		        </div>
 			</nav>
 		</c:when>
+		<c:when test="${login.id=='admin'}">
+			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
+		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
+		        	<img src="project_logo.jpg">
+		        </a>
+		        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		          	<span class="navbar-toggler-icon"></span>
+		        </button>
+		        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+			    	<ul class="navbar-nav mr-auto">
+			            <li class="nav-item active">
+			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
+			            </li>
+			            <li class="nav-item">
+			              	<a class="nav-link" href="javascript:;">팻시터</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+			            </li>
+			            <li class="nav-item" id="searchBox">
+			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
+			                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+			            </li>
+			        </ul>
+          			<form class="form-inline my-2 my-lg-0" id="loginNavi">
+			            <a class="mr-sm-2" style="width:75px;" href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+			            <a class="my-2 my-sm-0" style="width:70px;" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+		          	</form>
+        		</div>
+     		 </nav>
+		</c:when>
 		<c:otherwise>
 			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
 		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
