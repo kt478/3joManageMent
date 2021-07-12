@@ -31,7 +31,7 @@ import dto.PlannerDTO;
 import dto.WeatherDTO;
 
 @WebServlet("*.planner")
-public class plannerController extends HttpServlet {
+public class PlannerController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 
