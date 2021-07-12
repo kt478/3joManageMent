@@ -87,15 +87,10 @@ public class PersonController extends HttpServlet {
 			//회원가입 폼으로 이동!
 			else if(url.contentEquals("/signupgo.mem")) { 
 					response.sendRedirect("Signup/signupView.jsp");
-					
-					
 			}
 			//로그인 폼으로 이동!
 			else if(url.contentEquals("/logingo.mem")) {
-						response.sendRedirect("Signup/login.jsp");
-						
-						
-			
+					response.sendRedirect("Signup/login.jsp");
 			}
 			//아이디 비밀번호로 로그인!
 			else if(url.contentEquals("/login.mem")) { 
@@ -109,13 +104,11 @@ public class PersonController extends HttpServlet {
 				System.out.println(dto);
 
 				if(dto!=null) {
-System.out.println("dto가 null이 아닐때");
+					System.out.println("dto가 null이 아닐때");
 					request.getSession().setAttribute("login",dto);
-
 					response.getWriter().append("1");
 				}else {
 					System.out.println("dto가 null일때");
-
 					response.getWriter().append("null");
 				}
 
@@ -125,33 +118,29 @@ System.out.println("dto가 null이 아닐때");
 		          boolean result = dao.isIdExist(id);
 		         
 		     	 response.getWriter().append(String.valueOf(result));
-		     	 
-		     	 
+
 			}//로그아웃 !
 			else if(url.contentEquals("/logout.mem")) {
 				 request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
-		    	  response.sendRedirect("main.jsp");
-			     
-
-
+		    	 response.sendRedirect("main.jsp");
+	
 			}//마이페이지로 이동!
 			else if(url.contentEquals("/Mypage.mem")) {
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
-				System.out.println(sessionDTO);
 				System.out.println("마이페이지로 이동");
-				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
-				List<PersonDTO> ilist =dao.filesById(sessionDTO.getId());
 				
-				List<DogDTO> list2 = ddao.OwnDogList(sessionDTO.getId());
-				List<DogDTO> dlist = ddao.filesById(sessionDTO.getId());
-				request.setAttribute("list",list);//사람정보
-				request.setAttribute("ilist",ilist); //이미지뽑기
+				List<PersonDTO> person_img =dao.filesById(sessionDTO.getId());
 				
-				request.setAttribute("list2",list2);//개정보
-				request.setAttribute("dlist",dlist);
-				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
+				List<DogDTO> dog_list = ddao.OwnDogList(sessionDTO.getId());
+				List<DogDTO> dog_img = ddao.filesById(sessionDTO.getId());
 
-			}//홈으로 !
+				request.setAttribute("person_img",person_img); //이미지뽑기
+				
+				request.setAttribute("dog_list",dog_list);//개정보
+				request.setAttribute("dog_img", dog_img);
+				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
+			}
+			//홈으로 !
 			else if(url.contentEquals("/Direct2home.mem")) {
 				
 		    	  response.sendRedirect("main.jsp");
