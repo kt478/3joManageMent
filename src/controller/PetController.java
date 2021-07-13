@@ -16,9 +16,16 @@ import dto.PetBoardDTO;
 
 @WebServlet("*.pet")
 public class PetController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	
+	private String XSSFilter(String target) {
+		if(target != null) {
+			target = target.replaceAll("<", "&lt;");
+			target = target.replaceAll(">", "&gt;");
+			target = target.replaceAll("&", "&amp;");
+		}
+		return target;
+	}
        
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -53,12 +60,9 @@ public class PetController extends HttpServlet {
 				String id = dto.getId(); // 나증에 id는 session으로 받기
 				int seq = dao.getSeq(); // seq 매서드
 				
-				System.out.println(id);
 				String category = request.getParameter("category");
-				System.out.println(category);
-				String title = request.getParameter("title");
-				System.out.println(title);
-				String pet_name = request.getParameter("pet_name");
+				String title = XSSFilter(request.getParameter("title"));
+				String pet_name = XSSFilter(request.getParameter("pet_name"));
 				String pet_breed = request.getParameter("pet_breed");
 				String pet_gender = request.getParameter("pet_gender");
 				String pet_age = request.getParameter("pet_age");
@@ -68,9 +72,7 @@ public class PetController extends HttpServlet {
 				String person_gender = request.getParameter("person_gender");
 				String person_age = request.getParameter("person_age");
 				String local = request.getParameter("local");
-				System.out.println(local);
 				String place_name = request.getParameter("place_name");
-				System.out.println(place_name);
 
 				// 날짜 시간에서 T 빼고 넘기기
 				String start = request.getParameter("start_date");
@@ -84,7 +86,7 @@ public class PetController extends HttpServlet {
 				String e_time = start.substring(11,16);
 				String end_date = e_date+e_time;
 
-				String contents = request.getParameter("contents");
+				String contents = XSSFilter(request.getParameter("contents"));
 				System.out.println(contents);
 				
 				System.out.println(local + place_name);
@@ -198,13 +200,13 @@ public class PetController extends HttpServlet {
 				System.out.println(seq);
 				String category = request.getParameter("category");
 				System.out.println(category);
-				String title = request.getParameter("title");
+				String title = XSSFilter(request.getParameter("title"));
 				System.out.println(title);
 				String local = request.getParameter("local");
 				System.out.println(local);
 				String place_name = request.getParameter("place_name");
 				System.out.println(place_name);
-				String pet_name = request.getParameter("pet_name");
+				String pet_name = XSSFilter(request.getParameter("pet_name"));
 				System.out.println(pet_name);
 				String pet_breed = request.getParameter("pet_breed");
 				System.out.println(pet_breed);
@@ -229,7 +231,7 @@ public class PetController extends HttpServlet {
 				String e_time = start.substring(11,16);
 				String end_date = e_date+e_time;
 				System.out.println(end_date);
-				String contents = request.getParameter("contents");
+				String contents = XSSFilter(request.getParameter("contents"));
 				System.out.println(contents);
 				
 				if(pet_name.contentEquals("")) {

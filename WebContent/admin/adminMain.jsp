@@ -32,16 +32,19 @@
 	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
 	rel="stylesheet">
 <script>
-	$(function() {
 
-		// 네비바 검색창
-		$("#searchImg").on("click", function() {
-			$("#search").show("slow");
-			$("#search").focus();
-		})
-		$("#search").on("blur", function() {
-			$("#search").hide("slow");
-		})
+	$(function () {
+     // 네비바 검색창
+	 $("#searchImg").on("click",function(){
+         $("#search").show("",function(){
+             $("#search").css("display","block");
+         });
+         $("#search").focus();
+     })
+     $("#search").on("blur",function(){
+        $("#search").hide("slow");
+     })  
+ }) 
 
 		//삭제버튼
 		$(".block_reg").on("click",function() {
@@ -69,6 +72,7 @@
 				}
 				})
 	})
+
 </script>
 <style>
 
@@ -212,41 +216,42 @@ body {
 </style>
 </head>
 <body>
-	<div class="container-fluid p-0" id="navibar">
-		<div class="row m-0">
-			<div class="col-12 col-lg-3 col-xl-2 p-0">
-				<a href="main.jsp"><img src="project_logo.jpg"></a>
-			</div>
-			<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-				<a
-					href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
-			</div>
-			<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-				<a
-					href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
-			</div>
-			<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
-				<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
-			</div>
-			<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
-				<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
-			</div>
-			<div class="col-12 col-lg-4 col-xl-4 p-0">
-				<img src="search.png" id="searchImg"> <input type="text"
-					placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
-					id="search">
-			</div>
-			<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-				<a href="Mypage.mem">관리자</a>
-			</div>
-			<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
-				<a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
-			</div>
-		</div>
-	</div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><img src="logo.jpg"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+          <ul class="navbar-nav mr-auto" id="">
+            <li class="nav-item active">
+              <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+            </li>
+            <li class="nav-item">
+              <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+            </li>
+            <li class="nav-item">
+               <a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+            </li>
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+            </li>
+            <li class="nav-item" id="searchBox">
+                <img src="search.png" class="nav-link" href="#" tabindex="-1" aria-disabled="true" id="searchImg">
+                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <a href="#">관리자</a>
+            <a class="my-2 my-sm-0" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+          </form>
+        </div>
+      </nav>
+
 	<div class="container side_menu">
 		<ul class="list-group" style="margin-top: 50px;">
-			<li class="list-group-item"><a href="#"
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/memberList.admin?cpage=1"
 				class="list-group-item list-group-item-action list-group-item-secondary admin_menu">회원
 					명단</a></li>
 			<li class="list-group-item"><a href="#"
@@ -289,6 +294,7 @@ body {
 							<option value="불법적인 경로로 가입">불법적인 경로로 가입</option>
 							<option value="불법적인/선정적인 게시물 게시">불법적/선정적인 게시물 게시</option>
 						</select>
+
 					</div>
 					<div class="border col-lg-2 col-xl-2">
 						<input type="button" value="블랙리스트로 등록" class="block_reg">
@@ -299,6 +305,7 @@ body {
 						type=hidden name="contact" class="block_contact" value="">
 					<input type=hidden name="email" class="block_email" value="">
 				</div>
+
 
 			</form>
 		</c:forEach>
@@ -340,6 +347,7 @@ body {
 		</div>
 
 	</div>
+
 
 
 
