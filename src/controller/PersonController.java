@@ -20,17 +20,8 @@ import dto.BlackListDTO;
 import dto.DogDTO;
 import dto.PersonDTO;
 
-
-
-
-
-
-
 @WebServlet("*.mem")
 public class PersonController extends HttpServlet {
-
-
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -156,25 +147,16 @@ public class PersonController extends HttpServlet {
 				request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
 				response.sendRedirect("main.jsp");
 
-
-
-
 			}//마이페이지로 이동!
 			else if(url.contentEquals("/Mypage.mem")) {
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
 				System.out.println("마이페이지로 이동");
-
-				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
-				List<PersonDTO> ilist =dao.filesById(sessionDTO.getId());
-
-				List<DogDTO> list2 = ddao.OwnDogList(sessionDTO.getId());
-				List<DogDTO> dlist = ddao.filesById(sessionDTO.getId());
-				request.setAttribute("list",list);//사람정보
-				request.setAttribute("ilist",ilist); //이미지뽑기
-
-				request.setAttribute("list2",list2);//개정보
-				request.setAttribute("dlist",dlist);
-				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
+				
+				PersonDTO person_img =dao.onefilesById(sessionDTO.getId());
+				System.out.println(person_img.getPerson_oriName());
+				
+				List<DogDTO> dog_list = ddao.OwnDogList(sessionDTO.getId());
+				List<DogDTO> dog_img = ddao.filesById(sessionDTO.getId());
 
 				request.setAttribute("person_img",person_img); //이미지뽑기
 				

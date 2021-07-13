@@ -83,6 +83,28 @@ public class PersonDAO {
 		}
 
 	}
+
+	public PersonDTO onefilesById(String id) throws Exception{
+		String sql ="select * from person_info where id=?";
+		try(	Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);
+				){
+			pstat.setNString(1, id);
+			try(
+					ResultSet rs = pstat.executeQuery()
+				){
+				if(rs.next()) {
+					String image_id = rs.getNString("id");
+					String oriName= rs.getNString("person_oriName");
+					String sysName= rs.getNString("person_sysName");
+					
+					return new PersonDTO(image_id,oriName,sysName);
+				}
+				return null;
+			}
+		}
+	}
+
 	public String findId(String user_name,String user_email, String user_contact) throws Exception {
 
 
@@ -109,6 +131,7 @@ public class PersonDAO {
 		}
 
 	}
+
 	public List<PersonDTO> filesById(String id)throws Exception{
 		String sql ="select * from person_info where id=?";
 		try(Connection con = this.getConnection();

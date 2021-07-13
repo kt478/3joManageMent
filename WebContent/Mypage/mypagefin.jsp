@@ -1,7 +1,4 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +18,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script>
-
 $(function () {
             // 네비바 검색창
             $("#searchImg").on("click", function () {
@@ -52,59 +48,64 @@ $(function () {
         
             
         	})
-        
-        	
-        
+
             });
  </script>
 <style>
 * {font-family: 'Sunflower';}
 body {background-color: #91C788;}
-#navibar {
-            background-color:white;
-            text-align: center;
-            line-height: 98px;
-            min-height: 100px;
-            height: auto;
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            font-weight: 600;
-            font-size: large;
-            z-index:1000 !important;
-        }
-.navitext>a {color: black;}
-.navitext>a:link {text-decoration: none;}
-.navitext>a:hover {color: #52734D;}
-.navitext>a:visited {color: black;}
-.navitext:hover {border-bottom: 3px solid #52734D;}
-#search {width: 250px; height: 41px; display: none;}
-#searchImg:active~#search {left: 0px;}
+/* 페이지전체 navi Style 부분 시작 */
+    #navibar{
+        background-color:white;
+        z-index: 1000 !important;
+    }
+    #searchBox{position: relative;min-height: 110px;}
+    .nav-item:hover{border-bottom:3px solid #52734D;}
+    #search{
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
+        display: none;
+    }
+    #searchImg{position: absolute;top:40px;}
+    #searchImg:active~#search{left:0px;}
+    #searchBox{width:300px;}
+    #loginNavi{min-width: 150px;}
+    #loginNavi>a{color:black;}
+    #loginNavi>a:link{text-decoration:none;}
+    #loginNavi>a:hover{color: #52734D;border-bottom:3px solid #52734D;}
+    #loginNavi>a:visited{color: black;}
+    #search{
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
+        display: none;
+    }
+/* 페이지전체 navi Style 부분 끝 */        
 #topContainer {
-            margin: auto;
-            text-align: center;
-            position: relative;
-            top: 90px;
-            max-width:1150px;
+    margin: auto;
+   	text-align: center;
+	max-width:1150px;
         }
-.top{height:250px;background-color: white;border-radius: 8px;}
-.img{border:1px solid #ddd;border-radius: 50%;}
+.top{border:1px solid #ddd;height:250px;background-color: white;border-radius: 8px;}
+.img{border:1px solid #ddd;border-radius: 50%;overflow:hidden; height:100%;}
 .name>h2{line-height: 160px;}
 .name>h2:after{
-            display: block;
-            border-bottom:8px solid seagreen;
-            position: relative;
-            top:-60px;
-            left: 30px;
-            width: 150px;
-            content: "";
-        }
-
+	display: block;
+    border-bottom:8px solid seagreen;
+    position: relative;
+    top:-60px;
+    left: 30px;
+    width: 150px;
+    content: "";
+}
 #bottomContainer {
             margin: auto;
             text-align: center;
             position: relative;
-            top:40px;
+            top: -60px;
             max-width:1140px;
         }
 .menu{background-color: white;border-radius: 8px;}
@@ -113,7 +114,6 @@ body {background-color: #91C788;}
 </style>
 </head>
 <body>
-
    <c:choose>
       <c:when test="${login.id==null}">
          <div class="container-fluid p-0" id="navibar">
@@ -184,7 +184,7 @@ body {background-color: #91C788;}
             <div class="col-6 person p-2">
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img"> 
-                        <img src="person_img/${person_img.person_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
+                        <img src="person_img/${person_img.person_oriName}" class="w-100 h-100">
                     </div>
                     <div class="col-6 name">
                        <h2>${login.person_name}</h2>
@@ -194,9 +194,8 @@ body {background-color: #91C788;}
             <div class="col-6 dog p-2">
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img">
-
-                       <c:forEach var="dimg" items="${dlist}">   
-                        <img src="dog_img/${dimg.dog_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
+               		  <c:forEach var="dimg" items="${dog_img}">   
+                        <img src="files/${dimg.dog_oriName}" class="w-100 h-100">
                       </c:forEach> 
                     </div>
                     <div class="col-6 name">
@@ -209,8 +208,8 @@ body {background-color: #91C788;}
             </div>
         </div>
     </div>
- 
-	<div class="container rounded p-4 pt-5" id="bottomContainer">
+ 	
+ 	<div class="container rounded p-4 pt-5" id="bottomContainer">
         <div class="menu p-2">
             <div class="row m-0" style="height:100%">
                 <div class="col-md-8 p-2">
@@ -222,112 +221,56 @@ body {background-color: #91C788;}
                     <a href="${pageContext.request.contextPath}/list.message">
                         <h5 class="title m-0">내가 받은 쪽지함</h5>
                     </a>
-               	 </div>
+                   </div>
             </div>
             <div class="row m-0" style="height:100%"> 
                 <div class="col-4 p-2">
                     <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1&category=writer&keyword=${login.id}">
-
-                        <h5 class="title m-0">내가 올린 게시글</h5>
-                    </a>
-                </div>
-                <div class="col-4 p-2">
-                   <a href="${pageContext.request.contextPath}/galList.gal?cpage=1&category=writer&keyword=${login.id}">
-                        <h5 class="title m-0">내가 올린 사진</h5>
-                    </a> 
-                </div>
-                <div class="col-4 p-2">
-                    <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1&search=id&search2=&keyword=${login.id}">
-                        <h5 class="title m-0">내가 올린 펫시터</h5>
-                    </a> 
-                </div>
+                       <h5 class="title m-0">내가 올린 게시글</h5>
+                  </a>
+             </div>
+              <div class="col-4 p-2">
+                 <a href="${pageContext.request.contextPath}/galList.gal?cpage=1&category=writer&keyword=${login.id}">
+                     <h5 class="title m-0">내가 올린 사진</h5>
+                  </a> 
+              </div>
+              <div class="col-4 p-2">
+                 <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1&search=id&search2=&keyword=${login.id}">
+                     <h5 class="title m-0">내가 올린 펫시터</h5>
+                  </a> 
+              </div>
             </div>
-           
-          
-              <div class="row m-0" style="height:100%">   
-                <div class="col-4 p-2">
-                    <a href="${pageContext.request.contextPath}/doginfomodify.dog">
-                       <h5 class="title m-0">강아지 정보수정</h5>
-                    </a>
-
+          <div class="row m-0" style="height:100%">   
+              <div class="col-4 p-2">
+                 <a href="${pageContext.request.contextPath}/doginfomodify.dog">
+                     <h5 class="title m-0">강아지 정보수정</h5>
+                  </a>
+              </div>
+            <div class="col-4 p-2">
+                 <a href="${pageContext.request.contextPath}/doginfo.dog">
+                    <c:choose>
+                       <c:when test="${list2[0].dog_name==null}">    
+                           <h5 class="title m-0">강아지정보 추가</h5>
+                        </c:when>
+                        <c:otherwise>
+                           <h5 class="title m-0">강아지 정보수정</h5>
+                        </c:otherwise>
+                     </c:choose>   
+                  </a> 
                 </div>
                 <div class="col-4 p-2">
-
-                <a href="${pageContext.request.contextPath}/doginfo.dog">
-                   <h5 class="title m-0">강아지정보 추가</h5>
-                </a> 
-                </div>
-
-                 <div class="col-4 p-2">
                    <a href="${pageContext.request.contextPath}/modify.mem">
                          <h5 class="title m-0">내 정보수정</h5>
-
-                    </a>
-                 </div>
-                 
-                  <div class="col-4 p-2">
-                   <a href="" id="signout">
-                         <h5 class="title m-0">회원 탈퇴</h5>
-                    </a>
-                 </div>
-                             </div>
-        </div>
-    </div>
-                 </c:when>
-                 <c:otherwise>
-                     <div class="container rounded p-4 pt-5" id="bottomContainer">
-        <div class="menu p-2">
-            <div class="row m-0" style="height:100%">
-                <div class="col-md-8 p-2">
-                    <a href="${pageContext.request.contextPath}/history.planner">
-                        <h5 class="title m-0">우리 동네 플래너</h5>
-
                     </a>
                 </div>
                 <div class="col-4 p-2">
-                   	<a href="" id="signout">
+                      <a href="" id="signout">
                         <h5 class="title m-0">회원 탈퇴</h5>
                     </a>
                 </div>
-
-                <div class="col-4 p-2">
-                   <a href="${pageContext.request.contextPath}/galList.gal?cpage=1&category=writer&keyword=${login.id}">
-                        <h5 class="title m-0">내가 올린 사진</h5>
-                    </a> 
-                </div>
-                <div class="col-4 p-2">
-                    <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1&search=id&search2=&keyword=${login.id}">
-                        <h5 class="title m-0">내가 올린 펫시터</h5>
-                    </a> 
-                </div>
             </div>
-           
-          
-              <div class="row m-0" style="height:100%">   
-                <div class="col-4 p-2">
-                    <a href="${pageContext.request.contextPath}/doginfomodify.dog">
-                       <h5 class="title m-0">강아지 정보수정</h5>
-                    </a>
-                </div>
-            
-                         <div class="col-4 p-2">
-                   <a href="${pageContext.request.contextPath}/modify.mem">
-                         <h5 class="title m-0">내 정보수정</h5>
-                    </a>
-                 </div>
-                 
-                  <div class="col-4 p-2">
-                   <a href="" id="signout">
-                         <h5 class="title m-0">회원 탈퇴</h5>
-                    </a>
-                 </div>
-                             </div>
         </div>
-    </div>
-                 
-                 </c:otherwise>
-                </c:choose>
-      
+    </div> 
 
 </body>
 </html>
