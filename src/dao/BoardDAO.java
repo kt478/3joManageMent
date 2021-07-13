@@ -15,11 +15,11 @@ import dto.BoardDTO;
 public class BoardDAO {
 
 	// DB 연결
-	private static BoardCmtDAO instance;
+	private static BoardDAO instance;
 	private BoardDAO() {}
-	public synchronized static BoardCmtDAO getInstance() {
+	public synchronized static BoardDAO getInstance() {
 		if (instance == null) {
-			instance = new BoardCmtDAO();
+			instance = new BoardDAO();
 		}
 		return instance;
 	}
@@ -142,7 +142,7 @@ public class BoardDAO {
 	}
 
 	public void view_countPlus(int seq) throws Exception {
-		BoardCmtDAO dao = new BoardCmtDAO();
+		BoardDAO dao = new BoardDAO();
 		int view_count = dao.view_countSearch(seq);
 		String sql = "update freeboard set view_count=? where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
