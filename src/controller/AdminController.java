@@ -22,14 +22,18 @@ public class AdminController extends HttpServlet {
     
 
 
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset =utf-8");
+
+
 		String requestURI = request.getRequestURI();
 		String ctxPath = request.getContextPath();
 
 		String url = requestURI.substring(ctxPath.length());
+
 		System.out.println("요청 URL : " +url);
 		
 		
@@ -59,6 +63,7 @@ public class AdminController extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+
 		doGet(request, response);
 	}
 

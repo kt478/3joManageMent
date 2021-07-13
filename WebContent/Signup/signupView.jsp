@@ -198,7 +198,7 @@
 							<div id="IdduplCheck" style="margin-top: -10px;"></div>
 						</div>
 
-						<a href="#" class="signup-image-link">I am already member</a>
+						<a href="login.jsp" class="signup-image-link">I am already member</a>
 					</div>
 				</div>
 			</div>

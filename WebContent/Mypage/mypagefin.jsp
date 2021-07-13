@@ -1,10 +1,10 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script>
+
 $(function () {
             // 네비바 검색창
             $("#searchImg").on("click", function () {
@@ -98,6 +99,7 @@ body {background-color: #91C788;}
             width: 150px;
             content: "";
         }
+
 #bottomContainer {
             margin: auto;
             text-align: center;
@@ -111,6 +113,7 @@ body {background-color: #91C788;}
 </style>
 </head>
 <body>
+
    <c:choose>
       <c:when test="${login.id==null}">
          <div class="container-fluid p-0" id="navibar">
@@ -175,25 +178,23 @@ body {background-color: #91C788;}
          </div>
       </c:otherwise>
    </c:choose>
+
     <div class="container rounded p-4 pt-5" id="topContainer">
         <div class="row profile p-0 m-0">
             <div class="col-6 person p-2">
                 <div class="row m-0 p-4 top">
-                    <div class="col-6 img">
-                     <c:forEach var="img" items="${ilist}">   
-                        <img src="person_img/${img.person_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
-                      </c:forEach>
+                    <div class="col-6 img"> 
+                        <img src="person_img/${person_img.person_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
                     </div>
                     <div class="col-6 name">
-                       <c:forEach var="person" items="${list}">   
-                       <h2>${person.person_name}</h2>
-                      </c:forEach>
+                       <h2>${login.person_name}</h2>
                     </div>
                 </div>
             </div>
             <div class="col-6 dog p-2">
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img">
+
                        <c:forEach var="dimg" items="${dlist}">   
                         <img src="dog_img/${dimg.dog_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
                       </c:forEach> 
@@ -202,17 +203,14 @@ body {background-color: #91C788;}
                         <c:forEach var="dog" items="${list2}">   
                           <h2>${dog.dog_name}</h2>
                          </c:forEach>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-               
-            <c:choose>
-            <c:when test="${list2[0].dog_name==null}">    
-            
-            <div class="container rounded p-4 pt-5" id="bottomContainer">
+ 
+	<div class="container rounded p-4 pt-5" id="bottomContainer">
         <div class="menu p-2">
             <div class="row m-0" style="height:100%">
                 <div class="col-md-8 p-2">
@@ -224,11 +222,12 @@ body {background-color: #91C788;}
                     <a href="${pageContext.request.contextPath}/list.message">
                         <h5 class="title m-0">내가 받은 쪽지함</h5>
                     </a>
-                </div>
+               	 </div>
             </div>
             <div class="row m-0" style="height:100%"> 
                 <div class="col-4 p-2">
                     <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1&category=writer&keyword=${login.id}">
+
                         <h5 class="title m-0">내가 올린 게시글</h5>
                     </a>
                 </div>
@@ -250,10 +249,10 @@ body {background-color: #91C788;}
                     <a href="${pageContext.request.contextPath}/doginfomodify.dog">
                        <h5 class="title m-0">강아지 정보수정</h5>
                     </a>
+
                 </div>
-            
-            
                 <div class="col-4 p-2">
+
                 <a href="${pageContext.request.contextPath}/doginfo.dog">
                    <h5 class="title m-0">강아지정보 추가</h5>
                 </a> 
@@ -282,20 +281,15 @@ body {background-color: #91C788;}
                 <div class="col-md-8 p-2">
                     <a href="${pageContext.request.contextPath}/history.planner">
                         <h5 class="title m-0">우리 동네 플래너</h5>
+
                     </a>
                 </div>
-                <div class="col-md-4 p-2">
-                    <a href="${pageContext.request.contextPath}/list.message">
-                        <h5 class="title m-0">내가 받은 쪽지함</h5>
-                    </a>
-                </div>
-            </div>
-            <div class="row m-0" style="height:100%"> 
                 <div class="col-4 p-2">
-                    <a href="${pageContext.request.contextPath}/listProc.fb?cpage=1&category=writer&keyword=${login.id}">
-                        <h5 class="title m-0">내가 올린 게시글</h5>
+                   	<a href="" id="signout">
+                        <h5 class="title m-0">회원 탈퇴</h5>
                     </a>
                 </div>
+
                 <div class="col-4 p-2">
                    <a href="${pageContext.request.contextPath}/galList.gal?cpage=1&category=writer&keyword=${login.id}">
                         <h5 class="title m-0">내가 올린 사진</h5>
@@ -334,5 +328,6 @@ body {background-color: #91C788;}
                  </c:otherwise>
                 </c:choose>
       
+
 </body>
 </html>

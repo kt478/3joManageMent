@@ -104,6 +104,7 @@ public class PersonController extends HttpServlet {
 				response.sendRedirect("admain.ad");
 
 			//회원가입 폼으로 이동!
+
 			}else if(url.contentEquals("/signupgo.mem")) { 
 				response.sendRedirect("Signup/signupView.jsp");
 
@@ -112,6 +113,7 @@ public class PersonController extends HttpServlet {
 			//로그인 폼으로 이동!
 			else if(url.contentEquals("/logingo.mem")) {
 				response.sendRedirect("Signup/login.jsp");
+
 
 
 
@@ -129,17 +131,20 @@ public class PersonController extends HttpServlet {
 
 				if(dto!=null) {
 					System.out.println("dto가 null이 아닐때");
+
 					request.getSession().setAttribute("login",dto);
 
+
+					request.getSession().setAttribute("login",dto);
 					response.getWriter().append("1");
 				}else {
 					System.out.println("dto가 null일때");
-
 					response.getWriter().append("null");
 				}
 
 			}//가입간 아이디 중복 체크!
 			else if(url.contentEquals("/idCheck.mem")) {
+
 				String id = request.getParameter("id");
 				boolean result = dao.isIdExist(id);
 
@@ -153,11 +158,12 @@ public class PersonController extends HttpServlet {
 
 
 
+
 			}//마이페이지로 이동!
 			else if(url.contentEquals("/Mypage.mem")) {
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
-				System.out.println(sessionDTO);
 				System.out.println("마이페이지로 이동");
+
 				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
 				List<PersonDTO> ilist =dao.filesById(sessionDTO.getId());
 
@@ -170,7 +176,13 @@ public class PersonController extends HttpServlet {
 				request.setAttribute("dlist",dlist);
 				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
 
-			}//홈으로 !
+				request.setAttribute("person_img",person_img); //이미지뽑기
+				
+				request.setAttribute("dog_list",dog_list);//개정보
+				request.setAttribute("dog_img", dog_img);
+				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
+			}
+			//홈으로 !
 			else if(url.contentEquals("/Direct2home.mem")) {
 
 				response.sendRedirect("main.jsp");

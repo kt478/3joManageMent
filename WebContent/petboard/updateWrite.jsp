@@ -12,7 +12,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <style>
+* {font-family: 'Sunflower';}
 .card{position:relative; top:80px; width:1000px; margin:auto; }
 .card-header{background-color:#B8DE6F; font-weight: 600;}
 .card-body{background-color:rgb(254, 255, 222);color:rgb(82, 115, 77);}

@@ -9,6 +9,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <script>
 
     $(function(){
@@ -58,7 +59,7 @@
 })
 </script>
 <style>
-/*div {border: 1px solid black;}*/
+* {font-family: 'Sunflower';}
 input {padding: 0px;}
 div>input {width: 100%;}
 #postcode {width: 50%;}

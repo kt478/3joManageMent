@@ -29,7 +29,47 @@
         var calendar = new FullCalendar.Calendar(calendarEl, {
             navLinks: true, // 날짜 클릭시 이벤트
             navLinkDayClick: function(date, jsEvent) {
-                convertDate(date);
+                
+              	$("#weatherDay").text("");
+            	$("#weatherContents").text("");
+            	$("#img").attr("src","");
+            	$("#dust").text("");
+            	$("#minTemper").text("");
+				$("#maxTemper").text(""); // 초기화
+				
+            	var get_date = new Date(date);
+            	$.ajax({ 
+        			url:"weather.planner",
+        			type:"get",
+        			data:{"date" : get_date.yyyymmdd1()},
+            		dataType:"json"
+        		}).done(function(resp){
+        			console.log(resp);
+        			convertDate(date);
+        			if(resp[0].text == null){
+        				$("#weatherDay").append("예보가<br>아직 확정되지 않았습니다.");
+        			}else{
+        			 	if(resp[0].text == "맑음"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/sun.PNG");
+        				}else if(resp[0].text == "구름조금"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/littlecloud.PNG");
+        				}else if(resp[0].text == "구름많음"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/cloudy.PNG");
+        				}else if(resp[0].text == "흐림"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/gray.PNG");
+        				}else if(resp[0].text == "비"){
+        					$("#weatherimg").attr("src","${pageContext.request.contextPath}/rain.PNG");
+        				} 
+        				$("#weatherContents").text(resp[0].text);
+        				
+        				if(resp[0].dust != null) {
+            				$("#dust").text("미세먼지 : " + resp[0].dust);
+        				}
+        				$("#minTemper").text("최저 기온 : " + resp[0].minTemper +"℃");
+        				$("#maxTemper").text("최고 기온 : " + resp[0].maxTemper +"℃");
+        			}
+        		})
+
             },
             timeZone: 'UTC',
             initialView: 'dayGridMonth', // 홈페이지에서 다른 형태의 view를 확인할  수 있다.   
@@ -171,25 +211,25 @@
         // 받은 날짜값을 date 형태로 형변환 해주어야 한다.
         function convertDate(date) {
             var date = new Date(date);
-            $("#weather").text(date.yyyymmdd()+" 날씨!");
+            $("#weatherDay").text(date.yyyymmdd2()+" 날씨");
         }
 
         // 받은 날짜값을 YYYY-MM-DD 형태로 출력하기위한 함수.
-        Date.prototype.yyyymmdd = function() {
+        Date.prototype.yyyymmdd1 = function() {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString();
             var dd = this.getDate().toString();
 
-            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
+            return yyyy + (mm[1] ? mm : "0" + mm[0]) + (dd[1] ? dd : "0" + dd[0]);
         }
         
-        Date.prototype.yyyymmddhhmi = function() {
+        Date.prototype.yyyymmdd2 = function() {
             var yyyy = this.getFullYear().toString();
             var mm = (this.getMonth() + 1).toString();
             var dd = this.getDate().toString();
             var hh = this.getHours().toString();
             var mi = this.getMinutes().toString();
-            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]) + " " + hh + ":"+ mi;
+            return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]);
         }
 		
         // 네비바 검색창
@@ -348,7 +388,6 @@
 
     })
 </script>
-
 <style>
     /* div{border:1px solid black;} */
     body{background-color: #91C788;}
@@ -365,26 +404,39 @@
         width: 100%;
         height:100%;
     } 
+/* 페이지전체 navi Style 부분 시작 */
     #navibar{
         background-color:white;
-        text-align: center;
-        line-height:98px;
-        min-height:100px;
-        font-weight: 600;
-        font-size: large;
+        z-index: 1000 !important;
     }
-   	.navitext>a{color:black;}
-   	.navitext>a:link{text-decoration:none;}
-   	.navitext>a:hover{color: #52734D;}
-   	.navitext>a:visited{color: black;}
-    .navitext:hover{border-bottom:3px solid #52734D;}
+    #searchBox{position: relative;min-height: 110px;}
+    .nav-item:hover{border-bottom:3px solid #52734D;}
     #search{
-        width:250px; height:41px;
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
         display: none;
     }
+    #searchImg{position: absolute;top:40px;}
     #searchImg:active~#search{left:0px;}
+    #searchBox{width:300px;}
+    #loginNavi{min-width: 150px;}
+    #loginNavi>a{color:black;}
+    #loginNavi>a:link{text-decoration:none;}
+    #loginNavi>a:hover{color: #52734D;border-bottom:3px solid #52734D;}
+    #loginNavi>a:visited{color: black;}
+    #search{
+        width:250px; height:40px;
+        position: absolute;
+        top:40px;
+        left: 30px;
+        display: none;
+    }
+/* 페이지전체 navi Style 부분 끝 */  
     #body{height: auto;}
     #weather{border:1px solid black;height:115px;}
+    #weatherDay{font-size: 18px; font-weight:500;}
     #map{height:100%;width:100%;}
     .fc-toolbar-title{padding-left:10px;}
     .historylist{min-height:40px;border:1px solid rgb(194, 191, 191);line-height:40px;}
@@ -398,31 +450,77 @@
 </style>
 </head>
 <body>
-   <div class="container-fluid p-0" id="navibar">
-        <div class="row m-0">
-            <div class="col-12 col-lg-3 col-xl-2 p-0">
-            	<img src="${pageContext.request.contextPath}/img/logo.jpg" id="searchImg">
-            </div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a></div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a></div>
-            <div class="col-3 col-lg-2 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a></div>
-            <div class="col-3 col-lg-3 col-xl-1 p-0 navitext"><a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a></div>
-            <div class="col-12 col-lg-4 col-xl-4 p-0">
-                <img src="${pageContext.request.contextPath}/img/search.png" id="searchImg">
-                <input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
-            </div>
-            <c:choose>
-            	<c:when test="${login==null}">
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage"><a href="login/login.jsp">로그인</a></div>
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext"><a href="Signup/signupView.jsp">회원가입</a></div>
-            	</c:when>
-            	<c:otherwise>
-            		<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage"><a href="Mypage.mem">마이페이지</a></div>
-           			<div class="col-6 col-lg-4 col-xl-1 p-0 navitext"><a href="logout.mem">로그아웃</a></div>
-            	</c:otherwise>
-            </c:choose>
-        </div> 
-    </div>
+   <!-- 페이지 전체 navi -->
+	<c:choose>
+		<c:when test="${login.id==null}"> <!-- 로그인 전 -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
+        		<a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
+        			<img src="project_logo.jpg">
+        		</a>
+	        	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	          		<span class="navbar-toggler-icon"></span>
+	        	</button>
+	        	<div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+	          		<ul class="navbar-nav mr-auto">
+	            		<li class="nav-item active">
+			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
+			            </li>
+			            <li class="nav-item">
+			            	<a class="nav-link beforelogin" href="">팻시터</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link beforelogin" href="">갤러리</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link beforelogin" href="">자유게시판</a>
+			            </li>
+			            <li class="nav-item" id="searchBox">
+			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
+			                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+			            </li>
+			        </ul>
+		          	<form class="form-inline my-2 my-lg-0" id="loginNavi">
+		            	<a class="mr-sm-2 p-1" style="width:70px;" href="Signup/login.jsp">로그인</a>
+		            	<a class="my-2 my-sm-0" style="width:70px;" href="Signup/signupView.jsp">회원가입</a>
+		          	</form>
+		        </div>
+			</nav>
+		</c:when>
+		<c:otherwise>
+			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
+		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
+		        	<img src="project_logo.jpg">
+		        </a>
+		        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		          	<span class="navbar-toggler-icon"></span>
+		        </button>
+		        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="line-height: 100px;">
+			    	<ul class="navbar-nav mr-auto">
+			            <li class="nav-item active">
+			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
+			            </li>
+			            <li class="nav-item">
+			              	<a class="nav-link" href="javascript:;">팻시터</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+			            </li>
+			            <li class="nav-item">
+			                <a class="nav-link" href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+			            </li>
+			            <li class="nav-item" id="searchBox">
+			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
+			                <input type="search" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="search">
+			            </li>
+			        </ul>
+          			<form class="form-inline my-2 my-lg-0" id="loginNavi">
+			            <a class="mr-sm-2" style="width:75px;" href="Mypage.mem">마이페이지</a>
+			            <a class="my-2 my-sm-0" style="width:70px;" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+		          	</form>
+        		</div>
+     		 </nav>
+		</c:otherwise>
+	</c:choose>
   
     <div class="container rounded p-4 pt-5">
         <h1 class="pt-2 pb-4">우리동네 Walking 플래너</h1>
@@ -435,8 +533,29 @@
             </div>
             <div class="col-12 col-md-5 p-0 pl-1">
                 <div class="row">
-                    <div class="col-12 mb-2" id="weather">
-                        날씨부문
+                    <div class="col-12 mb-2 p-2" id="weather">
+                    
+                        <div class="row m-0">
+                            <div class="col-12" id="weatherDay" style="text-align: center;"></div>
+                        </div> 
+                        <div class="row m-0">
+                            <div class="col-5" style="text-align: center;">
+                                <img id="weatherimg" src=""><br>
+                                <strong id="weatherContents"></strong>
+                            </div>
+                            <div class="col-7">
+                                <div class="row m-0">
+                                    <div class="col-12" id="temperature">
+                                        <div id="minTemper"></div>
+                                        <div id="maxTemper"></div>
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col-12" id="dust"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row"> <!-- 지도 -->

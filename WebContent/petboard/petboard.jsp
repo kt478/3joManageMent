@@ -77,6 +77,9 @@ h1{position:relative; top:150px; color:black;}
         	if(${login.id==null}){
         		alert("로그인이 필요한 화면입니다.");
         		location.href = "${pageContext.request.contextPath}/Signup/login.jsp";
+        	}else if(${login.id=="admin"}){
+        		//alert("관리자 염병");
+        		location.href = "${pageContext.request.contextPath}/adminPetWrite.pet";
         	}else{
         		location.href = "${pageContext.request.contextPath}/petBoardWrite.pet";
         	}
@@ -155,6 +158,39 @@ h1{position:relative; top:150px; color:black;}
 				</div>
 			</div>
 		</c:when>
+		
+		<c:when test="${login.id=='admin'}">
+			<div class="container-fluid p-0" id="navibar">
+				<div class="row m-0">
+					<div class="col-12 col-lg-3 col-xl-2 p-0">
+						<a href="main.jsp"><img src="project_logo.jpg"></a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">펫시터</a>
+					</div>
+					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
+					</div>
+					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
+					</div>
+					<div class="col-12 col-lg-4 col-xl-4 p-0">
+						<img src="search.png" id="searchImg"> 
+						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="naviSearch">
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
+						<a href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+					</div>
+					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
+						<a href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
+					</div>
+				</div>
+			</div>
+		</c:when>
+		
 		<c:otherwise>
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
@@ -178,7 +214,7 @@ h1{position:relative; top:150px; color:black;}
 						<input type="text" placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3" id="naviSearch">
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext" id="mypage">
-						<a href="Mypage.mem">마이페이지</a>
+						<a href="${pageContext.request.contextPath}/Mypage.mem">마이페이지</a>
 					</div>
 					<div class="col-6 col-lg-4 col-xl-1 p-0 navitext">
 						<a href="logout.mem">로그아웃</a>
@@ -227,8 +263,14 @@ h1{position:relative; top:150px; color:black;}
            <div class="col-9 p-0">
                 <div class="row m-0">
                     <div class="col-12 col-md-3 p-2 category rounded">${i.category}</div>
+                    <c:choose>
+                    <c:when test="${i.id==\"admin\"}">
+                    </c:when>
+                    <c:otherwise>
                     <div class="col-12 col-md-5 pl-4 pt-3 period">${fn:substring(i.start_date,0,10)} ~ ${fn:substring(i.end_date,0,10)}</div>
                     <div class="col-12 col-md-4 pl-4 pt-3 local">${i.local}</div>
+                    </c:otherwise>
+                    </c:choose>
                 </div>
                <div class="row m-0">
                     <div class="col-12 p-3">

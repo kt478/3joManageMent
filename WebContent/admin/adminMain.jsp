@@ -1,5 +1,7 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -69,6 +71,7 @@
 	})
 </script>
 <style>
+
 * {
 	font-family: 'Sunflower';
 	box-sizing: border-box;
@@ -124,6 +127,7 @@ body {
 	left: 0px;
 }
 
+
 #topContainer {
 	margin: auto;
 	text-align: center;
@@ -158,6 +162,7 @@ body {
 }
 
 #bottomContainer {
+
 	margin: auto;
 	text-align: center;
 	position: relative;
@@ -287,12 +292,14 @@ body {
 					</div>
 					<div class="border col-lg-2 col-xl-2">
 						<input type="button" value="블랙리스트로 등록" class="block_reg">
+
 					</div>
 					<input type=hidden name="id" class="block_id" value=""> <input
 						type=hidden name="name" class="block_name" value=""> <input
 						type=hidden name="contact" class="block_contact" value="">
 					<input type=hidden name="email" class="block_email" value="">
 				</div>
+
 			</form>
 		</c:forEach>
 
@@ -333,9 +340,6 @@ body {
 		</div>
 
 	</div>
-
-
-
 
 
 
