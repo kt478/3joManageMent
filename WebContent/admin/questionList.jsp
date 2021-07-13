@@ -64,7 +64,6 @@
 }
 
 /* 게시판 사이즈 */
-/* .container {max-width: 900px; margin: 50px auto;} */
 .page_nav {position: absolute; left: 50%; top: calc(50% + 0.475rem); transform: translate(-50%, -50%); margin-left: 20px;}
 .table {table-layout: fixed;}
 .table thead {background-color: #f2f2f2;}
