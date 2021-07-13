@@ -85,21 +85,29 @@ public class PersonDAO {
 	}
 	public String findId(String user_name,String user_email, String user_contact) throws Exception {
 
-		String user_id = null;
 
-		String sql = "select id from person_info where user_name=? and user_email=? and user_contact=?";
+
+		String sql = "select id from person_info where person_name=? and email=? and contact=?";
 		try(Connection con = this.getConnection();
 				PreparedStatement pstat = con.prepareStatement(sql);
+
 				){
 			pstat.setString(1,user_name);
 			pstat.setString(2,user_email);
 			pstat.setString(3,user_contact);
-			
-			int result = pstat.executeUpdate();
-			con.commit();
 
+			try(
+					ResultSet rs = pstat.executeQuery();
+
+					){
+				if(rs.next()) {
+					return rs.getString("id");
+				}else {
+					return null;
+					}
+			}
 		}
-		return user_id;
+
 	}
 	public List<PersonDTO> filesById(String id)throws Exception{
 		String sql ="select * from person_info where id=?";
