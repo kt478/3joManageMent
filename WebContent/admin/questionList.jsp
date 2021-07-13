@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자유게시판 글 보기</title>
+<title>문의하기 목록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -50,8 +50,27 @@
     }
 /* 페이지전체 navi Style 부분 끝 */
 
+/* 메인 내비바 아래 제목 공간 */
+#temp {
+	margin-bottom: 50px;
+	width: 100%;
+	height: 300px;
+	background-color: #c8e3c4;
+	line-height: 400px;
+	text-align: center;
+	font-size: 30px;
+	font-style: initial;
+	font-weight: 600;
+}
+
 /* 게시판 사이즈 */
-.container {max-width: 900px; margin: 50px auto;}
+.page_nav {position: absolute; left: 50%; top: calc(50% + 0.475rem); transform: translate(-50%, -50%); margin-left: 20px;}
+.table {table-layout: fixed;}
+.table thead {background-color: #f2f2f2;}
+.table thead th {border-bottom: none;}
+.table td, .table th {border-color: #ddd;}
+.table td {word-wrap: break-word; position: relative;}
+tfoot {position: relative;}
 
 /* 메인 내비바 아래 제목 공간 */
 #temp {
@@ -59,25 +78,22 @@
 	width: 100%;
 	height: 300px;
 	background-color: #c8e3c4;
-	line-height: 150px;
+	line-height: 300px;
 	text-align: center;
-	font-size: 40px;
+	font-size: 30px;
 	font-style: initial;
 	font-weight: 600;
 }
 
-/* 게시글 폼 */
-#viewForm {border: 1px solid #f2f2f2; border-radius: 5px;}
-.title {padding-left: 20px;}
-.contents {width: 100%; min-height: 300px; padding-left: 20px;}
-.info {padding-right: 20px; color: grey;}
-.btns {float: right;}
-
-/* 댓글 폼 */
-.cmtForm {background-color: #f2f2f2; border: 1px solid gainsboro; border-radius: 3px;}
-.comments {padding: 20px;}
-.comments textarea {margin: 0px; padding: 5px; border-color: #fff; border-radius: 5px;}
-.replyForm {border: 1px solid gainsboro; border-radius: 5px; padding: 5px;}
+/* 게시판 페이지 내비 */
+ul {list-style: none;}
+li {float: left;}
+a:link {text-decoration: none; color: black;}
+a:visited {text-decoration: none; color: black;}
+a:active {text-decoration: none; color: black;}
+a:hover {text-decoration: none; color: black;}
+#boardNavi ul li {display: inline-block;}
+#boardNavi ul li.active a {background: #fff; color: grey; border: 1px solid gainsboro;}
 
 </style>
 
@@ -107,38 +123,12 @@
 		    	location.href = "Signup/login.jsp";
 		   	}
 		})         
-
-		// 게시글 수정 폼으로 이동
-		$("#modify").on("click", function() {
-			$("#viewForm").attr("action", "modiForm.fb").submit();
-		})
-		
-		// 댓글 삭제
-		$("#delete").on("click", function() {
-			if (confirm("정말 삭제하시겠습니까?")) {
-				location.href = "${pageContext.request.contextPath}/deleteProc.fb?seq=${dto.seq}";
-			}
-		})
-		
-		// 댓글 수정
-		$("body").on("click", "#modi", function() {
-			if ($(this).val() == "수정") {
-				$(this).val("완료");
-				$(this).parents(".container").children(".content").attr("contenteditable", "true");
-				$(this).parents(".container").children(".content").focus();
-				$(this).parents(".").siblings(".seq").attr("name", "seq");
-			} else {
-				$(this).parents(".container").find(".modifytxt").val($(this).parents(".container").children(".content").text());
-				$(this).parents(".commentForm").attr("action", "modifyCmt.fbc").submit();
-			}
-		})
 	})
-	
 </script>
+
 </head>
-
 <body>
-
+	
 	<!-- 페이지 전체 navi -->
 	<c:choose>
 		<c:when test="${login.id==null}"> <!-- 로그인 전 -->
@@ -246,151 +236,63 @@
 	</c:choose>
 
 	<!-- 메인 내비바 아래 공간 -->
-	<div class="container-fluid " id="temp" style="background-image: url('board/board.jpg');">자유게시판</div>
+	<div class="container-fluid" id="temp">문의하기 쪽지함</div>
 
-		<div class="container">
+	<!-- 문의하기 쪽지함 목록 -->
+	<div class="container" style="text-align:center;">
+		<c:forEach var="list" items="${list}" varStatus="">
+			<div class="container form shadow-sm p-3 mb-5 bg-white rounded" 
+				style="border: 1px solid grey; padding: 10px; text-align:center; border-radius:5px; margin-bottom:10px;">
+				<div class="row">
+					<div class="col">번호 : ${list.seq}</div>
+					<div class="col">이름 : ${list.name}</div>
+					<div class="col">이메일 : ${list.email}</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col">날짜 : ${list.ask_date}</div>
+					<div class="col">카테고리 : ${list.type}</div>
+					<div class="col"><a href="${pageContext.request.contextPath}/questionDelete.ask?seq=${list.seq}">
+						<button class="btn btn-outline-info btn-sm delete">삭제</button></a></div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col">내용 : ${list.contents}</div>
+				</div>
+			</div>
 			
-			<!-- 게시글 출력 -->
-			<form action="" method="post" id="viewForm" class="shadow-sm p-3 mb-5 bg-white rounded">
-				<div class="container viewForm">
-					<div class="row title">
-						<div class="col">
-							<h6>[${dto.seq}]<input type="hidden" name="seq" value="${dto.seq}"></h6>
-							<h3>${dto.title}</h3>
-						</div>
-					</div>
-	
-					<div class="row info">
-						<div class="col">
-							<h6 align="right">${dto.writer}   |   ${dto.write_date}</h6>
-						</div>
-					</div>
-	
-					<hr>
-					<div class="row contents">
-						<div class="col">
-							<h4>${dto.contents}</h4>
-						</div>
-					</div>
-					
-					<!-- 로그인에 따라 게시글 관련 버튼이 다르게 출력됨 -->
-					<div class="row btns">
-						<div class="col">
-	
-							<c:choose>
-								<c:when test="${login.id == dto.writer}">
-									<input type="button" class="btn btn-outline-success" value="수정" id="modify">
-									<input type="button" class="btn btn-outline-danger" value="삭제" id="delete">
-									<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1" class="btn btn-outline-secondary">목록</a>
-								</c:when>
-	
-								<c:when test="${login.id == 'admin'}">
-									<input type="button" class="btn btn-outline-danger" value="삭제" id="delete">
-									<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1" class="btn btn-outline-secondary">목록</a>
-								</c:when>
-	
-								<c:otherwise>
-									<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1" class="btn btn-outline-secondary">목록</a>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</div>
-				</div>
-			</form>
-	
-			<!-- 댓글 작성 폼 -->
-			<form action="writeCmt.fbc" method="post" id="cmtForm">
-				<div class="container cmtForm">
-					<div class="row">
-						<div class="col">
-							<i class="bi bi-check-all"></i> ${login.id}
-						</div>
-					</div>
-	
-					<div class="row comments">
-						<div class="col">
-							<textarea name="comments" style="width: 700px; height: 100px;"></textarea>
-							<input type="hidden" value="${dto.seq}" name="parent_seq">
-						</div>
-	
-						<div class="col">
-							<a href="${pageContext.request.servletPath}/writeCmt.fbc?parent_seq=${dto.seq}">
-								<button id="reply" class="btn btn-info" style="width: 100%; height: 100px; padding: 0px;">작성</button>
-							</a>
-						</div>
-					</div>
-				</div>
-			</form>
-	
-			<!-- 댓글 출력 및 수정, 삭제 -->
-			<c:forEach var="i" items="${clist}" varStatus="s">
+		</c:forEach>				
+	</div>
+
+	<!-- 페이지 내비 -->
+	<nav aria-label="Page navigation example" id="boardNavi">
+		<ul class="pagination justify-content-center">
+			<c:forEach var="i" items="${navi}" varStatus="s">
 				<c:choose>
-					<c:when test="${login.id == i.writer}">
-						<form action="" method="post" class="commentForm">
-							<div class="container comment shadow-sm p-3 mb-5 bg-white rounded" style="overflow: hidden; width: 800px; margin: 0px 35px 0px 35px;">
-								<div class="header" style="background-color: white; padding-bottom: 10px;">
-									${i.writer} | ${i.write_date}</div>
-	
-								<div class="content">${i.comments}</div>
-								<input type="hidden" name="comments" class="modifytxt"> 
-								<input type="hidden" class="seq" value="${i.seq}">
-	
-								<div class="reply">
-									<a href="${pageContext.request.contextPath}/deleteCmt.fbc?seq=${i.seq}&parent_seq=${dto.seq}" style="float: right;"> 
-									<input type="button" class="btn btn-outline-danger" value="삭제" style="float: right;"></a>
-									<input type="button" id=modi class="btn btn-outline-success" style="float: right; margin-bottom: 10px; margin-right: 5px;" value="수정">
-								</div>
-							</div>
-	
-							<input type="hidden" id="seq" name="seq" value="${i.seq}">
-							<input type="hidden" name="parent_seq" value="${dto.seq}">
-							<hr>
-						</form>
+					<c:when test="${i == '>'}">
+						<li class="page-item">
+						<a class="page-link" href="${pageContext.request.contextPath}/questionList.ask?cpage=${navi[s.index-1]+1}&category=${category}&keyword=${keyword}"
+							id="rightNavi">${i}</a></li>
 					</c:when>
-	
-					<c:when test="${login.id == 'admin'}">
-						<br>
-						<div class="container shadow-sm p-3 mb-5 bg-white rounded" style="overflow: hidden; width: 800px; margin: 0px 35px 0px 35px;">
-							<div class="header" style="background-color: white; padding-bottom: 10px;">
-								${i.writer} | ${i.write_date}</div>
-	
-							<div class="content">${i.comments}</div>
-							<input type="hidden" class="seq" value="${i.seq}">
-	
-							<div class="reply">
-								<a href="${pageContext.request.contextPath}/deleteCmt.fbc?seq=${i.seq}&parent_seq=${dto.seq}" style="float: right;"> 
-									<input type="button" class="btn btn-outline-danger" value="삭제" style="float: right;"></a>
-							</div>
-						</div>
-	
-						<input type="hidden" value="${i.seq}" id="seq" name="seq">
-						<input type="hidden" name="parent_seq" value="${dto.seq}">
-						<hr>
+
+					<c:when test="${i == '<'}">
+						<li class="page-item">
+						<a class="page-link" href="${pageContext.request.contextPath}/questionList.ask?cpage=${navi[s.index+1]-1}&category=${category}&keyword=${keyword}"
+							id="leftNavi">${i}</a></li>
 					</c:when>
-	
+
 					<c:otherwise>
-						<br>
-						<div class="container shadow-sm p-3 mb-5 bg-white rounded" style="overflow: hidden; width: 800px; margin: 0px 35px 0px 35px;">
-							<div class="header" tyle="background-color: white; padding-bottom: 10px;">
-								${i.writer} | ${i.write_date}</div>
-	
-							<div class="content">${i.comments}</div>
-							<input type="hidden" class="seq" value="${i.seq}">
-	
-							<div class="reply"></div>
-						</div>
-	
-						<input type="hidden" value="${i.seq}" id="seq" name="seq">
-						<input type="hidden" name="parent_seq" value="${dto.seq}">
-						<hr>
+						<li class="page-item active">
+						<a class="page-link" href="${pageContext.request.contextPath}/questionList.ask?cpage=${i}&category=${category}&keyword=${keyword}"
+							id="centerNavi">${i}</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-		</div>
-		
-		<!-- footer 여백 만듦 -->
-		<div class="container-fluid" style="width: 100%; height: 100px; background-color: white;"></div>
-		
-</body>
+		</ul>
+	</nav>
 
+	<!-- footer 여백 만듦 -->
+	<div class="container-fluid" style="width: 100%; height: 100px; background-color: white;"></div>
+	
+</body>
 </html>

@@ -10,15 +10,16 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import dto.B_CommentsDTO;
+import dto.BoardCmtDTO;
 
-public class B_CommentsDAO {
+public class BoardCmtDAO {
 	
-	private static B_CommentsDAO instance;
-	private B_CommentsDAO() {}
-	public synchronized static B_CommentsDAO getInstance() {
+	// DB 연결
+	private static BoardCmtDAO instance;
+	private BoardCmtDAO() {}
+	public synchronized static BoardCmtDAO getInstance() {
 		if (instance == null) {
-			instance = new B_CommentsDAO();
+			instance = new BoardCmtDAO();
 		}
 		return instance;
 	}
@@ -29,8 +30,8 @@ public class B_CommentsDAO {
 		return ds.getConnection();
 	}
 	
-
-	public int insertCmt(B_CommentsDTO dto) throws Exception {
+	// 댓글 작성
+	public int insertCmt(BoardCmtDTO dto) throws Exception {
 		String sql = "insert into fb_comments values(fb_comments_seq.nextval, ?, ?, sysdate, ?)";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 			pstat.setString(1, dto.getWriter());
@@ -43,15 +44,16 @@ public class B_CommentsDAO {
 		}
 	}
 
-	public List<B_CommentsDTO> getCommentsList(int parent_seq) throws Exception {
+	// 댓글 출력
+	public List<BoardCmtDTO> getCommentsList(int parent_seq) throws Exception {
 		String sql = "select * from fb_comments where parent_seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
 			pstat.setInt(1, parent_seq);
 			try (ResultSet rs = pstat.executeQuery();) {
-				List<B_CommentsDTO> list = new ArrayList<>();
+				List<BoardCmtDTO> list = new ArrayList<>();
 
 				while (rs.next()) {
-					B_CommentsDTO dto = new B_CommentsDTO();
+					BoardCmtDTO dto = new BoardCmtDTO();
 
 					dto.setSeq(rs.getInt("seq"));
 					dto.setWriter(rs.getString("writer"));
@@ -66,6 +68,7 @@ public class B_CommentsDAO {
 		}
 	}
 
+	// 댓글 수정
 	public int modifyCmt(int seq, String comments) throws Exception {
 		String sql = "update fb_comments set comments=? where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -78,6 +81,7 @@ public class B_CommentsDAO {
 		}
 	}
 
+	// 댓글 삭제
 	public int deleteCmt(int seq) throws Exception {
 		String sql = "delete from fb_comments where seq=?";
 		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
@@ -89,6 +93,7 @@ public class B_CommentsDAO {
 		}
 	}
 
+	// 댓글 갯수
 	public int countCmt(int parent_seq) throws Exception{
 		String sql = "select count(seq) from fb_comments where parent_seq=?";
 		try(

@@ -138,7 +138,7 @@ $(function () {
   				<a href="${pageContext.request.contextPath}/memberList.admin" class="list-group-item list-group-item-action list-group-item-secondary admin_menu">회원 명단</a>
 			</li>
   			<li class="list-group-item">
-  				<a href="#" class="list-group-item list-group-item-action list-group-item-secondary admin_menu">쪽지함</a>
+  				<a href="${pageContext.request.contextPath}/questionList.ask?cpage=1" class="list-group-item list-group-item-action list-group-item-secondary admin_menu">쪽지함</a>
  			 </li>
   			<li class="list-group-item">
   				<a href="#" class="list-group-item list-group-item-action list-group-item-secondary admin_menu">블랙리스트명단</a>

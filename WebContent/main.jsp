@@ -125,6 +125,7 @@ $(function() {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+
 <!-- 페이지 전체 navi -->
 	<c:choose>
 		<c:when test="${login.id==null}"> <!-- 로그인 전 -->
@@ -235,6 +236,7 @@ $(function() {
      		 </nav>
 		</c:otherwise>
 	</c:choose>
+
 
    <!-- 친구들과 함께 산책해보세요! -->
    <div class="hero-wrap js-fullheight"
@@ -550,7 +552,7 @@ $(function() {
 
 
 
-   <!--문의하기  -->
+<!--문의하기  -->
    <section
       class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img"
       style="background-image: url(images/bg_3.png);">
@@ -559,7 +561,7 @@ $(function() {
          <div class="row d-md-flex justify-content-end">
             <div class="col-md-12 col-lg-6 half p-3 py-5 pl-lg-5 ftco-animate">
                <h2 class="mb-4">문의하기</h2>
-               <form action="#" class="appointment">
+               <form action="${pageContext.request.contextPath}/questionWrite.ask" class="appointment">
                   <div class="row">
                      <div class="col-md-12">
                         <div class="form-group">
@@ -568,13 +570,12 @@ $(function() {
                                  <div class="icon">
                                     <span class="fa fa-chevron-down"></span>
                                  </div>
-                                 <select name="" id="" class="form-control">
-                                    <option value="">선택하세요</option>
-                                    <option value="">산책장소</option>
-                                    <option value="">펫시터</option>
-                                    <option value="">갤러리</option>
-                                    <option value="">플래너</option>
-                                    <option value="">기타</option>
+                                 <select name="type" id="" class="form-control"required>
+                                    <option value="산책장소">산책장소</option>
+                                    <option value="펫시터">펫시터</option>
+                                    <option value="갤러리">갤러리</option>
+                                    <option value="플래너">플래너</option>
+                                    <option value="기타">기타</option>
                                  </select>
                               </div>
                            </div>
@@ -582,20 +583,20 @@ $(function() {
                      </div>
                      <div class="col-md-6">
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="이름*">
+                           <input type="text" name="name" class="form-control" placeholder="이름*" required>
                         </div>
                      </div>
                      <div class="col-md-6">
                         <div class="form-group">
-                           <input type="text" class="form-control" placeholder="메일*">
+                           <input type="text" name="email" class="form-control" placeholder="메일*" required>
                         </div>
                      </div>
 
 
                      <div class="col-md-12">
                         <div class="form-group">
-                           <textarea name="" id="" cols="30" rows="7" class="form-control"
-                              placeholder="내용*"></textarea>
+                           <textarea name="contents" id="" cols="30" rows="7" class="form-control"
+                              placeholder="내용*" required></textarea>
                         </div>
                      </div>
                      <div class="col-md-12">

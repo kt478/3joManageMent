@@ -2,7 +2,7 @@ package dto;
 
 import java.sql.Date;
 
-public class B_CommentsDTO {	
+public class BoardCmtDTO {	
 	
 	private int seq;
 	private String writer;
@@ -10,11 +10,11 @@ public class B_CommentsDTO {
 	private Date write_date;
 	private int parent_seq;
 	
-	public B_CommentsDTO() {
+	public BoardCmtDTO() {
 		super();
 	}
 	
-	public B_CommentsDTO(int seq, String writer, String comments, Date write_date, int parent_seq) {
+	public BoardCmtDTO(int seq, String writer, String comments, Date write_date, int parent_seq) {
 		super();
 		this.seq = seq;
 		this.writer = writer;
