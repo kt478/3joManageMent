@@ -89,6 +89,10 @@ public class CosController extends HttpServlet {
 				request.setAttribute("navi", pageNavi);
 				request.getRequestDispatcher("map/searchView.jsp").forward(request, response);
 
+				
+
+				
+
 
 			}else if(cmd.contentEquals("/exam.cos")) {
 				PersonDTO dto = (PersonDTO)request.getSession().getAttribute("login");
@@ -129,6 +133,9 @@ public class CosController extends HttpServlet {
 				  }else {
 					  response.getWriter().append("0");
 				  }
+
+
+
 			}
 			//관리자 기능
 				else if(cmd.contentEquals("/input.cos")) {

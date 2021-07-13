@@ -45,10 +45,14 @@ public class CalendarController extends HttpServlet {
 
 				List<CalendarDTO> calendar = new ArrayList<>();
 
+				// 활발하고 활동적이예요 / 사람이나 강아지를 보고 짖어요 / 조용하고 소심해요 / 법정 지정 맹견이예요 / 예민하지 않고 친근한 성격이예요
+				
 				for(PlannerDTO p : list){
 					CalendarDTO Cdto = new CalendarDTO();
 					String color;
-					if(p.getPet_feature().contentEquals("흥분하고 짖어요")) {
+					System.out.println(p.getPet_feature());
+					if(p.getPet_feature().contentEquals("사람이나 강아지를 보고 짖어요") 
+							|| p.getPet_feature().contentEquals("법정 지정 맹견이예요")) {
 						color = "tomato";
 					}else if(p.getPerson_id().contentEquals(dto.getId())) {
 						color = "#52734D";	
@@ -71,9 +75,7 @@ public class CalendarController extends HttpServlet {
 		}
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
