@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link
+	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
+	rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -18,9 +24,19 @@
         	$("#search").on("keyup",function(e){
         		if(e.keyCode==13){
         			let search = $("#search").val();
-        			location.href="${pageContext.request.contextPath}/search.cos?keyword="+search;
+        			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
         		}
         	})
+        	
+        	 // 펫시터
+			$("#petsitter").on("click",function(){
+					let result = confirm("로그인이 필요한 화면입니다 로그인 하시겠습니까?")
+					if(result){
+						location.href="Signup/login.jsp";
+					}else {
+					location.href="main.jsp";
+				}
+			})
         	
         	 // 네비바 검색창
             $("#searchImg").on("click",function(){
@@ -192,7 +208,7 @@
     }
     #searchImg:active~#search{left:0px;}
     
-    *{box-sizing:border-box;}
+    *{box-sizing:border-box; font-family:Sunflower;}
         .wrapper{width:1300px; height: 660px; margin-left:30px; margin-right:30px; margin-top: 100px;position: relative; }
         #area{width:100%; margin-bottom: 40px; position: relative; margin-top: 30px;}
         #area img{width: 100%; height: 100%;}
@@ -234,7 +250,7 @@
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext" >
-						<a href= "${pageContext.request.contextPath}/petBoardList.pet?cpage=1" id="petsitter">펫시터</a>
+						<a href= "javascript:;" id="petsitter">펫시터</a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -261,7 +277,7 @@
 			<div class="container-fluid p-0" id="navibar">
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="${pageContext.request.contextPath}/index.jsp"><img src="${pageContext.request.contextPath}/img/logo.jpg"></a>
+						<a href="${pageContext.request.contextPath}/main.jsp"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
@@ -273,10 +289,10 @@
 						<a href="galList.gal?cpage=1">갤러리</a>
 					</div>
 					<div class="col-3 col-lg-3 col-xl-1 p-0 navitext">
-						<a href="#">자유게시판</a>
+						<a href="${pageContext.request.contextPath}/listProc.fb?cpage=1">자유게시판</a>
 					</div>
 					<div class="col-12 col-lg-4 col-xl-4 p-0">
-						<img src="${pageContext.request.contextPath}/img/search.png" id="searchImg"> <input type="text"
+						<img src="search.png" id="searchImg"> <input type="text"
 							placeholder="원하는구,장소를 검색하세요." class="form-control me-2 ml-3"
 							id="search">
 					</div>

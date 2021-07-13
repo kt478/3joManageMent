@@ -95,14 +95,22 @@ input[name="keyword"] {border-color: #c8e3c4;border-radius: 5px;}
 
 <script>
 	$(function() {
-		// 메인 내비바 검색창
-		$("#searchImg").on("click",function(){
-             $("#naviSearch").show("slow");
-             $("#naviSearch").focus();
-           })
-        $("#naviSearch").on("blur",function(){
-             $("#naviSearch").hide("slow");
-           }) 
+
+		// 네비바 검색창
+		$("#searchImg").on("click", function() {
+			$("#search").show("slow");
+			$("#search").focus();
+		})
+		$("#search").on("blur", function() {
+			$("#search").hide("slow");
+		})
+		//네비바 검색창에서 검색기능
+        $("#search").on("keyup",function(e){
+        	if(e.keyCode==13){
+        		let search = $("#search").val();
+        		location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        	}
+        })
 
 		// 글 작성 화면 이동
 		$("#write").on("click", function() {

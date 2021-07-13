@@ -83,11 +83,20 @@
 			
 		})	
 		
+		
+		
+		
 		$("#delete").on("click",function(){
-			location.href="delete.gal?seq=${content.seq}"
 			
+			let result = confirm("정말로 삭제하시겠습니까?")
+            if(result){
+               location.href="delete.gal?seq=${content.seq}";
+            }else {
+            location.href="#";
+         }
 			
 		})
+		
 		$("#back").on("click",function(){
 			/* location.href="javascript:history.back()" */
 			location.href ="${pageContext.request.contextPath}/galList.gal?cpage=1"
@@ -132,12 +141,18 @@
     $("#search").on("blur",function(){
        $("#search").hide("slow");
     })
-	
+	//네비바 검색창에서 검색기능
+    $("#search").on("keyup",function(e){
+        if(e.keyCode==13){
+        	let search = $("#search").val();
+        	location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+        }
+    })	
 		
     
     
     
-    $("#btn").on("click",function(){
+    	$("#btn").on("click",function(){
     	
     	var formData = $("#comForm").serialize();
 			
@@ -153,8 +168,10 @@
 			});
 			
 			
-		})
-    
+		}) 
+		
+		
+		
     
     
     
@@ -212,7 +229,7 @@
 
 				<div class="row m-0">
 					<div class="col-12 col-lg-3 col-xl-2 p-0">
-						<a href="beforeLogin.gal?cpage=1"><img src="project_logo.jpg"></a>
+						<a href="forGallery.gal?cpage=1"><img src="project_logo.jpg"></a>
 					</div>
 					<div class="col-3 col-lg-2 col-xl-1 p-0 navitext">
 						<a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소</a>
@@ -275,7 +292,7 @@
 				</div>
 			</div>
 		</c:otherwise>
-	</c:choose>
+	</c:choose> 
 
 
 
@@ -308,22 +325,18 @@
 				<div class="col-lg-8 ftco-animate" style="margin: auto;">
 					<p>
 					<c:forEach var="img" items="${ilist }">
-						<img src="files/${img.oriName }" style="width:800px;height:700px; margin-left:-40px;">
+						<img src="files/${img.oriName }" style="width:800px;height:700px; margin-left:-30px;" class="col-12 col-lg-12 col-xl-12 p-0">
 					</c:forEach>
-						<!-- <img src="images/image_1.jpg" alt="" class="img-fluid"> -->
+						
 					</p>
 					<h2 class="mb-3">${content.title }</h2>
 
 					<p>${content.contents }</p>
 
 					<div class="about-author d-flex p-4 bg-light">
-						<div class="bio mr-5">
-							<img src="images/person_1.jpg" alt="Image placeholder"
-								class="img-fluid mb-4" style="width: 100px; height: 100px;'">
-						</div>
+						
 						<div class="desc">
-							<h3>${content.writer }</h3>
-
+							<h5>작성자 : ${content.writer }</h5>
 						</div>
 					</div>
 					<br><br>
@@ -337,6 +350,14 @@
 							<input type="button" value="목록으로" class="btn btn-primary"
 								id="back">
 
+						</c:when>
+						<c:when test="${login.id == 'admin' }">
+						
+						<input type="button" value="삭제" class="btn btn-primary"
+								id="delete">
+						<input type="button" value="목록으로" class="btn btn-primary"
+								id="back">
+						
 						</c:when>
 						<c:otherwise>
 
@@ -390,9 +411,9 @@
 						${login.id}</div>
 					<div class="content" style="width: 770px; height: 110px;">
 						<textarea
-							style="height: 100%; width: 100%; border: 1px solid black; box-sizing: border-box; border-radius: 10px;"
-							name="comments" id=comments placeholder="댓글을 입력해주세요." required></textarea>
-						<input type=hidden value=${content.seq } name=gallery_seq>
+							style="height: 100%; width: 100%; border: 1px solid black; border-radius: 10px;"
+							name="comments" id=comments placeholder="댓글을 입력해주세요." class="col-12 col-lg-12 col-xl-12 p-0" required></textarea>
+						<input type=hidden value=${content.seq } name=gallery_seq> 
 
 					</div>
 

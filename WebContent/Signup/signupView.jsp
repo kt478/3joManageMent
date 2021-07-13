@@ -198,7 +198,7 @@
 							<div id="IdduplCheck" style="margin-top: -10px;"></div>
 						</div>
 
-						<a href="#" class="signup-image-link">I am already member</a>
+						<a href="login.jsp" class="signup-image-link">I am already member</a>
 					</div>
 				</div>
 			</div>
@@ -231,7 +231,7 @@
 				return false;
 			}
 			if (!(pwReg.test(pwInput.value))) {
-				alert("영어알파벳 숫자를 포함한 6~12자를  사용하세요.");
+				alert("비밀번호는 영어알파벳 숫자를 포함한 6~12자를  사용하세요.");
 				return false;
 			}
 			if (!(emailReg.test(emailInput.value))) {

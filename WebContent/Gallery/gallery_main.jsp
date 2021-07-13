@@ -128,6 +128,15 @@
       $("#search").on("blur",function(){
          $("#search").hide("slow");
       });  
+      //네비바 검색창에서 검색기능
+  	  $("#search").on("keyup",function(e){
+  		 if(e.keyCode==13){
+  			let search = $("#search").val();
+  			location.href="${pageContext.request.contextPath}/search.cos?cpage=1&keyWord="+search;
+  		 }
+      })
+      
+      
     })    
 
 

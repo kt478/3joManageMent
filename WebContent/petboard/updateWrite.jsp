@@ -12,7 +12,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap" rel="stylesheet">
 <style>
+* {font-family: 'Sunflower';}
 .card{position:relative; top:80px; width:1000px; margin:auto; }
 .card-header{background-color:#B8DE6F; font-weight: 600;}
 .card-body{background-color:rgb(254, 255, 222);color:rgb(82, 115, 77);}
@@ -27,14 +29,26 @@
 </style>
 <script>
 $(function(){
+	// 펫시터 합니다는 강아지 정보 없어도 가능 나머지는 필수 
     $("#selectBox").change(function(){
-   var option = $('#selectBox option:selected').val();
-   console.log(option)
-   if(option == "산책 동행"){
-   }else{
-    $("[class*='address']").hide();
-   }
-	})
+    	       var option = $('#selectBox option:selected').val();
+    	       console.log(option)
+    	       if(option == "펫시터 합니다"){
+    	    	   $("#pet_name").prop("required",false);
+    	    	   $("#pet_breed").prop("required",false);
+    	    	   $("#pet_gender").prop("required",false);
+    	    	   $("#pet_age").prop("required",false);
+    	    	   $("#pet_neutering").prop("required",false);
+    	    	   $("#pet_feature").prop("required",false);
+    	       }else{
+    	    	   $("#pet_name").prop("required",true);
+    	    	   $("#pet_breed").prop("required",true);
+    	    	   $("#pet_gender").prop("required",true);
+    	    	   $("#pet_age").prop("required",true);
+    	    	   $("#pet_neutering").prop("required",true);
+    	    	   $("#pet_feature").prop("required",true);
+    	       }
+    	   })
 	$("#back").on("click",function(){
 		let result = confirm("수정 하기 전으로 돌아가시겠습니까?")
 		if(result){
@@ -86,9 +100,11 @@ $(function(){
         </div>
         <div class="row p-2">
             <div class="col-12 col-md-3">강아지 정보</div>
-            <div class="col-12 col-md-3"><input type="text" name="pet_name" value="${dto.pet_name}" class="form-control"></div>
             <div class="col-12 col-md-3">
-            	<select name="pet_breed" class="form-control">
+            	<input type="text" id="pet_name" name="pet_name" value="${dto.pet_name}" class="form-control" required>
+            </div>
+            <div class="col-12 col-md-3">
+            	<select id="pet_breed" name="pet_breed" class="form-control" required>
 					       <option>없음</option>
 						   <option>토이그룹</option>
                            <option>------</option>
@@ -146,7 +162,7 @@ $(function(){
 					</select>
             </div>
             <div class="col-12 col-md-3">
-            		<select name="pet_age" class="form-control">
+            		<select id="pet_age" name="pet_age" class="form-control" required>
 						<option>없음</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -174,20 +190,20 @@ $(function(){
         <div class="row p-2">
             <div class="col-12 col-md-3">강아지 중성화 여부 :</div>
             <div class="col-12 col-md-3">
-            <select name="pet_neutering" class="form-control">
+            <select id="pet_neutering" name="pet_neutering" class="form-control" required>
             			<option>없음</option>
 						<option value="유">유</option>
 						<option value="무">무</option>
 			</select>
             </div>
             <div class="col-12 col-md-3">
-            		<select name="pet_gender" class="form-control">
+            		<select id="pet_gender" name="pet_gender" class="form-control" required>
 						<option>없음</option>
 						<option value="암컷">암컷</option>
 						<option value="수컷">수컷</option>
 					</select></div>
             <div class="col-12 col-md-3">
-            		<select name="pet_feature" class="form-control">
+            		<select id="pet_feature" name="pet_feature" class="form-control" required>
                            <option>없음</option>
                            <option value="겁이 없고 호기심이 강해요">겁이 없고 호기심이 강해요</option>
                            <option value="다른 강아지를 보고 짖어요">다른 강아지를 보고 짖어요</option>
@@ -326,6 +342,5 @@ $(function(){
         </div>
     </div>
 </form>
-
 </body>
 </html>
