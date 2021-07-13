@@ -62,7 +62,7 @@
 			<div class="container">
 				<div class="signup-content">
 					<div class="signup-form">
-						<h2 class="form-title">Sign up</h2>
+						<h2 class="form-title">회원가입</h2>
 						<form action="signup.mem" method="POST" class="register-form"
 							id="register-form" enctype="multipart/form-data">
 							<div class="form-group">
@@ -103,8 +103,8 @@
 
 							<div class="form-group" style="border-bottom: 1px solid gray;">
 								<label for="age"><i
-									class="zmdi zmdi-account material-icons-name"></i></i></label> <select
-									name="person_age" id="person_age"
+									class="zmdi zmdi-account material-icons-name"></i></label>
+									<select name="person_age" id="person_age"
 									style="width: 80%; border: 0px; color: gray;">
 									<option>연령대를 선택해주세요.</option>
 									<option value="10대">10대</option>

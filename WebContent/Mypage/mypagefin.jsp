@@ -195,7 +195,7 @@ body {background-color: #91C788;}
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img">
                        <c:forEach var="dimg" items="${dlist}">   
-                        <img src="files/${dimg.dog_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
+                        <img src="dog_img/${dimg.dog_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
                       </c:forEach> 
                     </div>
                     <div class="col-6 name">

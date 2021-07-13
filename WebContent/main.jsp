@@ -725,9 +725,9 @@
 						<li><a href="#" class="py-2 d-block">홈</a></li>
 						<li><a href="#" class="py-2 d-block">산책</a></li>
 						<li><a href="#" class="py-2 d-block">펫시터</a></li>
-						<li><a href="#" class="py-2 d-block">플레너</a></li>
+						<li><a href="#" class="py-2 d-block">플래너</a></li>
 						<li><a href="#" class="py-2 d-block">갤러리</a></li>
-						<li><a href="#" class="py-2 d-block">문의하기</a></li>
+						<li><a href="${pageContext.request.contextPath}/admain.ad" class="py-2 d-block">관리자 페이지</a></li>
 					</ul>
 				</div>
 				<div class="col-md-6 col-lg-3 mb-4 mb-md-0">

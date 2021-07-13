@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import dao.BlackListDAO;
 import dao.DogDAO;
 import dao.PersonDAO;
+import dto.BlackListDTO;
 import dto.DogDTO;
 import dto.PersonDTO;
 
@@ -44,9 +46,9 @@ public class PersonController extends HttpServlet {
 			PersonDTO dto = new PersonDTO();
 			PersonDAO dao = PersonDAO.getInstance();
 			DogDTO ddto = new DogDTO();
-			DogDAO ddao = DogDAO.getInstance();
-
-
+			DogDAO ddao = DogDAO.getInstance();	
+			BlackListDAO Bdao = BlackListDAO.getInstance();
+			BlackListDTO Bdto = new BlackListDTO();
 			//회원가입 정보 DB등록
 			if(url.contentEquals("/Signup/signup.mem")) {
 				System.out.println("signup Arrival");
@@ -75,17 +77,34 @@ public class PersonController extends HttpServlet {
 
 				response.sendRedirect("login.jsp");
 
-			}else if(url.contentEquals("/signout.mem")) {
-				//회원 탈퇴
-				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
-				request.getSession().invalidate();
-				response.sendRedirect("index.jsp");
-
-
+			
 			}
+		
+			else if(url.contentEquals("/block_member.mem")) {
+				//회원 블랙리스트 지정 
+				System.out.println("회원 블랙리스트 입장");
+				String id = request.getParameter("id");
+				System.out.println(id);
+				
+				String name = request.getParameter("name");
+				System.out.println(name);
+				String contact =request.getParameter("contact");
+				System.out.println(contact);
+				
+				String email =request.getParameter("email");
+				System.out.println(email);
+				
+				String block_reason =request.getParameter("block_reason");
+				System.out.println(block_reason);
+				
+				int result = Bdao.blackListin(new BlackListDTO(0,id,name,email,contact,block_reason,null));
+				int result2 = dao.MemberOut(id);
+				System.out.println("회원 블랙리스트 등록완료");
+			
+				response.sendRedirect("admain.ad");
 
 			//회원가입 폼으로 이동!
-			else if(url.contentEquals("/signupgo.mem")) { 
+			}else if(url.contentEquals("/signupgo.mem")) { 
 				response.sendRedirect("Signup/signupView.jsp");
 
 
@@ -168,7 +187,7 @@ public class PersonController extends HttpServlet {
 			}//회원 수정 절차!
 			else if(url.contentEquals("/infomodifyPro.mem")) {
 				PersonDTO sessionDTO = (PersonDTO)request.getSession().getAttribute("login");
-				String filesPath = request.getServletContext().getRealPath("files");
+				String filesPath = request.getServletContext().getRealPath("person_img");
 				System.out.println(filesPath);
 				File filesFolder= new File(filesPath); //파일 객체를 통해서 파일의 이름 사이즈 폴더생성가능
 				int maxSize = 1024*1024*20;
