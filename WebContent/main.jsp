@@ -48,6 +48,7 @@
 <script>
 $(function() {
 	$.ajax({
+
         url:"mainGallery.gal?cpage=1",
         type:"get",
         dataType:"json"
@@ -73,6 +74,7 @@ $(function() {
     	   
     	   
     	   
+
        })
 	// 네비바 검색창 보이게
 	$("#searchImg").on("click", function() {
@@ -92,12 +94,14 @@ $(function() {
 	})
 	
 	// 네비바 비회원일 경우 로그인 페이지로 일괄 보내기.
+
 	$(".beforelogin").on("click",function(){
 		var result = confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?");
 		if(result){
 			location.href = "${pageContext.request.contextPath}/login.jsp";
 		}
 	})      
+
 })
 </script>
 <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
@@ -137,13 +141,15 @@ $(function() {
 			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
 			            </li>
 			            <li class="nav-item">
-			            	<a class="nav-link beforelogin" href="">팻시터</a>
+
+			            	<a class="nav-link beforelogin" href="javascript:;">펫시터</a>
 			            </li>
 			            <li class="nav-item">
-			                <a class="nav-link beforelogin" href="">갤러리</a>
+			                <a class="nav-link beforelogin" href="javascript:;">갤러리</a>
 			            </li>
 			            <li class="nav-item">
-			                <a class="nav-link beforelogin" href="">자유게시판</a>
+			                <a class="nav-link beforelogin" href="javascript:;">자유게시판</a>
+
 			            </li>
 			            <li class="nav-item" id="searchBox">
 			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
@@ -171,7 +177,9 @@ $(function() {
                         <a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
                      </li>
                      <li class="nav-item">
+
                           <a class="nav-link" href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a>
+
                      </li>
                      <li class="nav-item">
                          <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -192,6 +200,7 @@ $(function() {
             </nav>
      	</c:when>
 		<c:otherwise>
+
 			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
 		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
 		        	<img src="project_logo.jpg">
@@ -403,6 +412,7 @@ $(function() {
          </div>
       </div>
    </div>
+
 
 
 
@@ -733,5 +743,6 @@ $(function() {
    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
    <script src="js/google-map.js"></script>
    <script src="js/main.js"></script>
+
 </body>
 </html>

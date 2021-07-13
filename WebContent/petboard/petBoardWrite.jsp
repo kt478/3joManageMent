@@ -207,11 +207,11 @@ div{color:gray; font-weight:600; font-size:medium;}
 				<div class="col-12 col-md-4 p-2">
 					<select id="pet_feature" name="pet_feature" class="form-control" required>
                            <option value="">강아지 특징</option>
-                           <option value="겁이 없고 호기심이 강해요">겁이 없고 호기심이 강해요</option>
-                           <option value="다른 강아지를 보고 짖어요">다른 강아지를 보고 짖어요</option>
                            <option value="활발하고 활동적이에요">활발하고 활동적이에요</option>
-                           <option value="사람이나 강아지를 무서워해요">사람이나 강아지를 무서워해요</option>
-                           <option value="오직 주인한테만 관심있어요">오직 주인한테만 관심있어요</option>
+                           <option value="사람이나 강아지를 보고 짖어요">사람이나 강아지를 보고 짖어요</option>
+                           <option value="조용하고 소심해요">조용하고 소심해요</option>
+                           <option value="법정 지정 맹견이에요">법정 지정 맹견이에요</option>
+                           <option value="예민하지 않고 친근한 성격이에요">예민하지 않고 친근한 성격이에요</option>
                      </select>
 				</div>
 			</div>

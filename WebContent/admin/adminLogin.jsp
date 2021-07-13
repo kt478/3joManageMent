@@ -9,16 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Sign Up</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300&display=swap"
-	rel="stylesheet">
+
 <!-- Font Icon -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/Signup/fonts/material-icon/css/material-design-iconic-font.min.css">
@@ -43,11 +34,7 @@ $(function(){
 	     	 data:{"id":$("#id").val(),"pw":$("#pw").val()}
 	      	}).done(function(res){
 			if(res=="1"){alert("로그인을 성공하였습니다.");
-			
-			
-			location.href="${pageContext.request.contextPath}/forGallery.gal?cpage=1"
-			
-			
+			location.href="${pageContext.request.contextPath}/main.jsp"
 			}else if(res=="null"){alert("아이디혹은 비밀번호가 일치하지않습니다.")}
 		
 	});
@@ -56,14 +43,6 @@ $(function(){
 })
 });
 </script>
-<style>
-*{
-	font-family: 'Sunflower';
-	box-sizing: border-box;
-}
-
-
-</style>
 </head>
 <body>
 
@@ -103,12 +82,12 @@ $(function(){
 								<figure>
 									<img src="images/signin-image.jpg" alt="sing up image">
 								</figure>
-								<a href="signupView.jsp" class="signup-image-link">아직 회원이 아니세요?</a>
-								
+								<a href="signupView.jsp" class="signup-image-link">Create an
+									account</a>
 							</div>
 
 							<div class="signin-form">
-								<h2 class="form-title">로그인</h2>
+								<h2 class="form-title">Sign up</h2>
 
 								<form action="${pageContext.request.contextPath}/login.mem"
 									method="POST" class="register-form" id="login-form">
@@ -127,12 +106,10 @@ $(function(){
 											class="agree-term" /> <label for="remember-me"
 											class="label-agree-term"><span><span></span></span>Remember
 											me</label>
-											<br><a href="signupView.jsp" class="signup-image-link" style="margin-left:-100px;margin-top:27px; ">아이디 찾기</a>
-											<a href="signupView.jsp" class="signup-image-link" style=" margin-top:-24px; margin-left:95px;">비밀번호 찾기</a>
 									</div>
 									<div class="form-group form-button">
 										<input type="button" name="signin" id="signin"
-											class="form-submit" value="Signin" />
+											class="form-submit" value="Log in" />
 									</div>
 								</form>
 
@@ -151,5 +128,5 @@ $(function(){
 	<script src="js/main.js"></script>
 
 </body>
-
+<!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
