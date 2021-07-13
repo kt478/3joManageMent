@@ -83,6 +83,24 @@ public class PersonDAO {
 		}
 
 	}
+	public String findId(String user_name,String user_email, String user_contact) throws Exception {
+
+		String user_id = null;
+
+		String sql = "select id from person_info where user_name=? and user_email=? and user_contact=?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);
+				){
+			pstat.setString(1,user_name);
+			pstat.setString(2,user_email);
+			pstat.setString(3,user_contact);
+			
+			int result = pstat.executeUpdate();
+			con.commit();
+
+		}
+		return user_id;
+	}
 	public List<PersonDTO> filesById(String id)throws Exception{
 		String sql ="select * from person_info where id=?";
 		try(Connection con = this.getConnection();
@@ -122,6 +140,16 @@ public class PersonDAO {
 		}
 		return null;
 	}
+	public int MemberOut(String id) throws Exception{
+		String sql = "delete from person_info where id = ?";
+		try(Connection con = this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql)){
+			pstat.setNString(1, id);
+			int result = pstat.executeUpdate();
+			con.commit();
+			return result;
+		}
+	}
 	public List <PersonDTO> memberList(String id)throws Exception {
 		String sql ="select * from person_info where id=?";
 		try(Connection con =this.getConnection();
@@ -131,6 +159,37 @@ public class PersonDAO {
 				List<PersonDTO> list = new ArrayList<>();
 
 				while(rs.next()) {
+
+
+					String id2 =rs.getNString("id");
+					String pw =rs.getNString("pw");
+					String email = rs.getNString("email");
+					String person_name=rs.getNString("person_name");
+					String person_age=rs.getNString("person_age");
+					String person_gender=rs.getNString("person_gender");
+					String local=rs.getString("local");
+					String contact=rs.getNString("contact");
+					String person_sysName=rs.getNString("person_sysname");
+					String person_oriName=rs.getNString("person_oriname");
+					Date reg_date=rs.getDate("reg_date");
+
+					list.add(new PersonDTO(id2,pw,person_name,email,person_age,person_gender,local,contact,person_sysName,person_oriName,reg_date));
+
+				}
+				return list;
+			}
+		}
+
+	}public List <PersonDTO> memberList()throws Exception {
+		String sql ="select * from person_info ";
+		try(Connection con =this.getConnection();
+				PreparedStatement pstat = con.prepareStatement(sql);){
+
+			try(ResultSet rs =pstat.executeQuery()){
+				List<PersonDTO> list = new ArrayList<>();
+
+				while(rs.next()) {
+
 
 					String id2 =rs.getNString("id");
 					String pw =rs.getNString("pw");
