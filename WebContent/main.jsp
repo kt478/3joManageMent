@@ -150,7 +150,7 @@ $(function() {
                         <a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
                      </li>
                      <li class="nav-item">
-                          <a class="nav-link" href="javascript:;">팻시터</a>
+                          <a class="nav-link" href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a>
                      </li>
                      <li class="nav-item">
                          <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -184,7 +184,7 @@ $(function() {
 			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
 			            </li>
 			            <li class="nav-item">
-			              	<a class="nav-link" href="javascript:;">팻시터</a>
+			              	<a class="nav-link" href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a>
 			            </li>
 			            <li class="nav-item">
 			                <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
