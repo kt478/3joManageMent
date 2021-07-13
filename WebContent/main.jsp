@@ -48,13 +48,10 @@
 <script>
 $(function() {
 	$.ajax({
-
         url:"mainGallery.gal?cpage=1",
         type:"get",
         dataType:"json"
-        
        }).done(function(resp){
-    	 
     	   $("#galImg1").attr("src", "files/"+resp[0].thumbPath);
     	   $("#galImg2").attr("src", "files/"+resp[1].thumbPath);
     	   $("#galImg3").attr("src", "files/"+resp[2].thumbPath);
@@ -70,12 +67,8 @@ $(function() {
     	   $("#galTitle1").text(resp[0].title);
     	   $("#galTitle2").text(resp[1].title);
     	   $("#galTitle3").text(resp[2].title);
-    	   
-    	   
-    	   
-    	   
-
-       })
+     })
+     
 	// 네비바 검색창 보이게
 	$("#searchImg").on("click", function() {
 		$("#search").show("slow");
@@ -94,14 +87,12 @@ $(function() {
 	})
 	
 	// 네비바 비회원일 경우 로그인 페이지로 일괄 보내기.
-
-	$(".beforelogin").on("click",function(){
+	$(".beforelogin, #read_more_pet").on("click",function(){
 		var result = confirm("로그인이 필요한 서비스 입니다. 로그인 하시겠습니까?");
 		if(result){
-			location.href = "${pageContext.request.contextPath}/login.jsp";
+			location.href = "Signup/login.jsp";
 		}
 	})      
-
 })
 </script>
 <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
@@ -141,7 +132,6 @@ $(function() {
 			            	<a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
 			            </li>
 			            <li class="nav-item">
-
 			            	<a class="nav-link beforelogin" href="javascript:;">펫시터</a>
 			            </li>
 			            <li class="nav-item">
@@ -149,7 +139,6 @@ $(function() {
 			            </li>
 			            <li class="nav-item">
 			                <a class="nav-link beforelogin" href="javascript:;">자유게시판</a>
-
 			            </li>
 			            <li class="nav-item" id="searchBox">
 			                <img src="search.png" class="nav-link" tabindex="-1" aria-disabled="true" id="searchImg">
@@ -177,9 +166,7 @@ $(function() {
                         <a class="nav-link" href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구">산책장소<span class="sr-only">(current)</span></a>
                      </li>
                      <li class="nav-item">
-
                           <a class="nav-link" href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1">팻시터</a>
-
                      </li>
                      <li class="nav-item">
                          <a class="nav-link" href="${pageContext.request.contextPath}/galList.gal?cpage=1">갤러리</a>
@@ -193,14 +180,13 @@ $(function() {
                      </li>
                  </ul>
                    <form class="form-inline my-2 my-lg-0" id="loginNavi">
-                     <a class="mr-sm-2" style="width:75px;" href="${pageContext.request.contextPath}/adminMain.admin">관리자</a>
+                     <a class="mr-sm-2" style="width:75px;" href="${pageContext.request.contextPath}/adminMain.ad">관리자</a>
                      <a class="my-2 my-sm-0" style="width:70px;" href="${pageContext.request.contextPath}/logout.mem">로그아웃</a>
                    </form>
               </div>
             </nav>
      	</c:when>
 		<c:otherwise>
-
 			<nav class="navbar navbar-expand-lg navbar-light bg-white" id="navibar">
 		        <a class="navbar-brand p-0 mr-4" href="${pageContext.request.contextPath}/main.jsp">
 		        	<img src="project_logo.jpg">
@@ -242,12 +228,9 @@ $(function() {
       data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
-         <div
-            class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
-            data-scrollax-parent="true">
+         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" data-scrollax-parent="true">
             <div class="col-md-11 ftco-animate text-center">
-               <h1 class="mb-4"
-                  style="font-weight: 200px; font-family: 'Sunflower';">
+               <h1 class="mb-4" style="font-weight: 200px; font-family: 'Sunflower';">
                   <a href="Signup/signupView.jsp" style="color: white;">친구들과 함께 산책해 보세요!</a>
                </h1>
                <!-- <p><a href="#" class="btn btn-primary mr-md-4 py-3 px-4" style="font-size: large;font-weight: 100px; margin-top:50px;">둘러보기<span class="ion-ios-arrow-forward"></span></a></p> -->
@@ -256,30 +239,25 @@ $(function() {
       </div>
    </div>
 
-
-
    <!--산책 / 펫시터 / 갤러리  -->
    <section class="ftco-section bg-light ftco-no-pt ftco-intro">
       <div class="container">
          <div class="row">
-
             <div class="col-md-4 d-flex align-self-stretch px-4 ftco-animate">
                <div class="d-block services text-center">
                   <div class="icon d-flex align-items-center justify-content-center">
                      <span class="flaticon-blind"></span>
                   </div>
                   <div class="media-body">
-                     <h3 class="heading">산책</h3>
-                     <p>주변, 혹은 다른 지역의 친구들과 함께 산책해 보세요. 여러 지역을 산책로를 둘러보고 마음에 드는
+                     <h3 class="heading">산책 장소</h3>
+                     <p>주변, 혹은 다른 지역의 산책장소 찾기 어려우셨죠? 여러 지역의 산책장소를 둘러보고 마음에 드는
                         산책로를 선택할 수 있습니다.</p>
-                     <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구"
-                        class="btn-custom d-flex align-items-center justify-content-center"><span
-                        class="fa fa-chevron-right"></span><i class="sr-only">Read
-                           more</i></a>
+                     <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구" class="btn-custom d-flex align-items-center justify-content-center">
+                     	<span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i>
+                     </a>
                   </div>
                </div>
             </div>
-
             <div class="col-md-4 d-flex align-self-stretch px-4 ftco-animate">
                <div class="d-block services text-center">
                   <div class="icon d-flex align-items-center justify-content-center">
@@ -290,23 +268,20 @@ $(function() {
                      <p>여러분의 강아지를 믿고 맡길 수 있는 분에게 잠시 위탁해보세요! 강아지에게 새로운 경험을 선물해 주세요!</p>
                      <c:choose>
                      <c:when test="${login.id==null}">
-                     <a href= "javascript:;" id="read_more_pet"
-                        class="btn-custom d-flex align-items-center justify-content-center"><span
-                        class="fa fa-chevron-right"></span><i class="sr-only">Read
-                           more</i></a>
+                     <a href="javascript:;" id="read_more_pet" class="btn-custom d-flex align-items-center justify-content-center">
+                     	<span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i>
+                     </a>
                      </c:when>
                      <c:otherwise>
-                     <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1"
-                        class="btn-custom d-flex align-items-center justify-content-center"><span
-                        class="fa fa-chevron-right"></span><i class="sr-only">Read
-                           more</i></a>
+                     <a href="${pageContext.request.contextPath}/petBoardList.pet?cpage=1" class="btn-custom d-flex align-items-center justify-content-center">
+                     	<span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i>
+                     </a>
                      </c:otherwise>
                      </c:choose>
                   </div>
                </div>
             </div>
-
-
+            
             <div class="col-md-4 d-flex align-self-stretch px-4 ftco-animate">
                <div class="d-block services text-center">
                   <div class="icon d-flex align-items-center justify-content-center">
@@ -315,19 +290,24 @@ $(function() {
                   <div class="media-body">
                      <h3 class="heading">갤러리</h3>
                      <p>내가 자랑하고 싶은 강아지와의 사진을 공유하고,다른 귀여운 강아지들의 활동모습도 구경해 보세요!</p>
-                     <a href="galList.gal?cpage=1"
-                        class="btn-custom d-flex align-items-center justify-content-center"><span
-                        class="fa fa-chevron-right"></span><i class="sr-only">Read
-                           more</i></a>
+                     <c:choose>
+                     <c:when test="${login.id==null}">
+                     <a href="javascript:;" id="read_more_pet" class="btn-custom d-flex align-items-center justify-content-center">
+                     	<span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i>
+                     </a>
+                     </c:when>
+                     <c:otherwise>
+                     <a href="galList.gal?cpage=1" class="btn-custom d-flex align-items-center justify-content-center">
+                     	<span class="fa fa-chevron-right"></span><i class="sr-only">Read more</i>
+                     </a>
+                     </c:otherwise>
+                     </c:choose>
                   </div>
                </div>
             </div>
          </div>
       </div>
    </section>
-
-
-
 
    <!--사이트 장점  -->
    <section class="ftco-section ftco-no-pt ftco-no-pb">
@@ -349,7 +329,7 @@ $(function() {
                         <span class="flaticon-stethoscope"></span>
                      </div>
                      <div class="text pl-3">
-                        <h4>케어를 해줍니다.</h4>
+                        <h4></h4>
                         <p>강아지와 함께 재밌는 놀이</p>
                      </div>
                   </div>
@@ -359,13 +339,12 @@ $(function() {
                         <span class="flaticon-customer-service"></span>
                      </div>
                      <div class="text pl-3">
-                        <h4>서로를 연결해 줍니다.</h4>
-                        <p>서로 연결</p>
+                        <h4>반려인들 소통의 장</h4>
+                        <p>산책동행을 구하고, 다양한 정보를 나눠보세요.</p>
                      </div>
                   </div>
                   <div class="col-md-6 services-2 w-100 d-flex">
-                     <div
-                        class="icon d-flex align-items-center justify-content-center">
+                     <div class="icon d-flex align-items-center justify-content-center">
                         <span class="flaticon-emergency-call"></span>
                      </div>
                      <div class="text pl-3">
@@ -389,7 +368,6 @@ $(function() {
       </div>
    </section>
 
-
    <!-- 산책장소 -->
    <div class="hero-wrap js-fullheight" id="backGif"
       style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url('images/dogWalk.gif');"
@@ -412,15 +390,7 @@ $(function() {
       </div>
    </div>
 
-<<<<<<< HEAD
    <!-- 우리동네 플래너 -->  <!-- 청아님 여기에 원하시는거 작성하시면 될 것 같습니다!  -->
-=======
-
-
-
-
-   <!--포토북  -->  <!-- 청아님 여기에 원하시는거 작성하시면 될 것 같습니다!  -->
->>>>>>> b1e1198fc694a467450be443825fe0074bd882d3
    <section class="ftco-section">
       <div class="container">
          <div class="row">
@@ -435,13 +405,10 @@ $(function() {
          <div class="row justify-content-center pb-5 mb-3">
             <div class="col-md-7 heading-section text-center ftco-animate">
                <h2 style="border: 1px;">갤 러 리</h2>
-               <hr
-                  style="height: 0.2rem; max-width: 3.25rem; margin: 1.5rem auto; background-color: #146c43; opacity: 1;">
+               <hr style="height: 0.2rem; max-width: 3.25rem; margin: 1.5rem auto; background-color: #146c43; opacity: 1;">
             </div>
          </div>
                <div class="row d-flex">
-
-                  
                      <div class="col-md-4 d-flex ftco-animate">
                         <div class="blog-entry align-self-stretch"
                            style="width: 350px; height: 500px;">
