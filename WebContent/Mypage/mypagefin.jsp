@@ -87,12 +87,28 @@ body {background-color: #91C788;}
         display: none;
     }
 /* 페이지전체 navi Style 부분 끝 */        
-        
+#topContainer {
+    margin: auto;
+   	text-align: center;
+	max-width:1150px;
+        }
+.top{height:250px;background-color: white;border-radius: 8px;}
+.img{border:1px solid #ddd;border-radius: 50%;overflow:hidden; height:100%;}
+.name>h2{line-height: 160px;}
+.name>h2:after{
+	display: block;
+    border-bottom:8px solid seagreen;
+    position: relative;
+    top:-60px;
+    left: 30px;
+    width: 150px;
+    content: "";
+}
 #bottomContainer {
             margin: auto;
             text-align: center;
             position: relative;
-            top:40px;
+            top: -60px;
             max-width:1140px;
         }
 .menu{background-color: white;border-radius: 8px;}
@@ -178,7 +194,7 @@ body {background-color: #91C788;}
             <div class="col-6 person p-2">
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img"> 
-                        <img src="person_img/${person_img.person_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
+                        <img src="person_img/${person_img.person_oriName}" class="w-100 h-100">
                     </div>
                     <div class="col-6 name">
                        <h2>${login.person_name}</h2>
@@ -189,7 +205,7 @@ body {background-color: #91C788;}
                 <div class="row m-0 p-4 top">
                     <div class="col-6 img">
                		  <c:forEach var="dimg" items="${dog_img}">   
-                        <img src="files/${dimg.dog_oriName}" style="width:260px;height:230px; margin-left:-21px; margin-top:-10px;border-radius:100%;">
+                        <img src="files/${dimg.dog_oriName}" class="w-100 h-100">
                       </c:forEach> 
                     </div>
                     <div class="col-6 name">

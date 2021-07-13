@@ -130,8 +130,8 @@ public class PersonController extends HttpServlet {
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
 				System.out.println("마이페이지로 이동");
 				
-				List<PersonDTO> person_img =dao.filesById(sessionDTO.getId());
-				System.out.println();
+				PersonDTO person_img =dao.onefilesById(sessionDTO.getId());
+				System.out.println(person_img.getPerson_oriName());
 				
 				List<DogDTO> dog_list = ddao.OwnDogList(sessionDTO.getId());
 				List<DogDTO> dog_img = ddao.filesById(sessionDTO.getId());

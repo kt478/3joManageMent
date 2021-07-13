@@ -368,34 +368,30 @@ $(function() {
       data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
-         <div
-            class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
+         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center"
             data-scrollax-parent="true">
             <div class="col-md-11 ftco-animate text-center">
                <h1 class="mb-4" style="font-size: 40px; font-family: 'Sunflower';">
                   산책장소!<br> 정하기 어려우셨다구요?<br>추천코스를 이용해보세요!
                </h1>
                <p>
-                  <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구" class="btn btn-primary mr-md-4 py-3 px-4"
-                     style="font-size: large;">둘러보기<span
-                     class="ion-ios-arrow-forward"></span></a>
+                  <a href="${pageContext.request.contextPath}/getCourse.cos?course_area=종로구" class="btn btn-primary mr-md-4 py-3 px-4" style="font-size: large;">
+                  둘러보기<span class="ion-ios-arrow-forward"></span>
+                  </a>
                </p>
             </div>
          </div>
       </div>
    </div>
 
-
-
-
-   <!--포토북  -->  <!-- 청아님 여기에 원하시는거 작성하시면 될 것 같습니다!  -->
+   <!-- 우리동네 플래너 -->  <!-- 청아님 여기에 원하시는거 작성하시면 될 것 같습니다!  -->
    <section class="ftco-section">
       <div class="container">
+         <div class="row">
          
+         </div>
       </div>
    </section>
-
-
 
    <!--갤러리  -->
    <section class="ftco-section bg-light">
