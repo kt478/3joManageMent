@@ -128,6 +128,33 @@ public class QuestionDAO {
 			}
 		}
 	}
+	
+	public List<QuestionDTO> getPageList(int startNum, int endNum, String category) throws Exception {
+		String sql = "select * from (select row_number() over(order by seq desc) rnum, seq, type, name, email, contents, ask_date from question where= "+category+") where rnum between ? and ?";
+		try (Connection con = this.getConnection(); PreparedStatement pstat = con.prepareStatement(sql);) {
+
+			pstat.setInt(1, startNum);
+			pstat.setInt(2, endNum);
+
+			try (ResultSet rs = pstat.executeQuery();) {
+				List<QuestionDTO> list = new ArrayList<QuestionDTO>();
+
+				while (rs.next()) {
+					QuestionDTO dto = new QuestionDTO();
+
+					dto.setSeq(rs.getInt("seq"));
+					dto.setType(rs.getString("type"));
+					dto.setName(rs.getString("name"));
+					dto.setEmail(rs.getString("email"));
+					dto.setContents(rs.getNString("contents"));
+					dto.setAsk_date(rs.getDate("ask_date"));
+
+					list.add(dto);
+				}
+				return list;
+			}
+		}
+	}
 
 	public List<QuestionDTO> getPageList(int startNum, int endNum, String category, String keyword) throws Exception {
 		String sql = "select * from (select row_number() over(order by seq desc) rnum, seq, type, name, email, contents, ask_date from question where "+category+" like ?) where rnum between ? and ?";

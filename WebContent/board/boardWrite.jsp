@@ -67,7 +67,7 @@
 	<div class="container-fluid">
 
 	<!-- 메인 내비바 아래 공간 -->
-	<div class="container-fluid" id="temp">자유게시판 글 작성</div>
+	<div class="container-fluid " id="temp" style="background-image: url('board/board.jpg');">자유게시판 글 작성</div>
 
 		<!-- 게시글 작성 -->
 		<div class="container" id="writeForm">
@@ -84,7 +84,7 @@
 
 					<div class="btn_wrap text-center">
 						<input type="submit" class="btn btn-outline-success" value="등록">
-						<a href="#" class="btn btn-outline-secondary" onclick="history.back()">목록</a>
+						<a href="#" class="btn btn-outline-secondary" onclick="history.back()">뒤로가기</a>
 					</div>
 				</div>
 			</form>

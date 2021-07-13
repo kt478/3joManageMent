@@ -28,9 +28,9 @@
 	width: 100%;
 	height: 300px;
 	background-color: #c8e3c4;
-	line-height: 300px;
+	line-height: 150px;
 	text-align: center;
-	font-size: 30px;
+	font-size: 40px;
 	font-style: initial;
 	font-weight: 600;
 }
@@ -69,7 +69,7 @@
 	<div class="container-fluid">
 
 	<!-- 메인 내비바 아래 공간 -->
-	<div class="container-fluid" id="temp">자유게시판 글 수정</div>
+	<div class="container-fluid " id="temp" style="background-image: url('board/board.jpg');">자유게시판 글 수정</div>
 
 		<!-- 게시글 수정 -->
 		<div class="container" id="writeForm">
@@ -95,7 +95,7 @@
 					
 					<div class="btn_wrap text-center">
 						<input type="submit" class="btn btn-outline-success" value="수정">
-						<a href="#" class="btn btn-outline-secondary" onclick="history.back()">목록</a> 
+						<a href="#" class="btn btn-outline-secondary" onclick="history.back()">뒤로가기</a> 
 						<input type="hidden" name="seq" value="${dto.seq}">
 					</div>
 				</div>

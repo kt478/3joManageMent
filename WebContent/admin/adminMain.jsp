@@ -385,7 +385,7 @@ script> <style>* {
 				href="${pageContext.request.contextPath}/memberList.admin?cpage=1"
 				class="list-group-item list-group-item-action list-group-item-secondary admin_menu">회원
 					명단</a></li>
-			<li class="list-group-item"><a href="#"
+			<li class="list-group-item"><a href="${pageContext.request.contextPath}/questionList.ask?cpage=1"
 				class="list-group-item list-group-item-action list-group-item-secondary admin_menu">쪽지함</a>
 			</li>
 			<li class="list-group-item"><a href="#"
