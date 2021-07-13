@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import dao.BlackListDAO;
 import dao.DogDAO;
 import dao.PersonDAO;
+import dto.BlackListDTO;
 import dto.DogDTO;
 import dto.PersonDTO;
 
@@ -44,9 +46,9 @@ public class PersonController extends HttpServlet {
 			PersonDTO dto = new PersonDTO();
 			PersonDAO dao = PersonDAO.getInstance();
 			DogDTO ddto = new DogDTO();
-			DogDAO ddao = DogDAO.getInstance();
-
-			
+			DogDAO ddao = DogDAO.getInstance();	
+			BlackListDAO Bdao = BlackListDAO.getInstance();
+			BlackListDTO Bdto = new BlackListDTO();
 			//회원가입 정보 DB등록
 			if(url.contentEquals("/Signup/signup.mem")) {
 				System.out.println("signup Arrival");
@@ -74,23 +76,47 @@ public class PersonController extends HttpServlet {
 
 
 				response.sendRedirect("login.jsp");
-				
-			}else if(url.contentEquals("/signout.mem")) {
-				//회원 탈퇴
-				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
-		    	request.getSession().invalidate();
-		    	response.sendRedirect("index.jsp");
-				
-				
-			}
+
 			
+			}
+		
+			else if(url.contentEquals("/block_member.mem")) {
+				//회원 블랙리스트 지정 
+				System.out.println("회원 블랙리스트 입장");
+				String id = request.getParameter("id");
+				System.out.println(id);
+				
+				String name = request.getParameter("name");
+				System.out.println(name);
+				String contact =request.getParameter("contact");
+				System.out.println(contact);
+				
+				String email =request.getParameter("email");
+				System.out.println(email);
+				
+				String block_reason =request.getParameter("block_reason");
+				System.out.println(block_reason);
+				
+				int result = Bdao.blackListin(new BlackListDTO(0,id,name,email,contact,block_reason,null));
+				int result2 = dao.MemberOut(id);
+				System.out.println("회원 블랙리스트 등록완료");
+			
+				response.sendRedirect("admain.ad");
+
 			//회원가입 폼으로 이동!
-			else if(url.contentEquals("/signupgo.mem")) { 
-					response.sendRedirect("Signup/signupView.jsp");
+
+			}else if(url.contentEquals("/signupgo.mem")) { 
+				response.sendRedirect("Signup/signupView.jsp");
+
+
 			}
 			//로그인 폼으로 이동!
 			else if(url.contentEquals("/logingo.mem")) {
-					response.sendRedirect("Signup/login.jsp");
+				response.sendRedirect("Signup/login.jsp");
+
+
+
+
 			}
 			//아이디 비밀번호로 로그인!
 			else if(url.contentEquals("/login.mem")) { 
@@ -107,6 +133,9 @@ public class PersonController extends HttpServlet {
 					System.out.println("dto가 null이 아닐때");
 
 					request.getSession().setAttribute("login",dto);
+
+
+					request.getSession().setAttribute("login",dto);
 					response.getWriter().append("1");
 				}else {
 					System.out.println("dto가 null일때");
@@ -115,26 +144,37 @@ public class PersonController extends HttpServlet {
 
 			}//가입간 아이디 중복 체크!
 			else if(url.contentEquals("/idCheck.mem")) {
-				  String id = request.getParameter("id");
-		          boolean result = dao.isIdExist(id);
-		         
-		     	 response.getWriter().append(String.valueOf(result));
+
+				String id = request.getParameter("id");
+				boolean result = dao.isIdExist(id);
+
+				response.getWriter().append(String.valueOf(result));
+
 
 			}//로그아웃 !
 			else if(url.contentEquals("/logout.mem")) {
-				 request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
-		    	 response.sendRedirect("main.jsp");
-	
+				request.getSession().invalidate();//내 세션에 모든 값들을 무효화시켜라.
+				response.sendRedirect("main.jsp");
+
+
+
+
 			}//마이페이지로 이동!
 			else if(url.contentEquals("/Mypage.mem")) {
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
 				System.out.println("마이페이지로 이동");
-				
-				List<PersonDTO> person_img =dao.filesById(sessionDTO.getId());
-				System.out.println();
-				
-				List<DogDTO> dog_list = ddao.OwnDogList(sessionDTO.getId());
-				List<DogDTO> dog_img = ddao.filesById(sessionDTO.getId());
+
+				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
+				List<PersonDTO> ilist =dao.filesById(sessionDTO.getId());
+
+				List<DogDTO> list2 = ddao.OwnDogList(sessionDTO.getId());
+				List<DogDTO> dlist = ddao.filesById(sessionDTO.getId());
+				request.setAttribute("list",list);//사람정보
+				request.setAttribute("ilist",ilist); //이미지뽑기
+
+				request.setAttribute("list2",list2);//개정보
+				request.setAttribute("dlist",dlist);
+				request.getRequestDispatcher("Mypage/mypagefin.jsp").forward(request,response);
 
 				request.setAttribute("person_img",person_img); //이미지뽑기
 				
@@ -144,12 +184,12 @@ public class PersonController extends HttpServlet {
 			}
 			//홈으로 !
 			else if(url.contentEquals("/Direct2home.mem")) {
-				
-		    	  response.sendRedirect("main.jsp");
-		    	  
+
+				response.sendRedirect("main.jsp");
+
 			}//회원정보 수정으로 진입!
 			else if(url.contentEquals("/modify.mem")) {
-				
+
 				PersonDTO sessionDTO= (PersonDTO)request.getSession().getAttribute("login");
 				List<PersonDTO> list = dao.memberList(sessionDTO.getId());
 
@@ -159,13 +199,13 @@ public class PersonController extends HttpServlet {
 			}//회원 수정 절차!
 			else if(url.contentEquals("/infomodifyPro.mem")) {
 				PersonDTO sessionDTO = (PersonDTO)request.getSession().getAttribute("login");
-				String filesPath = request.getServletContext().getRealPath("files");
+				String filesPath = request.getServletContext().getRealPath("person_img");
 				System.out.println(filesPath);
 				File filesFolder= new File(filesPath); //파일 객체를 통해서 파일의 이름 사이즈 폴더생성가능
 				int maxSize = 1024*1024*20;
 				if(!filesFolder.exists()) filesFolder.mkdir(); 
 				MultipartRequest multi = new MultipartRequest(request,filesPath,maxSize,"utf8",new DefaultFileRenamePolicy()); 
-				
+
 				String pw=dao.getSHA512(multi.getParameter("pw"));
 				System.out.println(pw);
 				String email =multi.getParameter("email");

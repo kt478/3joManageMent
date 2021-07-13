@@ -99,7 +99,7 @@ public class DogController extends HttpServlet {
 //		      	int result =  dao. dogregist(dto= new DogDTO(0,dog_name,dog_breed,dog_gender,dog_feature,dog_age,dog_neutering,oriName,sysName,dog_parent_id,null));
 		     
 
-		      	 response.sendRedirect("/Mypage.mem");
+				 response.sendRedirect("main.jsp");
 		      	 
 	    	  }else if(url.contentEquals("/doginfomodify.dog")) {
 	    		  System.out.println("강아지정보수정 controller도착");
@@ -157,8 +157,8 @@ public class DogController extends HttpServlet {
 //	    				int result = dao.doginfomodify(dto);
 	    				
     		    	System.out.println("수정완료");
-	    		      	 response.sendRedirect("Mypage.mem");
-	    		      	 
+	    		      	 response.sendRedirect("main.jsp");
+	    		      
 	    	    	  
 	    	    	  
 	    	    	  
