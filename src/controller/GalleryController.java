@@ -2,6 +2,7 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -25,6 +27,7 @@ import dto.CommentsDTO;
 import dto.GalleryDTO;
 import dto.Gallery_ImgDTO;
 import dto.PersonDTO;
+
  
 
 
@@ -52,7 +55,8 @@ public class GalleryController extends HttpServlet {
 
 			GalleryDAO dao = GalleryDAO.getInstance();
 			GalleryDTO dto = new GalleryDTO();
-
+			
+			Gallery_ImgDTO midto = new Gallery_ImgDTO();
 			Gallery_ImgDAO idao = Gallery_ImgDAO.getInstance();
 
 
@@ -394,7 +398,41 @@ public class GalleryController extends HttpServlet {
 				request.getRequestDispatcher("main.jsp").forward(request, response);
 	
 
+			}else if(url.contentEquals("/mainGallery.gal")) {
+				
+				
+				int cpage = Integer.parseInt(request.getParameter("cpage"));
+
+				int endNum = cpage * Front_GalleryConfig.RECORD_COUNT_PER_PAGE;
+				int startNum = endNum - (Front_GalleryConfig.RECORD_COUNT_PER_PAGE-1);
+
+				response.setContentType("text/html;charset=utf-8");
+				List<GalleryDTO> list;
+
+				list = dao.getPageList(startNum, endNum);
+				
+				for(GalleryDTO gdto : list) {
+					Gallery_ImgDTO idto = idao.selectThumbBySeq(gdto.getSeq());
+					
+					gdto.setThumbPath(idto.getSysName());
+				}
+				
+				Gson g = new Gson();
+
+				
+				list.add(dto);
+				
+				
+				String gallery = g.toJson(list);
+				response.getWriter().append(gallery);
+
+
+				
+				
 			}
+			
+			
+			
 
 
 		}catch(Exception e) {
