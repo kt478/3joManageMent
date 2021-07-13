@@ -28,15 +28,20 @@ public class IdFindController extends HttpServlet {
 		try {
 			PersonDAO dao = PersonDAO.getInstance();
 			
-			if(url.contentEquals("/IdFind.idf")) {
-				String Name = request.getParameter("userName");
+			if(url.contentEquals("/Signup/IdFind.idf")) {
+				String Name = request.getParameter("userName"); 
+				System.out.println(Name);
 				String Contact =request.getParameter("userNumber"); 
+				System.out.println(Contact);
 				String Email = request.getParameter("userEmail");
+				System.out.println(Email);
 
 
-				String  user_id = dao.findId(Name,Contact,Email);
-
-				request.getRequestDispatcher("Signup/signupResult.jsp").forward(request, response);
+				String  user_id = dao.findId(Name,Email,Contact);
+				System.out.println(user_id);
+				request.setAttribute("user_id",user_id);
+				
+				request.getRequestDispatcher("signupResult.jsp").forward(request, response);
 
 			}
 
